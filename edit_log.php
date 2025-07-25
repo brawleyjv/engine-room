@@ -90,7 +90,7 @@ if ($_POST && $record) {
                 
                 $sql = "UPDATE gears SET Side=?, EntryDate=?, GearHrs=?, OilPress=?, Temp=?, RecordedBy=?, Notes=? WHERE EntryID=?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param('ssiiiisi', $side, $entry_date, $gear_hrs, $oil_press, $temp, $recorded_by, $notes, $entry_id);
+                $stmt->bind_param('ssiiissi', $side, $entry_date, $gear_hrs, $oil_press, $temp, $recorded_by, $notes, $entry_id);
             }
             
             if ($stmt->execute()) {
