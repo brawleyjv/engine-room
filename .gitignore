@@ -1,0 +1,21 @@
+# Database configuration (if it contains sensitive info)
+# config.php
+
+# Test files
+test_*.php
+
+# Temporary files
+*.tmp
+*.log
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
