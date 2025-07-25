@@ -1,5 +1,11 @@
 <?php
 require_once 'config.php';
+require_once 'vessel_functions.php';
+session_start();
+
+// Get active vessel
+$active_vessel_id = get_active_vessel_id();
+$active_vessel = get_active_vessel_info($conn);
 
 $message = '';
 $message_type = '';
@@ -17,7 +23,7 @@ if ($_POST) {
         $message_type = 'error';
     } else {
         // Check for duplicate hours first
-        $duplicate_check_result = checkDuplicateHours($conn, $equipment_type, $side, $_POST);
+        $duplicate_check_result = checkDuplicateHours($conn, $equipment_type, $side, $_POST, $active_vessel_id);
         
         if ($duplicate_check_result['is_duplicate']) {
             $message = $duplicate_check_result['message'];
@@ -32,9 +38,9 @@ if ($_POST) {
                 $fuel_press = $_POST['me_fuel_press'];
                 $water_temp = $_POST['me_water_temp'];
                 
-                $sql = "INSERT INTO mainengines (EntryDate, Side, RPM, MainHrs, OilPressure, OilTemp, FuelPress, WaterTemp, RecordedBy, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO mainengines (VesselID, EntryDate, Side, RPM, MainHrs, OilPressure, OilTemp, FuelPress, WaterTemp, RecordedBy, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param('ssiiiiiiss', $entry_date, $side, $rpm, $main_hrs, $oil_pressure, $oil_temp, $fuel_press, $water_temp, $recorded_by, $notes);
+                $stmt->bind_param('issiiiiiiss', $active_vessel_id, $entry_date, $side, $rpm, $main_hrs, $oil_pressure, $oil_temp, $fuel_press, $water_temp, $recorded_by, $notes);
                 
             } elseif ($equipment_type === 'generators') {
                 $gen_hrs = $_POST['gen_hrs'];
@@ -42,18 +48,18 @@ if ($_POST) {
                 $fuel_press = $_POST['gen_fuel_press'];
                 $water_temp = $_POST['gen_water_temp'];
                 
-                $sql = "INSERT INTO generators (EntryDate, Side, GenHrs, OilPress, FuelPress, WaterTemp, RecordedBy, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO generators (VesselID, EntryDate, Side, GenHrs, OilPress, FuelPress, WaterTemp, RecordedBy, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param('ssiiiiss', $entry_date, $side, $gen_hrs, $oil_press, $fuel_press, $water_temp, $recorded_by, $notes);
+                $stmt->bind_param('issiiiiss', $active_vessel_id, $entry_date, $side, $gen_hrs, $oil_press, $fuel_press, $water_temp, $recorded_by, $notes);
                 
             } elseif ($equipment_type === 'gears') {
                 $gear_hrs = $_POST['gear_hrs'];
                 $oil_press = $_POST['gear_oil_press'];
                 $temp = $_POST['gear_temp'];
                 
-                $sql = "INSERT INTO gears (EntryDate, Side, GearHrs, OilPress, Temp, RecordedBy, Notes) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO gears (VesselID, EntryDate, Side, GearHrs, OilPress, Temp, RecordedBy, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param('ssiiiss', $entry_date, $side, $gear_hrs, $oil_press, $temp, $recorded_by, $notes);
+                $stmt->bind_param('issiiiss', $active_vessel_id, $entry_date, $side, $gear_hrs, $oil_press, $temp, $recorded_by, $notes);
             }
             
             if ($stmt->execute()) {
@@ -74,7 +80,7 @@ if ($_POST) {
 }
 
 // Function to check for duplicate hours
-function checkDuplicateHours($conn, $equipment_type, $side, $post_data) {
+function checkDuplicateHours($conn, $equipment_type, $side, $post_data, $vessel_id) {
     $result = ['is_duplicate' => false, 'message' => ''];
     
     if ($equipment_type === 'mainengines') {
@@ -101,10 +107,10 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data) {
         return $result;
     }
     
-    // Check if the hours already exist for this side
-    $sql = "SELECT EntryDate, RecordedBy, $hours_column FROM $table WHERE Side = ? AND $hours_column = ?";
+    // Check if the hours already exist for this side and vessel
+    $sql = "SELECT EntryDate, RecordedBy, $hours_column FROM $table WHERE Side = ? AND VesselID = ? AND $hours_column = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('si', $side, $hours_value);
+    $stmt->bind_param('sii', $side, $vessel_id, $hours_value);
     $stmt->execute();
     $existing_result = $stmt->get_result();
     
@@ -180,6 +186,8 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data) {
             <p><a href="index.php" class="btn btn-info">← Back to Home</a></p>
         </header>
         
+        <?= render_vessel_selector($conn, 'add_log') ?>
+        
         <div class="form-container">
             <?php if (!empty($message)): ?>
                 <div class="message <?= $message_type ?>">
@@ -225,27 +233,21 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data) {
                 <!-- Main Engines Fields -->
                 <div id="mainengines-fields" class="equipment-fields">
                     <div class="form-group">
-                        <label for="me_rpm">RPM: *</label>
-                        <input type="number" name="me_rpm" id="me_rpm" step="1"
-                               value="<?= htmlspecialchars($_POST['me_rpm'] ?? '') ?>" placeholder="Engine RPM">
-                    </div>
-                    
-                    <div class="form-group">
                         <label for="me_main_hrs">Main Hours: *</label>
                         <input type="number" name="me_main_hrs" id="me_main_hrs" step="1"
                                value="<?= htmlspecialchars($_POST['me_main_hrs'] ?? '') ?>" placeholder="Engine Hours">
                     </div>
                     
                     <div class="form-group">
-                        <label for="me_oil_pressure">Oil Pressure: *</label>
-                        <input type="number" name="me_oil_pressure" id="me_oil_pressure" step="1"
-                               value="<?= htmlspecialchars($_POST['me_oil_pressure'] ?? '') ?>" placeholder="PSI">
+                        <label for="me_rpm">RPM: *</label>
+                        <input type="number" name="me_rpm" id="me_rpm" step="1"
+                               value="<?= htmlspecialchars($_POST['me_rpm'] ?? '') ?>" placeholder="Engine RPM">
                     </div>
                     
                     <div class="form-group">
-                        <label for="me_oil_temp">Oil Temperature: *</label>
-                        <input type="number" name="me_oil_temp" id="me_oil_temp" step="1"
-                               value="<?= htmlspecialchars($_POST['me_oil_temp'] ?? '') ?>" placeholder="°F">
+                        <label for="me_oil_pressure">Oil Pressure: *</label>
+                        <input type="number" name="me_oil_pressure" id="me_oil_pressure" step="1"
+                               value="<?= htmlspecialchars($_POST['me_oil_pressure'] ?? '') ?>" placeholder="PSI">
                     </div>
                     
                     <div class="form-group">
@@ -258,6 +260,12 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data) {
                         <label for="me_water_temp">Water Temperature: *</label>
                         <input type="number" name="me_water_temp" id="me_water_temp" step="1"
                                value="<?= htmlspecialchars($_POST['me_water_temp'] ?? '') ?>" placeholder="°F">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="me_oil_temp">Oil Temperature: *</label>
+                        <input type="number" name="me_oil_temp" id="me_oil_temp" step="1"
+                               value="<?= htmlspecialchars($_POST['me_oil_temp'] ?? '') ?>" placeholder="°F">
                     </div>
                 </div>
                 

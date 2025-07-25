@@ -13,6 +13,13 @@
             <p>Engine Room Equipment Management System</p>
         </header>
         
+        <?php 
+        require_once 'config.php';
+        require_once 'vessel_functions.php';
+        session_start();
+        echo render_vessel_selector($conn, 'index');
+        ?>
+        
         <nav class="main-nav">
             <div class="nav-card">
                 <h3>📊 View Data</h3>
@@ -30,6 +37,12 @@
                 <h3>📈 Trend Graphs</h3>
                 <p>Visual performance trends</p>
                 <a href="view_logs.php" class="btn btn-warning">Select Equipment for Graphs</a>
+            </div>
+            
+            <div class="nav-card">
+                <h3>🚢 Vessel Management</h3>
+                <p>Add and manage vessels</p>
+                <a href="manage_vessels.php" class="btn btn-secondary">Manage Vessels</a>
             </div>
             
             <div class="nav-card">
