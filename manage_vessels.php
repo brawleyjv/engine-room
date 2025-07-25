@@ -72,6 +72,12 @@ if ($_POST) {
         $year_built = !empty($_POST['year_built']) ? $_POST['year_built'] : null;
         $length = !empty($_POST['length']) ? $_POST['length'] : null;
         $notes = trim($_POST['notes']);
+        $rpm_min = !empty($_POST['rpm_min']) ? (int)$_POST['rpm_min'] : 650;
+        $rpm_max = !empty($_POST['rpm_max']) ? (int)$_POST['rpm_max'] : 1750;
+        $temp_min = !empty($_POST['temp_min']) ? (int)$_POST['temp_min'] : 20;
+        $temp_max = !empty($_POST['temp_max']) ? (int)$_POST['temp_max'] : 400;
+        $gen_min = !empty($_POST['gen_min']) ? (int)$_POST['gen_min'] : 20;
+        $gen_max = !empty($_POST['gen_max']) ? (int)$_POST['gen_max'] : 400;
         
         if (!empty($vessel_name)) {
             // Check if vessel name already exists
@@ -84,10 +90,10 @@ if ($_POST) {
             if ($existing->num_rows > 0) {
                 $error = "A vessel named '$vessel_name' already exists. Please choose a different name.";
             } else {
-                $sql = "INSERT INTO vessels (VesselName, VesselType, Owner, YearBuilt, Length, Notes) 
-                        VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO vessels (VesselName, VesselType, Owner, YearBuilt, Length, Notes, RPMMin, RPMMax, TempMin, TempMax, GenMin, GenMax) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param('ssssds', $vessel_name, $vessel_type, $owner, $year_built, $length, $notes);
+                $stmt->bind_param('ssssdsiiiiiii', $vessel_name, $vessel_type, $owner, $year_built, $length, $notes, $rpm_min, $rpm_max, $temp_min, $temp_max, $gen_min, $gen_max);
                 
                 if ($stmt->execute()) {
                     $success = "Vessel '$vessel_name' added successfully!";
@@ -248,6 +254,14 @@ foreach ($vessels as $vessel) {
             gap: 10px;
             margin-top: 15px;
         }
+        .vessel-scales {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 13px;
+            border-left: 3px solid #28a745;
+        }
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -337,6 +351,35 @@ foreach ($vessels as $vessel) {
                         <textarea id="notes" name="notes" rows="2"></textarea>
                     </div>
                 </div>
+                
+                <!-- Chart Scale Settings -->
+                <h3>📊 Chart Scale Settings</h3>
+                <div class="form-grid">
+                    <div>
+                        <label for="rpm_min">RPM Min</label>
+                        <input type="number" id="rpm_min" name="rpm_min" value="650" min="0">
+                    </div>
+                    <div>
+                        <label for="rpm_max">RPM Max</label>
+                        <input type="number" id="rpm_max" name="rpm_max" value="1750" min="0">
+                    </div>
+                    <div>
+                        <label for="temp_min">Temp/Pressure Min</label>
+                        <input type="number" id="temp_min" name="temp_min" value="20" min="0">
+                    </div>
+                    <div>
+                        <label for="temp_max">Temp/Pressure Max</label>
+                        <input type="number" id="temp_max" name="temp_max" value="400" min="0">
+                    </div>
+                    <div>
+                        <label for="gen_min">Generator Temp/Pressure Min</label>
+                        <input type="number" id="gen_min" name="gen_min" value="20" min="0">
+                    </div>
+                    <div>
+                        <label for="gen_max">Generator Temp/Pressure Max</label>
+                        <input type="number" id="gen_max" name="gen_max" value="400" min="0">
+                    </div>
+                </div>
                 <button type="submit" name="add_vessel" class="btn btn-primary">Add Vessel</button>
             </form>
         </div>
@@ -403,6 +446,13 @@ foreach ($vessels as $vessel) {
                         <div class="stat-label">Total Entries</div>
                     </div>
                 </div>
+                
+                <div class="vessel-scales">
+                    <strong>📊 Chart Scales:</strong>
+                    RPM: <?= $vessel['RPMMin'] ?>-<?= $vessel['RPMMax'] ?> | 
+                    Temp/Pressure: <?= $vessel['TempMin'] ?>-<?= $vessel['TempMax'] ?> (°F/PSI) | 
+                    Generator: <?= $vessel['GenMin'] ?>-<?= $vessel['GenMax'] ?> (°F/PSI)
+                </div>
 
                 <div class="vessel-actions">
                     <?php if (!$is_current): ?>
@@ -423,6 +473,10 @@ foreach ($vessels as $vessel) {
                     
                     <a href="view_logs.php?vessel_id=<?= $vessel['VesselID'] ?>" class="btn btn-info">
                         📊 View Logs
+                    </a>
+                    
+                    <a href="edit_vessel_scales.php?vessel_id=<?= $vessel['VesselID'] ?>" class="btn btn-warning">
+                        📏 Edit Scales
                     </a>
                 </div>
             </div>

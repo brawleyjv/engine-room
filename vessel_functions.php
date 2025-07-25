@@ -18,6 +18,52 @@ function get_active_vessel_info($conn) {
     return $result->fetch_assoc();
 }
 
+function get_vessel_scales($conn, $vessel_id = null) {
+    // If no vessel_id provided, get from session
+    if ($vessel_id === null) {
+        $vessel_id = get_active_vessel_id();
+    }
+    
+    if (!$vessel_id) {
+        // Return default scales if no vessel selected
+        return [
+            'rpm_min' => 650,
+            'rpm_max' => 1750,
+            'temp_min' => 20,
+            'temp_max' => 400,
+            'gen_min' => 20,
+            'gen_max' => 400
+        ];
+    }
+    
+    $sql = "SELECT RPMMin, RPMMax, TempMin, TempMax, GenMin, GenMax FROM vessels WHERE VesselID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $vessel_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($row = $result->fetch_assoc()) {
+        return [
+            'rpm_min' => (int)$row['RPMMin'],
+            'rpm_max' => (int)$row['RPMMax'],
+            'temp_min' => (int)$row['TempMin'],
+            'temp_max' => (int)$row['TempMax'],
+            'gen_min' => (int)$row['GenMin'],
+            'gen_max' => (int)$row['GenMax']
+        ];
+    }
+    
+    // Return defaults if vessel not found
+    return [
+        'rpm_min' => 650,
+        'rpm_max' => 1750,
+        'temp_min' => 20,
+        'temp_max' => 400,
+        'gen_min' => 20,
+        'gen_max' => 400
+    ];
+}
+
 function get_all_active_vessels($conn) {
     $sql = "SELECT VesselID, VesselName, VesselType FROM vessels WHERE IsActive = 1 ORDER BY VesselName";
     return $conn->query($sql)->fetch_all(MYSQLI_ASSOC);

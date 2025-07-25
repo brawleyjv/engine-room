@@ -1,11 +1,15 @@
 <?php
 require_once 'config.php';
+require_once 'vessel_functions.php';
 
 // Get parameters
 $equipment_type = $_GET['equipment'] ?? '';
 $side = $_GET['side'] ?? '';
 $date_from = $_GET['date_from'] ?? '';
 $date_to = $_GET['date_to'] ?? '';
+
+// Get vessel-specific scales
+$vessel_scales = get_vessel_scales($conn);
 
 // Validate parameters
 if (empty($equipment_type) || empty($side) || !in_array($equipment_type, ['mainengines', 'generators', 'gears'])) {
@@ -208,6 +212,7 @@ if (isset($data) && !empty($data)) {
         // Chart data from PHP
         const chartData = <?= json_encode($chart_data) ?>;
         const equipmentType = '<?= $equipment_type ?>';
+        const vesselScales = <?= json_encode($vessel_scales) ?>;
         
         // Common chart configuration
         const commonOptions = {
@@ -469,8 +474,8 @@ if (isset($data) && !empty($data)) {
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            min: 650,
-                            max: 1750,
+                            min: vesselScales.rpm_min,
+                            max: vesselScales.rpm_max,
                             title: {
                                 display: true,
                                 text: 'RPM'
@@ -483,8 +488,8 @@ if (isset($data) && !empty($data)) {
                             type: 'linear',
                             display: true,
                             position: 'right',
-                            min: 20,
-                            max: 400,
+                            min: vesselScales.temp_min,
+                            max: vesselScales.temp_max,
                             title: {
                                 display: true,
                                 text: 'Temperature (°F) / Pressure (PSI)'
@@ -570,8 +575,8 @@ if (isset($data) && !empty($data)) {
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            min: 20,
-                            max: 200,
+                            min: vesselScales.gen_min,
+                            max: vesselScales.gen_max,
                             title: {
                                 display: true,
                                 text: 'Temperature (°F) / Pressure (PSI)'
@@ -691,8 +696,8 @@ if (isset($data) && !empty($data)) {
                                     type: 'linear',
                                     display: true,
                                     position: 'left',
-                                    min: 650,
-                                    max: 1750,
+                                    min: vesselScales.rpm_min,
+                                    max: vesselScales.rpm_max,
                                     title: {
                                         display: true,
                                         text: 'Engine RPM'
@@ -705,8 +710,8 @@ if (isset($data) && !empty($data)) {
                                     type: 'linear',
                                     display: true,
                                     position: 'right',
-                                    min: 20,
-                                    max: 400,
+                                    min: vesselScales.temp_min,
+                                    max: vesselScales.temp_max,
                                     title: {
                                         display: true,
                                         text: 'Temperature (°F) / Pressure (PSI)'
@@ -787,8 +792,8 @@ if (isset($data) && !empty($data)) {
                                 y: {
                                     type: 'linear',
                                     display: true,
-                                    min: 20,
-                                    max: 400,
+                                    min: vesselScales.temp_min,
+                                    max: vesselScales.temp_max,
                                     title: {
                                         display: true,
                                         text: 'Temperature (°F) / Pressure (PSI)'
