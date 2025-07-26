@@ -13,6 +13,8 @@ $current_user = is_logged_in() ? get_logged_in_user() : null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🚢 Vessel Data Logger</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
 </head>
 <body>
     <div class="container">

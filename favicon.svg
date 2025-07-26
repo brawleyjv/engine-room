@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <!-- Ship hull -->
+  <path d="M4 20 L28 20 L26 26 L6 26 Z" fill="#2563eb" stroke="#1d4ed8" stroke-width="1"/>
+  
+  <!-- Ship deck -->
+  <rect x="6" y="18" width="20" height="2" fill="#3b82f6"/>
+  
+  <!-- Mast -->
+  <rect x="15" y="8" width="2" height="10" fill="#6b7280"/>
+  
+  <!-- Flag -->
+  <polygon points="17,8 17,12 23,10" fill="#dc2626"/>
+  
+  <!-- Smokestack -->
+  <rect x="20" y="12" width="3" height="6" fill="#374151"/>
+  
+  <!-- Smoke -->
+  <circle cx="21" cy="10" r="1.5" fill="#9ca3af" opacity="0.7"/>
+  <circle cx="22.5" cy="8" r="1" fill="#9ca3af" opacity="0.5"/>
+  
+  <!-- Water waves -->
+  <path d="M0 28 Q8 26 16 28 T32 28 L32 32 L0 32 Z" fill="#0ea5e9"/>
+</svg>

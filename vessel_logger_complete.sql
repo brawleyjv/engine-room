@@ -1,0 +1,209 @@
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
+--
+-- Host: localhost    Database: VesselData
+-- ------------------------------------------------------
+-- Server version	10.4.32-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `gears`
+--
+
+DROP TABLE IF EXISTS `gears`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gears` (
+  `EntryID` int(11) NOT NULL AUTO_INCREMENT,
+  `VesselID` int(11) NOT NULL DEFAULT 1,
+  `Side` enum('Port','Starboard') NOT NULL,
+  `EntryDate` date NOT NULL,
+  `OilPress` int(3) NOT NULL,
+  `Temp` int(3) NOT NULL,
+  `Notes` text DEFAULT NULL,
+  `RecordedBy` varchar(100) DEFAULT NULL,
+  `Timestamp` datetime DEFAULT current_timestamp(),
+  `GearHrs` int(11) NOT NULL,
+  PRIMARY KEY (`EntryID`),
+  KEY `idx_gears_vessel_date` (`VesselID`,`EntryDate`),
+  CONSTRAINT `fk_gears_vessel` FOREIGN KEY (`VesselID`) REFERENCES `vessels` (`VesselID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `gears`
+--
+
+LOCK TABLES `gears` WRITE;
+/*!40000 ALTER TABLE `gears` DISABLE KEYS */;
+INSERT INTO `gears` VALUES (15,3,'Port','2025-07-24',340,108,'','Jack Brawley','2025-07-25 16:25:31',19736),(16,3,'Starboard','2025-07-24',340,110,'','Jack Brawley','2025-07-25 16:25:56',19671),(17,3,'Port','2025-07-25',365,115,'','Jack Brawley','2025-07-25 16:46:50',19760),(18,3,'Starboard','2025-07-25',360,140,'','Jack Brawley','2025-07-25 16:47:09',19695),(19,3,'Port','2025-07-23',360,136,'','Barley Johns','2025-07-25 16:50:46',19711),(20,3,'Starboard','2025-07-23',362,137,'','Barley Johns','2025-07-25 16:53:28',19646),(21,3,'Port','2025-07-22',365,141,'','Barley Johns','2025-07-25 17:04:14',19687),(22,3,'Starboard','2025-07-22',365,141,'','Barley Johns','2025-07-25 17:04:37',19622),(23,3,'Port','2025-07-21',340,122,'','Barley Johns','2025-07-25 17:07:08',19665),(24,3,'Starboard','2025-07-21',320,125,'','Barley Johns','2025-07-25 17:07:32',19600),(25,3,'Port','2025-07-20',379,135,'','Barley Johns','2025-07-25 17:19:16',19640),(26,3,'Starboard','2025-07-20',378,133,'','Barley Johns','2025-07-25 17:19:43',19575),(27,3,'Port','2025-07-19',345,125,'','Barley Johns','2025-07-25 17:23:08',19616),(28,3,'Starboard','2025-07-19',340,121,'','Barley Johns','2025-07-25 17:23:37',19551),(29,3,'Port','2025-07-18',378,139,'','2','2025-07-25 19:15:27',19593),(30,3,'Starboard','2025-07-18',375,134,'','2','2025-07-25 19:15:58',19528),(31,3,'Port','2025-07-17',370,136,'','2','2025-07-25 19:22:27',19568),(32,3,'Starboard','2025-07-17',365,128,'','2','2025-07-25 19:22:57',19503),(33,3,'Port','2025-07-16',340,119,'','2','2025-07-25 19:26:21',19546),(34,3,'Starboard','2025-07-16',340,118,'','2','2025-07-25 19:26:56',19481),(35,3,'Port','2025-07-15',340,116,'','2','2025-07-25 19:30:46',19532),(36,3,'Starboard','2025-07-15',340,114,'','2','2025-07-25 19:31:12',19464),(37,3,'Port','2025-07-14',340,118,'','2','2025-07-25 19:33:26',19521),(38,3,'Starboard','2025-07-14',340,116,'','2','2025-07-25 19:33:48',19452),(39,3,'Port','2025-07-11',340,115,'','2','2025-07-25 19:52:39',19500),(40,3,'Starboard','2025-07-11',340,111,'','2','2025-07-25 19:53:36',19431),(41,3,'Port','2025-07-10',360,125,'','2','2025-07-25 19:57:29',19476),(42,3,'Starboard','2025-07-10',358,118,'','2','2025-07-25 19:57:53',19407),(43,3,'Port','2025-07-09',360,130,'','2','2025-07-25 20:02:25',19451),(44,3,'Starboard','2025-07-09',360,130,'','2','2025-07-25 20:02:56',19383),(45,3,'Port','2025-07-08',340,110,'','2','2025-07-25 20:05:31',19434),(46,3,'Starboard','2025-07-08',340,110,'','2','2025-07-25 20:06:02',19365),(47,3,'Port','2025-06-22',360,105,'','2','2025-07-25 20:15:28',19383),(48,3,'Starboard','2025-06-22',360,112,'','2','2025-07-25 20:15:55',19315);
+/*!40000 ALTER TABLE `gears` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `generators`
+--
+
+DROP TABLE IF EXISTS `generators`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `generators` (
+  `EntryID` int(11) NOT NULL AUTO_INCREMENT,
+  `VesselID` int(11) NOT NULL DEFAULT 1,
+  `Side` enum('Port','Starboard') NOT NULL,
+  `EntryDate` date NOT NULL,
+  `FuelPress` int(3) NOT NULL,
+  `OilPress` int(3) NOT NULL,
+  `WaterTemp` int(3) NOT NULL,
+  `Notes` text DEFAULT NULL,
+  `RecordedBy` varchar(100) NOT NULL,
+  `Timestamp` datetime DEFAULT current_timestamp(),
+  `GenHrs` int(11) NOT NULL,
+  PRIMARY KEY (`EntryID`),
+  KEY `idx_generators_vessel_date` (`VesselID`,`EntryDate`),
+  CONSTRAINT `fk_generators_vessel` FOREIGN KEY (`VesselID`) REFERENCES `vessels` (`VesselID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `generators`
+--
+
+LOCK TABLES `generators` WRITE;
+/*!40000 ALTER TABLE `generators` DISABLE KEYS */;
+INSERT INTO `generators` VALUES (16,3,'Starboard','2025-07-24',65,59,168,'','Jack Brawley','2025-07-25 16:24:56',14712),(17,3,'Starboard','2025-07-25',63,59,168,'','Jack Brawley','2025-07-25 16:46:15',14731),(18,3,'Starboard','2025-07-24',63,59,168,'','Barley Johns','2025-07-25 16:50:17',14687),(19,3,'Starboard','2025-07-22',66,58,168,'','Barley Johns','2025-07-25 17:03:38',14663),(20,3,'Starboard','2025-07-21',64,59,172,'','Barley Johns','2025-07-25 17:06:42',14639),(21,3,'Starboard','2025-07-20',64,59,168,'','Barley Johns','2025-07-25 17:18:29',14615),(22,3,'Starboard','2025-07-19',62,60,167,'','Barley Johns','2025-07-25 17:22:40',14591),(23,3,'Starboard','2025-07-18',63,59,168,'','2','2025-07-25 19:14:42',14567),(24,3,'Starboard','2025-07-17',67,60,167,'','2','2025-07-25 19:21:56',14543),(25,3,'Starboard','2025-07-16',64,60,167,'','2','2025-07-25 19:25:57',14519),(26,3,'Port','2025-07-15',64,58,165,'','2','2025-07-25 19:29:52',14103),(27,3,'Port','2025-07-14',64,58,165,'','2','2025-07-25 19:33:04',14075),(28,3,'Port','2025-07-13',64,58,167,'','2','2025-07-25 19:40:35',14051),(29,3,'Port','2025-07-12',64,58,167,'','2','2025-07-25 19:41:15',14027),(30,3,'Port','2025-07-11',64,58,167,'','2','2025-07-25 19:51:38',14003),(31,3,'Port','2025-07-10',64,58,165,'','2','2025-07-25 19:56:59',13979),(32,3,'Port','2025-07-09',65,59,165,'','2','2025-07-25 20:01:52',13955),(33,3,'Port','2025-07-08',64,58,167,'','2','2025-07-25 20:05:03',13931),(34,3,'Starboard','2025-06-22',66,60,167,'','2','2025-07-25 20:13:57',14437);
+/*!40000 ALTER TABLE `generators` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mainengines`
+--
+
+DROP TABLE IF EXISTS `mainengines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mainengines` (
+  `EntryID` int(11) NOT NULL AUTO_INCREMENT,
+  `VesselID` int(11) NOT NULL DEFAULT 1,
+  `Side` enum('Port','Starboard') NOT NULL,
+  `EntryDate` date NOT NULL,
+  `RPM` int(3) NOT NULL,
+  `OilPressure` int(3) NOT NULL,
+  `WaterTemp` int(3) NOT NULL,
+  `Notes` text DEFAULT NULL,
+  `RecordedBy` varchar(100) NOT NULL,
+  `Timestamp` datetime DEFAULT current_timestamp(),
+  `MainHrs` int(11) NOT NULL,
+  `FuelPress` int(3) NOT NULL,
+  `OilTemp` int(3) NOT NULL,
+  PRIMARY KEY (`EntryID`),
+  KEY `idx_mainengines_vessel_date` (`VesselID`,`EntryDate`),
+  CONSTRAINT `fk_mainengines_vessel` FOREIGN KEY (`VesselID`) REFERENCES `vessels` (`VesselID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mainengines`
+--
+
+LOCK TABLES `mainengines` WRITE;
+/*!40000 ALTER TABLE `mainengines` DISABLE KEYS */;
+INSERT INTO `mainengines` VALUES (24,3,'Port','2025-07-24',940,49,174,'','Jack Brawley','2025-07-25 16:23:33',19736,93,192),(25,3,'Starboard','2025-07-24',950,49,170,'','Jack Brawley','2025-07-25 16:24:13',19671,92,185),(26,3,'Port','2025-07-25',1740,69,177,'','Jack Brawley','2025-07-25 16:44:43',19760,115,221),(27,3,'Starboard','2025-07-25',1740,74,177,'','Jack Brawley','2025-07-25 16:45:40',19695,104,209),(28,3,'Port','2025-07-23',1570,64,177,'','Barley Johns','2025-07-25 16:48:51',19711,108,216),(29,3,'Starboard','2025-07-23',1570,70,176,'','Barley Johns','2025-07-25 16:49:44',19646,102,202),(30,3,'Port','2025-07-22',1730,67,177,'','Barley Johns','2025-07-25 17:00:41',19687,112,225),(31,3,'Starboard','2025-07-22',1730,74,176,'','Barley Johns','2025-07-25 17:03:01',19622,104,208),(32,3,'Port','2025-07-21',650,37,177,'','Barley Johns','2025-07-25 17:05:23',19665,90,183),(33,3,'Starboard','2025-07-21',650,37,170,'','Barley Johns','2025-07-25 17:06:03',19600,86,178),(34,3,'Port','2025-07-20',1740,70,177,'','Barley Johns','2025-07-25 17:17:09',19640,118,217),(35,3,'Starboard','2025-07-20',1740,75,176,'','Barley Johns','2025-07-25 17:17:54',19575,106,212),(36,3,'Port','2025-07-19',1020,50,174,'','Barley Johns','2025-07-25 17:21:07',19616,97,188),(37,3,'Starboard','2025-07-19',1020,50,172,'','Barley Johns','2025-07-25 17:22:11',19551,92,185),(40,3,'Port','2025-07-18',1740,60,177,'','2','2025-07-25 19:06:02',19593,110,224),(41,3,'Starboard','2025-07-18',1740,73,176,'','2','2025-07-25 19:14:07',19528,105,210),(42,3,'Port','2025-07-17',1740,67,177,'','2','2025-07-25 19:20:51',19568,111,223),(43,3,'Starboard','2025-07-17',1730,73,177,'','2','2025-07-25 19:21:24',19503,104,210),(44,3,'Port','2025-07-16',1220,72,145,'','2','2025-07-25 19:24:53',19546,104,154),(45,3,'Starboard','2025-07-16',1220,63,177,'','2','2025-07-25 19:25:32',19481,97,179),(46,3,'Port','2025-07-15',1160,55,165,'','2','2025-07-25 19:28:48',19532,99,188),(47,3,'Starboard','2025-07-15',1150,55,172,'','2','2025-07-25 19:29:18',19469,96,190),(48,3,'Port','2025-07-14',1120,57,156,'','2','2025-07-25 19:32:11',19521,97,182),(49,3,'Starboard','2025-07-14',1130,55,179,'','2','2025-07-25 19:32:42',19452,95,188),(50,3,'Port','2025-07-11',840,46,145,'','2','2025-07-25 19:42:06',19500,91,164),(51,3,'Starboard','2025-07-11',830,43,170,'','2','2025-07-25 19:50:05',19431,90,179),(52,3,'Port','2025-07-10',1340,100,176,'','2','2025-07-25 19:55:07',19476,100,207),(53,3,'Starboard','2025-07-10',1340,60,176,'','2','2025-07-25 19:56:07',19407,90,197),(54,3,'Port','2025-07-09',1520,63,177,'','2','2025-07-25 20:00:14',19451,103,211),(55,3,'Starboard','2025-07-09',1509,68,176,'','2','2025-07-25 20:01:17',19383,102,200),(56,3,'Port','2025-07-08',650,37,174,'','2','2025-07-25 20:03:42',19434,90,182),(57,3,'Starboard','2025-07-08',650,37,170,'','2','2025-07-25 20:04:24',19365,87,178),(58,3,'Port','2025-06-22',1220,55,177,'','2','2025-07-25 20:12:37',19383,110,201),(59,3,'Starboard','2025-06-22',1220,56,176,'','2','2025-07-25 20:13:16',19315,96,196);
+/*!40000 ALTER TABLE `mainengines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `UserID` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `PasswordHash` varchar(255) NOT NULL,
+  `FirstName` varchar(50) NOT NULL,
+  `LastName` varchar(50) NOT NULL,
+  `IsAdmin` tinyint(1) DEFAULT 0,
+  `IsActive` tinyint(1) DEFAULT 1,
+  `CreatedDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `LastLogin` timestamp NULL DEFAULT NULL,
+  `ResetToken` varchar(100) DEFAULT NULL,
+  `ResetTokenExpiry` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`UserID`),
+  UNIQUE KEY `Username` (`Username`),
+  UNIQUE KEY `Email` (`Email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin','admin@vessel.local','$2y$10$ugTuP6EfjQqsiYjSyghi5e9Dxpv7jdzCMwQNPMPpmPM0UZDhuyKNK','Admin','User',1,1,'2025-07-25 23:29:26','2025-07-25 23:42:19',NULL,NULL),(2,'jvbrawley','brawley.jv@gmail.com','$2y$10$i3o/npSrEfvyBeDeflT1FuNg82PnbYDmtL3pFwvwwcJ.QX3TNAJ0G','Jack','Brawley',1,1,'2025-07-25 23:46:50','2025-07-26 00:00:49',NULL,NULL),(3,'barley','barley@somewhere.com','$2y$10$ryCV1ktrVeZ18vq9eVYUj.gFWtU.tsICrooqoTLDz4rYmecN8rNEe','Barley','Johns',0,1,'2025-07-26 00:11:57',NULL,NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vessels`
+--
+
+DROP TABLE IF EXISTS `vessels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vessels` (
+  `VesselID` int(11) NOT NULL AUTO_INCREMENT,
+  `VesselName` varchar(100) NOT NULL,
+  `VesselType` varchar(50) DEFAULT 'Fishing Vessel',
+  `Owner` varchar(100) DEFAULT NULL,
+  `YearBuilt` year(4) DEFAULT NULL,
+  `Length` decimal(6,2) DEFAULT NULL,
+  `CreatedDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `IsActive` tinyint(1) DEFAULT 1,
+  `Notes` text DEFAULT NULL,
+  `RPMMin` int(11) DEFAULT 650,
+  `RPMMax` int(11) DEFAULT 1750,
+  `TempMin` int(11) DEFAULT 20,
+  `TempMax` int(11) DEFAULT 400,
+  `PressureMin` int(11) DEFAULT 20,
+  `PressureMax` int(11) DEFAULT 400,
+  `GenMin` int(11) DEFAULT 20,
+  `GenMax` int(11) DEFAULT 400,
+  PRIMARY KEY (`VesselID`),
+  UNIQUE KEY `VesselName` (`VesselName`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vessels`
+--
+
+LOCK TABLES `vessels` WRITE;
+/*!40000 ALTER TABLE `vessels` DISABLE KEYS */;
+INSERT INTO `vessels` VALUES (3,'Rusty Zeller','Towboat','Florida Marine Transporters',2021,120.00,'2025-07-25 20:59:27',1,'Formerly Dave B Fate',650,1750,20,380,20,400,20,185);
+/*!40000 ALTER TABLE `vessels` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-07-25 20:44:21

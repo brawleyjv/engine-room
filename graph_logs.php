@@ -78,6 +78,8 @@ if (isset($data) && !empty($data)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipment Trends - <?= ucfirst($equipment_type) ?> (<?= $side ?>) - Vessel Data Logger</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>

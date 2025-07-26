@@ -77,6 +77,8 @@ if (!empty($equipment_type)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Logs - Vessel Data Logger</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
 </head>
 <body>
     <div class="container">

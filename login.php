@@ -31,6 +31,8 @@ if (is_logged_in()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Engine Room Data Logger</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
     <style>
         .login-container {
             max-width: 400px;
