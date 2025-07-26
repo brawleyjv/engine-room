@@ -1,10 +1,25 @@
 <?php
 require_once 'config.php';
 require_once 'vessel_functions.php';
+require_once 'auth_functions.php';
 
-$vessel_id = $_GET['vessel_id'] ?? get_active_vessel_id();
+// Require admin access for editing vessel scales
+require_admin();
+
+$vessel_id = $_GET['vessel_id'] ?? null;
 $message = '';
 $message_type = '';
+
+// If no vessel_id provided, get current vessel
+if (!$vessel_id) {
+    $current_vessel = get_current_vessel($conn);
+    if ($current_vessel) {
+        $vessel_id = $current_vessel['VesselID'];
+    } else {
+        header('Location: manage_vessels.php?error=no_vessel_selected');
+        exit;
+    }
+}
 
 // Get vessel info
 $sql = "SELECT * FROM vessels WHERE VesselID = ?";

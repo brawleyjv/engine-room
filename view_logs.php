@@ -1,5 +1,14 @@
 <?php
 require_once 'config.php';
+require_once 'auth_functions.php';
+require_once 'vessel_functions.php';
+
+// Require login and vessel selection for viewing logs
+require_vessel_selection();
+
+// Get current user and vessel
+$current_user = get_logged_in_user();
+$current_vessel = get_current_vessel($conn);
 
 // Get filter values
 $equipment_type = $_GET['equipment'] ?? '';
@@ -13,34 +22,37 @@ $equipment_types = ['mainengines', 'generators', 'gears'];
 $sides = ['Port', 'Starboard'];
 
 // Function to get logs based on filters
-function getLogs($conn, $equipment_type, $side, $date_from, $date_to) {
+function getLogs($conn, $equipment_type, $vessel_id, $side, $date_from, $date_to) {
     if (empty($equipment_type) || !in_array($equipment_type, ['mainengines', 'generators', 'gears'])) {
         return [];
     }
     
-    $sql = "SELECT * FROM $equipment_type WHERE 1=1";
-    $params = [];
-    $types = '';
+    $sql = "SELECT e.*, COALESCE(CONCAT(u.FirstName, ' ', u.LastName), 'Unknown User') as RecordedByName 
+            FROM $equipment_type e 
+            LEFT JOIN users u ON e.RecordedBy = u.UserID 
+            WHERE e.VesselID = ?";
+    $params = [$vessel_id];
+    $types = 'i';
     
     if (!empty($side)) {
-        $sql .= " AND Side = ?";
+        $sql .= " AND e.Side = ?";
         $params[] = $side;
         $types .= 's';
     }
     
     if (!empty($date_from)) {
-        $sql .= " AND EntryDate >= ?";
+        $sql .= " AND e.EntryDate >= ?";
         $params[] = $date_from;
         $types .= 's';
     }
     
     if (!empty($date_to)) {
-        $sql .= " AND EntryDate <= ?";
+        $sql .= " AND e.EntryDate <= ?";
         $params[] = $date_to;
         $types .= 's';
     }
     
-    $sql .= " ORDER BY EntryDate DESC, Timestamp DESC";
+    $sql .= " ORDER BY e.EntryDate DESC, e.Timestamp DESC";
     
     $stmt = $conn->prepare($sql);
     if (!empty($params)) {
@@ -54,7 +66,7 @@ function getLogs($conn, $equipment_type, $side, $date_from, $date_to) {
 
 $logs = [];
 if (!empty($equipment_type)) {
-    $logs = getLogs($conn, $equipment_type, $side, $date_from, $date_to);
+    $logs = getLogs($conn, $equipment_type, $current_vessel['VesselID'], $side, $date_from, $date_to);
 }
 ?>
 
@@ -236,7 +248,7 @@ if (!empty($equipment_type)) {
                                 <td><?= $log['Temp'] ?? '-' ?></td>
                             <?php endif; ?>
                             
-                            <td><?= htmlspecialchars($log['RecordedBy'] ?? '-') ?></td>
+                            <td><?= htmlspecialchars($log['RecordedByName'] ?? '-') ?></td>
                             <td style="max-width: 200px;">
                                 <?= !empty($log['Notes']) ? htmlspecialchars(substr($log['Notes'], 0, 50)) . (strlen($log['Notes']) > 50 ? '...' : '') : '-' ?>
                             </td>

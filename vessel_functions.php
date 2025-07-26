@@ -18,10 +18,44 @@ function get_active_vessel_info($conn) {
     return $result->fetch_assoc();
 }
 
+// Get current vessel from session (for new vessel selection system)
+function get_current_vessel($conn) {
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    
+    // Check if vessel is selected in session
+    if (!isset($_SESSION['current_vessel_id']) || empty($_SESSION['current_vessel_id'])) {
+        return null;
+    }
+    
+    $vessel_id = $_SESSION['current_vessel_id'];
+    $sql = "SELECT VesselID, VesselName, VesselType, IsActive FROM vessels WHERE VesselID = ? AND IsActive = 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $vessel_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $vessel = $result->fetch_assoc();
+    
+    // If vessel not found or inactive, clear session
+    if (!$vessel) {
+        unset($_SESSION['current_vessel_id']);
+        unset($_SESSION['current_vessel_name']);
+        unset($_SESSION['current_vessel_type']);
+        return null;
+    }
+    
+    return $vessel;
+}
+
 function get_vessel_scales($conn, $vessel_id = null) {
-    // If no vessel_id provided, get from session
+    // If no vessel_id provided, get from current session
     if ($vessel_id === null) {
-        $vessel_id = get_active_vessel_id();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $vessel_id = $_SESSION['current_vessel_id'] ?? null;
     }
     
     if (!$vessel_id) {

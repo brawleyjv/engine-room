@@ -1,6 +1,10 @@
 <?php
 require_once 'config.php';
-session_start();
+require_once 'auth_functions.php';
+
+// Require login (only logged-in users can manage vessels)
+require_login();
+$current_user = get_logged_in_user();
 
 // Check if database schema is ready
 $schema_ready = true;
@@ -286,12 +290,25 @@ foreach ($vessels as $vessel) {
 <body>
     <div class="container">
         <header>
-            <h1>🚢 Vessel Management</h1>
-            <p>
-                <a href="index.php" class="btn btn-primary">🏠 Home</a>
-                <a href="add_log.php" class="btn btn-success">📝 Add Log Entry</a>
-                <a href="view_logs.php" class="btn btn-info">📊 View Logs</a>
-            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>🚢 Vessel Management</h1>
+                    <p>
+                        <a href="index.php" class="btn btn-primary">🏠 Home</a>
+                        <a href="add_log.php" class="btn btn-success">📝 Add Log Entry</a>
+                        <a href="view_logs.php" class="btn btn-info">📊 View Logs</a>
+                        <?php if ($current_user['is_admin']): ?>
+                            <a href="manage_users.php" class="btn btn-secondary">👥 User Management</a>
+                        <?php endif; ?>
+                    </p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: #666; font-size: 14px; margin-bottom: 5px;">
+                        Logged in as: <strong><?= htmlspecialchars($current_user['full_name']) ?></strong>
+                    </div>
+                    <a href="logout.php" class="btn btn-secondary" style="font-size: 12px;">Logout</a>
+                </div>
+            </div>
         </header>
 
         <?php if (isset($success)): ?>

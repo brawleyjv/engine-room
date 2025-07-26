@@ -1,6 +1,14 @@
 <?php
 require_once 'config.php';
 require_once 'vessel_functions.php';
+require_once 'auth_functions.php';
+
+// Require login and vessel selection for viewing graphs
+require_vessel_selection();
+
+// Get current user and vessel
+$current_user = get_logged_in_user();
+$current_vessel = get_current_vessel($conn);
 
 // Get parameters
 $equipment_type = $_GET['equipment'] ?? '';
@@ -15,10 +23,19 @@ $vessel_scales = get_vessel_scales($conn);
 if (empty($equipment_type) || empty($side) || !in_array($equipment_type, ['mainengines', 'generators', 'gears'])) {
     $error = 'Invalid parameters. Please select equipment type and side.';
 } else {
-    // Get data for graphing
-    $sql = "SELECT * FROM $equipment_type WHERE Side = ?";
-    $params = [$side];
-    $types = 's';
+    // Get data for graphing (filtered by vessel and operational criteria)
+    $sql = "SELECT * FROM $equipment_type WHERE VesselID = ? AND Side = ?";
+    $params = [$current_vessel['VesselID'], $side];
+    $types = 'is';
+    
+    // Add equipment-specific operational filters in SQL
+    if ($equipment_type === 'mainengines') {
+        $sql .= " AND RPM > 0 AND MainHrs > 0";
+    } elseif ($equipment_type === 'generators') {
+        $sql .= " AND GenHrs > 0 AND OilPress > 0";
+    } elseif ($equipment_type === 'gears') {
+        $sql .= " AND GearHrs > 0 AND OilPress > 0";
+    }
     
     if (!empty($date_from)) {
         $sql .= " AND EntryDate >= ?";
@@ -41,7 +58,7 @@ if (empty($equipment_type) || empty($side) || !in_array($equipment_type, ['maine
     $data = $result->fetch_all(MYSQLI_ASSOC);
 }
 
-// Prepare data for JavaScript
+// Prepare data for JavaScript - SQL already filters operational readings
 $chart_data = [];
 if (isset($data) && !empty($data)) {
     foreach ($data as $row) {
@@ -388,19 +405,18 @@ if (isset($data) && !empty($data)) {
 
         // Create charts based on equipment type
         if (equipmentType === 'mainengines') {
-            // Filter out zero RPM values
-            const filteredData = chartData.filter(item => item.data.RPM > 0);
-            const filteredDates = filteredData.map(item => item.date);
+            // Data is already filtered in PHP to only show operational readings
+            const dates = chartData.map(item => item.date);
             
             // Combined Main Engine Chart - All metrics on one chart with dual Y-axes
             new Chart(document.getElementById('combinedChart'), {
                 type: 'line',
                 data: {
-                    labels: filteredDates,
+                    labels: dates,
                     datasets: [
                         {
                             label: 'RPM',
-                            data: filteredData.map(item => item.data.RPM),
+                            data: chartData.map(item => item.data.RPM),
                             borderColor: colors.rpm,
                             backgroundColor: colors.rpm + '20',
                             tension: 0.1,
@@ -408,7 +424,7 @@ if (isset($data) && !empty($data)) {
                         },
                         {
                             label: 'Oil Pressure (PSI)',
-                            data: filteredData.map(item => item.data.OilPressure),
+                            data: chartData.map(item => item.data.OilPressure),
                             borderColor: colors.oilPressure,
                             backgroundColor: colors.oilPressure + '20',
                             tension: 0.1,
@@ -416,7 +432,7 @@ if (isset($data) && !empty($data)) {
                         },
                         {
                             label: 'Oil Temperature (°F)',
-                            data: filteredData.map(item => item.data.OilTemp),
+                            data: chartData.map(item => item.data.OilTemp),
                             borderColor: colors.oilTemp,
                             backgroundColor: colors.oilTemp + '20',
                             tension: 0.1,
@@ -424,7 +440,7 @@ if (isset($data) && !empty($data)) {
                         },
                         {
                             label: 'Fuel Pressure (PSI)',
-                            data: filteredData.map(item => item.data.FuelPress),
+                            data: chartData.map(item => item.data.FuelPress),
                             borderColor: colors.fuelPress,
                             backgroundColor: colors.fuelPress + '20',
                             tension: 0.1,
@@ -432,7 +448,7 @@ if (isset($data) && !empty($data)) {
                         },
                         {
                             label: 'Water Temperature (°F)',
-                            data: filteredData.map(item => item.data.WaterTemp),
+                            data: chartData.map(item => item.data.WaterTemp),
                             borderColor: colors.waterTemp,
                             backgroundColor: colors.waterTemp + '20',
                             tension: 0.1,
@@ -458,13 +474,7 @@ if (isset($data) && !empty($data)) {
                     },
                     scales: {
                         x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'MMM dd'
-                                }
-                            },
+                            type: 'category',
                             title: {
                                 display: true,
                                 text: 'Date'
@@ -508,33 +518,32 @@ if (isset($data) && !empty($data)) {
             });
 
         } else if (equipmentType === 'generators') {
-            // Filter out zero oil pressure values
-            const filteredData = chartData.filter(item => item.data.OilPress > 0);
-            const filteredDates = filteredData.map(item => item.date);
+            // Data is already filtered in PHP to only show operational readings
+            const dates = chartData.map(item => item.date);
             
             // Combined Generator Chart - All metrics on single scale
             new Chart(document.getElementById('combinedChart'), {
                 type: 'line',
                 data: {
-                    labels: filteredDates,
+                    labels: dates,
                     datasets: [
                         {
                             label: 'Oil Pressure (PSI)',
-                            data: filteredData.map(item => item.data.OilPress),
+                            data: chartData.map(item => item.data.OilPress),
                             borderColor: colors.oilPressure,
                             backgroundColor: colors.oilPressure + '20',
                             tension: 0.1
                         },
                         {
                             label: 'Fuel Pressure (PSI)',
-                            data: filteredData.map(item => item.data.FuelPress),
+                            data: chartData.map(item => item.data.FuelPress),
                             borderColor: colors.fuelPress,
                             backgroundColor: colors.fuelPress + '20',
                             tension: 0.1
                         },
                         {
                             label: 'Water Temperature (°F)',
-                            data: filteredData.map(item => item.data.WaterTemp),
+                            data: chartData.map(item => item.data.WaterTemp),
                             borderColor: colors.waterTemp,
                             backgroundColor: colors.waterTemp + '20',
                             tension: 0.1
@@ -559,13 +568,7 @@ if (isset($data) && !empty($data)) {
                     },
                     scales: {
                         x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'MMM dd'
-                                }
-                            },
+                            type: 'category',
                             title: {
                                 display: true,
                                 text: 'Date'
@@ -604,9 +607,8 @@ if (isset($data) && !empty($data)) {
                     console.log('Engine data received:', engineData);
                     console.log('Gear data available:', chartData);
                     
-                    // Filter out zero oil pressure values first
-                    const filteredGearData = chartData.filter(item => item.data.OilPress > 0);
-                    console.log('Filtered gear data (OilPress > 0):', filteredGearData);
+                    // Data is already filtered in PHP to only show operational readings
+                    console.log('Using operational gear data:', chartData.length, 'entries');
                     
                     // Create a map of engine data by date for easy lookup
                     const engineDataMap = {};
@@ -614,9 +616,9 @@ if (isset($data) && !empty($data)) {
                         engineDataMap[item.date] = item.RPM;
                     });
                     
-                    // Prepare combined data - include gear data points with oil pressure > 0
+                    // Prepare combined data - use already filtered gear data
                     const combinedData = [];
-                    filteredGearData.forEach(gearItem => {
+                    chartData.forEach(gearItem => {
                         const engineRPM = engineDataMap[gearItem.date] || null;
                         combinedData.push({
                             date: gearItem.date,
@@ -680,13 +682,7 @@ if (isset($data) && !empty($data)) {
                             },
                             scales: {
                                 x: {
-                                    type: 'time',
-                                    time: {
-                                        unit: 'day',
-                                        displayFormats: {
-                                            day: 'MMM dd'
-                                        }
-                                    },
+                                    type: 'category',
                                     title: {
                                         display: true,
                                         text: 'Date'
@@ -732,27 +728,26 @@ if (isset($data) && !empty($data)) {
                 .catch(error => {
                     console.error('Error fetching engine data:', error);
                     
-                    // Filter out zero oil pressure values for fallback too
-                    const filteredGearData = chartData.filter(item => item.data.OilPress > 0);
-                    const filteredDates = filteredGearData.map(item => item.date);
-                    console.log('Using fallback: showing gear data only for', filteredGearData.length, 'entries');
+                    // Data is already filtered in PHP to only show operational readings
+                    const dates = chartData.map(item => item.date);
+                    console.log('Using fallback: showing gear data only for', chartData.length, 'entries');
                     
                     // Fallback: show gear data only
                     new Chart(document.getElementById('combinedChart'), {
                         type: 'line',
                         data: {
-                            labels: filteredDates,
+                            labels: dates,
                             datasets: [
                                 {
                                     label: 'Gear Oil Pressure (PSI)',
-                                    data: filteredGearData.map(item => item.data.OilPress),
+                                    data: chartData.map(item => item.data.OilPress),
                                     borderColor: colors.oilPressure,
                                     backgroundColor: colors.oilPressure + '20',
                                     tension: 0.1
                                 },
                                 {
                                     label: 'Gear Temperature (°F)',
-                                    data: filteredGearData.map(item => item.data.Temp),
+                                    data: chartData.map(item => item.data.Temp),
                                     borderColor: colors.temp,
                                     backgroundColor: colors.temp + '20',
                                     tension: 0.1
@@ -777,13 +772,7 @@ if (isset($data) && !empty($data)) {
                             },
                             scales: {
                                 x: {
-                                    type: 'time',
-                                    time: {
-                                        unit: 'day',
-                                        displayFormats: {
-                                            day: 'MMM dd'
-                                        }
-                                    },
+                                    type: 'category',
                                     title: {
                                         display: true,
                                         text: 'Date'

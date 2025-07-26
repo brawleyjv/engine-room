@@ -1,11 +1,22 @@
 <?php
 require_once 'config.php';
 require_once 'vessel_functions.php';
-session_start();
+require_once 'auth_functions.php';
 
-// Get active vessel
-$active_vessel_id = get_active_vessel_id();
-$active_vessel = get_active_vessel_info($conn);
+// Require login and vessel selection for data entry
+require_vessel_selection();
+
+// Get current user and active vessel
+$current_user = get_logged_in_user();
+$current_vessel = get_current_vessel($conn);
+
+// Ensure we have a valid vessel
+if (!$current_vessel) {
+    header('Location: select_vessel.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+    exit;
+}
+
+$active_vessel_id = $current_vessel['VesselID'];
 
 $message = '';
 $message_type = '';
@@ -14,11 +25,11 @@ if ($_POST) {
     $equipment_type = $_POST['equipment_type'] ?? '';
     $side = $_POST['side'] ?? '';
     $entry_date = $_POST['entry_date'] ?? '';
-    $recorded_by = $_POST['recorded_by'] ?? '';
+    $recorded_by = $current_user['user_id']; // Use logged-in user ID
     $notes = $_POST['notes'] ?? '';
     
     // Validate required fields
-    if (empty($equipment_type) || empty($side) || empty($entry_date) || empty($recorded_by)) {
+    if (empty($equipment_type) || empty($side) || empty($entry_date)) {
         $message = 'Please fill in all required fields.';
         $message_type = 'error';
     } else {
@@ -182,8 +193,18 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data, $vessel_
 <body>
     <div class="container">
         <header>
-            <h1>➕ Add Equipment Log Entry</h1>
-            <p><a href="index.php" class="btn btn-info">← Back to Home</a></p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>➕ Add Equipment Log Entry</h1>
+                    <p><a href="index.php" class="btn btn-info">← Back to Home</a></p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: #666; font-size: 14px; margin-bottom: 5px;">
+                        Logged in as: <strong><?= htmlspecialchars($current_user['full_name']) ?></strong>
+                    </div>
+                    <a href="logout.php" class="btn btn-secondary" style="font-size: 12px;">Logout</a>
+                </div>
+            </div>
         </header>
         
         <?= render_vessel_selector($conn, 'add_log') ?>
@@ -224,9 +245,10 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data, $vessel_
                     </div>
                     
                     <div class="form-group">
-                        <label for="recorded_by">Recorded By: *</label>
-                        <input type="text" name="recorded_by" id="recorded_by" required
-                               value="<?= htmlspecialchars($_POST['recorded_by'] ?? '') ?>" placeholder="Engineer name">
+                        <label for="recorded_by">Recorded By:</label>
+                        <input type="text" value="<?= htmlspecialchars($current_user['full_name']) ?>" readonly
+                               style="background-color: #f8f9fa; border: 1px solid #dee2e6; color: #6c757d;">
+                        <small style="color: #6c757d;">Logged in as: <?= htmlspecialchars($current_user['username']) ?></small>
                     </div>
                 </div>
                 

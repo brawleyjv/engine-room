@@ -1,5 +1,14 @@
 <?php
 require_once 'config.php';
+require_once 'auth_functions.php';
+require_once 'vessel_functions.php';
+
+// Require login and vessel selection for editing logs
+require_vessel_selection();
+
+// Get current user and vessel
+$current_user = get_logged_in_user();
+$current_vessel = get_current_vessel($conn);
 
 $message = '';
 $message_type = '';
@@ -12,8 +21,11 @@ if (empty($equipment_type) || empty($entry_id) || !in_array($equipment_type, ['m
     $message = 'Invalid parameters. Please select a record to edit from the view logs page.';
     $message_type = 'error';
 } else {
-    // Fetch the existing record
-    $sql = "SELECT * FROM $equipment_type WHERE EntryID = ?";
+    // Fetch the existing record with user name
+    $sql = "SELECT e.*, COALESCE(CONCAT(u.FirstName, ' ', u.LastName), 'Unknown User') as RecordedByName 
+            FROM $equipment_type e 
+            LEFT JOIN users u ON e.RecordedBy = u.UserID 
+            WHERE e.EntryID = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $entry_id);
     $stmt->execute();
@@ -52,11 +64,11 @@ if ($_POST && $record) {
         // Regular update operation
         $side = $_POST['side'] ?? '';
         $entry_date = $_POST['entry_date'] ?? '';
-        $recorded_by = $_POST['recorded_by'] ?? '';
+        $recorded_by = $current_user['user_id']; // Use current user ID for edits
         $notes = $_POST['notes'] ?? '';
         
         // Validate required fields
-        if (empty($side) || empty($entry_date) || empty($recorded_by)) {
+        if (empty($side) || empty($entry_date)) {
             $message = 'Please fill in all required fields.';
             $message_type = 'error';
         } else {
@@ -97,8 +109,11 @@ if ($_POST && $record) {
                 $message = 'Record updated successfully!';
                 $message_type = 'success';
                 
-                // Refresh the record data
-                $refresh_sql = "SELECT * FROM $equipment_type WHERE EntryID = ?";
+                // Refresh the record data with user name
+                $refresh_sql = "SELECT e.*, COALESCE(CONCAT(u.FirstName, ' ', u.LastName), 'Unknown User') as RecordedByName 
+                               FROM $equipment_type e 
+                               LEFT JOIN users u ON e.RecordedBy = u.UserID 
+                               WHERE e.EntryID = ?";
                 $refresh_stmt = $conn->prepare($refresh_sql);
                 $refresh_stmt->bind_param('i', $entry_id);
                 $refresh_stmt->execute();
@@ -198,9 +213,13 @@ if ($_POST && $record) {
                         </div>
                         
                         <div class="form-group">
-                            <label for="recorded_by">Recorded By: *</label>
-                            <input type="text" name="recorded_by" id="recorded_by" required
-                                   value="<?= htmlspecialchars($record['RecordedBy']) ?>" placeholder="Engineer name">
+                            <label for="recorded_by">Originally Recorded By:</label>
+                            <input type="text" name="recorded_by_display" id="recorded_by_display" readonly
+                                   value="<?= htmlspecialchars($record['RecordedByName']) ?>" 
+                                   style="background-color: #f5f5f5; cursor: not-allowed;">
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                ℹ️ Edit will be attributed to: <?= htmlspecialchars($current_user['full_name']) ?>
+                            </small>
                         </div>
                     </div>
                     

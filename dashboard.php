@@ -1,15 +1,37 @@
 <?php
 require_once 'config.php';
+require_once 'auth_functions.php';
+require_once 'vessel_functions.php';
+
+// Require login first
+require_login();
+
+// Check if vessel is selected - if not, redirect to selection
+if (!has_vessel_selected()) {
+    header('Location: select_vessel.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+    exit;
+}
+
+$current_user = get_logged_in_user();
+$current_vessel = get_current_vessel($conn);
 
 // Function to get latest entries for each equipment type
-function getLatestEntries($conn, $table, $limit = 5) {
-    $sql = "SELECT * FROM $table ORDER BY EntryDate DESC, Timestamp DESC LIMIT $limit";
-    $result = $conn->query($sql);
+function getLatestEntries($conn, $table, $vessel_id, $limit = 5) {
+    $sql = "SELECT e.*, COALESCE(CONCAT(u.FirstName, ' ', u.LastName), 'Unknown User') as RecordedByName 
+            FROM $table e 
+            LEFT JOIN users u ON e.RecordedBy = u.UserID 
+            WHERE e.VesselID = ? 
+            ORDER BY e.EntryDate DESC, e.Timestamp DESC 
+            LIMIT $limit";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $vessel_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
 
 // Function to get equipment counts
-function getEquipmentCounts($conn) {
+function getEquipmentCounts($conn, $vessel_id) {
     $counts = [];
     $tables = ['mainengines', 'generators', 'gears'];
     
@@ -17,18 +39,22 @@ function getEquipmentCounts($conn) {
         $sql = "SELECT COUNT(*) as total, 
                        COUNT(CASE WHEN Side = 'Port' THEN 1 END) as port,
                        COUNT(CASE WHEN Side = 'Starboard' THEN 1 END) as starboard
-                FROM $table";
-        $result = $conn->query($sql);
+                FROM $table WHERE VesselID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $vessel_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $counts[$table] = $result ? $result->fetch_assoc() : ['total' => 0, 'port' => 0, 'starboard' => 0];
     }
     
     return $counts;
 }
 
-$counts = getEquipmentCounts($conn);
-$latest_mainengines = getLatestEntries($conn, 'mainengines', 3);
-$latest_generators = getLatestEntries($conn, 'generators', 3);
-$latest_gears = getLatestEntries($conn, 'gears', 3);
+$vessel_id = $current_vessel['VesselID'];
+$counts = getEquipmentCounts($conn, $vessel_id);
+$latest_mainengines = getLatestEntries($conn, 'mainengines', $vessel_id, 3);
+$latest_generators = getLatestEntries($conn, 'generators', $vessel_id, 3);
+$latest_gears = getLatestEntries($conn, 'gears', $vessel_id, 3);
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +141,27 @@ $latest_gears = getLatestEntries($conn, 'gears', 3);
 <body>
     <div class="container">
         <header>
-            <h1>⚙️ Equipment Dashboard</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div>
+                    <h1>⚙️ Equipment Dashboard</h1>
+                    <div style="color: #666; font-size: 16px;">
+                        🚢 <strong><?php echo htmlspecialchars($current_vessel['VesselName']); ?></strong> 
+                        (<?php echo htmlspecialchars($current_vessel['VesselType']); ?>)
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="margin-bottom: 10px; color: #666;">
+                        Welcome, <?php echo htmlspecialchars($current_user['full_name']); ?>
+                    </div>
+                    <div>
+                        <a href="select_vessel.php" class="btn btn-secondary" style="margin-right: 10px;">Switch Vessel</a>
+                        <?php if (is_admin()): ?>
+                            <a href="manage_users.php" class="btn btn-warning" style="margin-right: 10px;">Manage Users</a>
+                        <?php endif; ?>
+                        <a href="logout.php" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
             <p><a href="index.php" class="btn btn-info">← Back to Home</a></p>
         </header>
         
