@@ -10,6 +10,9 @@ require_vessel_selection();
 $current_user = get_logged_in_user();
 $current_vessel = get_current_vessel($conn);
 
+// Get available sides for this vessel
+$available_sides = get_vessel_sides($conn, $current_vessel['VesselID']);
+
 $message = '';
 $message_type = '';
 $record = null;
@@ -203,8 +206,12 @@ if ($_POST && $record) {
                             <label for="side">Side: *</label>
                             <select name="side" id="side" required>
                                 <option value="">Select Side</option>
-                                <option value="Port" <?= $record['Side'] === 'Port' ? 'selected' : '' ?>>Port</option>
-                                <option value="Starboard" <?= $record['Side'] === 'Starboard' ? 'selected' : '' ?>>Starboard</option>
+                                <?php foreach ($available_sides as $side_option): ?>
+                                    <option value="<?= htmlspecialchars($side_option) ?>" 
+                                            <?= $record['Side'] === $side_option ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($side_option) ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         

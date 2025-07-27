@@ -10,6 +10,9 @@ require_vessel_selection();
 $current_user = get_logged_in_user();
 $current_vessel = get_current_vessel($conn);
 
+// Get available sides for this vessel
+$available_sides = get_vessel_sides($conn, $current_vessel['VesselID']);
+
 // Get parameters
 $equipment_type = $_GET['equipment'] ?? '';
 $side = $_GET['side'] ?? '';

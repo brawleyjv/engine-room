@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
 require_once 'auth_functions.php';
+require_once 'vessel_functions.php';
 
 // Require login (only logged-in users can manage vessels)
 require_login();
@@ -72,6 +73,7 @@ if ($_POST) {
     if (isset($_POST['add_vessel'])) {
         $vessel_name = trim($_POST['vessel_name']);
         $vessel_type = trim($_POST['vessel_type']);
+        $engine_config = $_POST['engine_config'] ?? 'standard';
         $owner = trim($_POST['owner']);
         $year_built = !empty($_POST['year_built']) ? $_POST['year_built'] : null;
         $length = !empty($_POST['length']) ? $_POST['length'] : null;
@@ -94,10 +96,10 @@ if ($_POST) {
             if ($existing->num_rows > 0) {
                 $error = "A vessel named '$vessel_name' already exists. Please choose a different name.";
             } else {
-                $sql = "INSERT INTO vessels (VesselName, VesselType, Owner, YearBuilt, Length, Notes, RPMMin, RPMMax, TempMin, TempMax, GenMin, GenMax) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO vessels (VesselName, VesselType, EngineConfig, Owner, YearBuilt, Length, Notes, RPMMin, RPMMax, TempMin, TempMax, GenMin, GenMax) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param('ssssdsiiiiiii', $vessel_name, $vessel_type, $owner, $year_built, $length, $notes, $rpm_min, $rpm_max, $temp_min, $temp_max, $gen_min, $gen_max);
+                $stmt->bind_param('ssssidsiiiiii', $vessel_name, $vessel_type, $engine_config, $owner, $year_built, $length, $notes, $rpm_min, $rpm_max, $temp_min, $temp_max, $gen_min, $gen_max);
                 
                 if ($stmt->execute()) {
                     $success = "Vessel '$vessel_name' added successfully!";
@@ -112,7 +114,6 @@ if ($_POST) {
     
     if (isset($_POST['set_active_vessel'])) {
         $vessel_id = (int)$_POST['vessel_id'];
-        $_SESSION['active_vessel_id'] = $vessel_id;
         
         // Get vessel name for confirmation
         $sql = "SELECT VesselName FROM vessels WHERE VesselID = ?";
@@ -122,7 +123,12 @@ if ($_POST) {
         $result = $stmt->get_result();
         $vessel = $result->fetch_assoc();
         
-        $success = "Active vessel set to: " . $vessel['VesselName'];
+        if ($vessel) {
+            set_active_vessel($vessel_id, $vessel['VesselName']);
+            $success = "Active vessel set to: " . $vessel['VesselName'];
+        } else {
+            $error = "Vessel not found.";
+        }
     }
     
     if (isset($_POST['toggle_vessel_status'])) {
@@ -352,6 +358,16 @@ foreach ($vessels as $vessel) {
                         </select>
                     </div>
                     <div>
+                        <label for="engine_config">Engine Configuration</label>
+                        <select id="engine_config" name="engine_config">
+                            <option value="standard">Standard (Port & Starboard)</option>
+                            <option value="three_engine">Three Engine (Port, Center, Starboard)</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 2px;">
+                            Choose three engine for vessels with a center main engine
+                        </small>
+                    </div>
+                    <div>
                         <label for="owner">Owner</label>
                         <input type="text" id="owner" name="owner">
                     </div>
@@ -427,6 +443,12 @@ foreach ($vessels as $vessel) {
                 
                 <div class="vessel-info">
                     <strong>Type:</strong> <?= htmlspecialchars($vessel['VesselType']) ?><br>
+                    <strong>Engine Config:</strong> 
+                    <?php if (($vessel['EngineConfig'] ?? 'standard') === 'three_engine'): ?>
+                        <span style="color: #007bff;">⚙️ Three Engine (Port, Center, Starboard)</span>
+                    <?php else: ?>
+                        <span style="color: #666;">⚙️ Standard (Port, Starboard)</span>
+                    <?php endif; ?><br>
                     <?php if ($vessel['Owner']): ?>
                         <strong>Owner:</strong> <?= htmlspecialchars($vessel['Owner']) ?><br>
                     <?php endif; ?>

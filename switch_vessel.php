@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config.php';
+require_once 'vessel_functions.php';
 
 header('Content-Type: application/json');
 
@@ -16,7 +17,7 @@ if ($_POST && isset($_POST['vessel_id'])) {
     
     if ($result->num_rows > 0) {
         $vessel = $result->fetch_assoc();
-        $_SESSION['active_vessel_id'] = $vessel_id;
+        set_active_vessel($vessel_id, $vessel['VesselName']);
         
         echo json_encode([
             'success' => true,

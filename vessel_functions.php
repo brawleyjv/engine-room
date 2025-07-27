@@ -1,6 +1,18 @@
 <?php
 // Vessel session management functions
 
+// Helper function to set active vessel consistently
+function set_active_vessel($vessel_id, $vessel_name = null) {
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    $_SESSION['active_vessel_id'] = $vessel_id;
+    $_SESSION['current_vessel_id'] = $vessel_id;
+    if ($vessel_name) {
+        $_SESSION['current_vessel_name'] = $vessel_name;
+    }
+}
+
 function get_active_vessel_id() {
     if (!isset($_SESSION)) {
         session_start();
@@ -30,7 +42,7 @@ function get_current_vessel($conn) {
     }
     
     $vessel_id = $_SESSION['current_vessel_id'];
-    $sql = "SELECT VesselID, VesselName, VesselType, IsActive FROM vessels WHERE VesselID = ? AND IsActive = 1";
+    $sql = "SELECT VesselID, VesselName, VesselType, EngineConfig, IsActive FROM vessels WHERE VesselID = ? AND IsActive = 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $vessel_id);
     $stmt->execute();
@@ -47,6 +59,54 @@ function get_current_vessel($conn) {
     }
     
     return $vessel;
+}
+
+// Get available sides for a vessel based on engine configuration
+function get_vessel_sides($conn, $vessel_id = null, $equipment_type = null) {
+    if (!$vessel_id) {
+        $vessel_id = get_active_vessel_id();
+    }
+    
+    // Get vessel engine configuration
+    $sql = "SELECT EngineConfig FROM vessels WHERE VesselID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $vessel_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $vessel = $result->fetch_assoc();
+    
+    if (!$vessel) {
+        // Default to standard if vessel not found
+        return ['Port', 'Starboard'];
+    }
+    
+    // For generators, always return only Port and Starboard regardless of vessel configuration
+    if ($equipment_type === 'generators') {
+        return ['Port', 'Starboard'];
+    }
+    
+    // For mainengines and gears, return sides based on vessel configuration
+    if (($vessel['EngineConfig'] ?? 'standard') === 'three_engine') {
+        return ['Port', 'Center Main', 'Starboard'];
+    } else {
+        return ['Port', 'Starboard'];
+    }
+}
+
+// Check if vessel has three engine configuration
+function vessel_has_center_engine($conn, $vessel_id = null) {
+    if (!$vessel_id) {
+        $vessel_id = get_active_vessel_id();
+    }
+    
+    $sql = "SELECT EngineConfig FROM vessels WHERE VesselID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $vessel_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $vessel = $result->fetch_assoc();
+    
+    return ($vessel && ($vessel['EngineConfig'] ?? 'standard') === 'three_engine');
 }
 
 function get_vessel_scales($conn, $vessel_id = null) {

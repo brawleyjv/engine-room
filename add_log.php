@@ -18,6 +18,9 @@ if (!$current_vessel) {
 
 $active_vessel_id = $current_vessel['VesselID'];
 
+// Get available sides for this vessel (default to all for initial load)
+$available_sides = get_vessel_sides($conn, $active_vessel_id, 'mainengines');
+
 $message = '';
 $message_type = '';
 
@@ -235,8 +238,12 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data, $vessel_
                         <label for="side">Side: *</label>
                         <select name="side" id="side" required>
                             <option value="">Select Side</option>
-                            <option value="Port" <?= ($_POST['side'] ?? '') === 'Port' ? 'selected' : '' ?>>Port</option>
-                            <option value="Starboard" <?= ($_POST['side'] ?? '') === 'Starboard' ? 'selected' : '' ?>>Starboard</option>
+                            <?php foreach ($available_sides as $side_option): ?>
+                                <option value="<?= htmlspecialchars($side_option) ?>" 
+                                        <?= ($_POST['side'] ?? '') === $side_option ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($side_option) ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     
@@ -371,6 +378,9 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data, $vessel_
                 input.removeAttribute('required');
             });
             
+            // Update side dropdown based on equipment type
+            updateSideDropdown();
+            
             // Show the selected equipment fields
             const selectedEquipment = document.getElementById('equipment_type').value;
             if (selectedEquipment) {
@@ -398,6 +408,36 @@ function checkDuplicateHours($conn, $equipment_type, $side, $post_data, $vessel_
                     }
                 }
             }
+        }
+        
+        function updateSideDropdown() {
+            const equipmentType = document.getElementById('equipment_type').value;
+            const sideSelect = document.getElementById('side');
+            
+            if (!equipmentType) {
+                return;
+            }
+            
+            // Fetch sides for this equipment type
+            fetch('get_equipment_sides.php?equipment_type=' + encodeURIComponent(equipmentType))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sides) {
+                        // Clear current options except the first one
+                        sideSelect.innerHTML = '<option value="">Select Side</option>';
+                        
+                        // Add new options
+                        data.sides.forEach(side => {
+                            const option = document.createElement('option');
+                            option.value = side;
+                            option.textContent = side;
+                            sideSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sides:', error);
+                });
         }
         
         // Show equipment fields on page load if equipment type is already selected

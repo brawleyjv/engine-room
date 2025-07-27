@@ -1,10 +1,35 @@
 <?php
+session_start();
 require_once 'config.php';
 require_once 'auth_functions.php';
 require_once 'vessel_functions.php';
 
-// Require login and vessel selection for viewing logs
-require_vessel_selection();
+// Require login first
+require_login();
+
+// Ensure we have an active vessel set
+if (!isset($_SESSION['current_vessel_id']) || empty($_SESSION['current_vessel_id'])) {
+    // Check if we have active_vessel_id instead
+    if (isset($_SESSION['active_vessel_id']) && !empty($_SESSION['active_vessel_id'])) {
+        // Sync the session variables
+        $_SESSION['current_vessel_id'] = $_SESSION['active_vessel_id'];
+        
+        // Get vessel name for session
+        $sql = "SELECT VesselName FROM vessels WHERE VesselID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $_SESSION['active_vessel_id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $vessel = $result->fetch_assoc();
+        if ($vessel) {
+            $_SESSION['current_vessel_name'] = $vessel['VesselName'];
+        }
+    } else {
+        // No vessel selected, redirect to vessel selection
+        header('Location: select_vessel.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+        exit;
+    }
+}
 
 // Get current user and vessel
 $current_user = get_logged_in_user();
@@ -19,7 +44,9 @@ $highlight_hours = $_GET['hours'] ?? ''; // For highlighting specific entries
 
 // Available equipment types
 $equipment_types = ['mainengines', 'generators', 'gears'];
-$sides = ['Port', 'Starboard'];
+
+// Get available sides for current vessel (default to mainengines, will be updated by JavaScript)
+$sides = get_vessel_sides($conn, $current_vessel['VesselID'], $equipment_type);
 
 // Function to get logs based on filters
 function getLogs($conn, $equipment_type, $vessel_id, $side, $date_from, $date_to) {
@@ -100,7 +127,7 @@ if (!empty($equipment_type)) {
                     
                     <div class="form-group">
                         <label for="equipment">Equipment Type:</label>
-                        <select name="equipment" id="equipment" required>
+                        <select name="equipment" id="equipment" required onchange="updateSideOptions()">
                             <option value="">Select Equipment</option>
                             <option value="mainengines" <?= $equipment_type === 'mainengines' ? 'selected' : '' ?>>Main Engines</option>
                             <option value="generators" <?= $equipment_type === 'generators' ? 'selected' : '' ?>>Generators</option>
@@ -112,8 +139,11 @@ if (!empty($equipment_type)) {
                         <label for="side">Side:</label>
                         <select name="side" id="side">
                             <option value="">All Sides</option>
-                            <option value="Port" <?= $side === 'Port' ? 'selected' : '' ?>>Port</option>
-                            <option value="Starboard" <?= $side === 'Starboard' ? 'selected' : '' ?>>Starboard</option>
+                            <?php foreach ($sides as $side_name): ?>
+                                <option value="<?= htmlspecialchars($side_name) ?>" <?= $side === $side_name ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($side_name) ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     
@@ -144,30 +174,30 @@ if (!empty($equipment_type)) {
                 <div>
                     <?php
                     // Check if we have data for each side
-                    $port_count = 0;
-                    $starboard_count = 0;
+                    $side_counts = [];
+                    
+                    // Initialize counts for all available sides
+                    foreach ($sides as $side_name) {
+                        $side_counts[$side_name] = 0;
+                    }
                     
                     if (!empty($logs)) {
                         foreach ($logs as $log) {
-                            if ($log['Side'] === 'Port') $port_count++;
-                            if ($log['Side'] === 'Starboard') $starboard_count++;
+                            if (isset($side_counts[$log['Side']])) {
+                                $side_counts[$log['Side']]++;
+                            }
                         }
                     }
                     ?>
                     
-                    <?php if ($port_count > 0): ?>
-                        <a href="graph_logs.php?equipment=<?= $equipment_type ?>&side=Port<?= !empty($date_from) ? '&date_from=' . $date_from : '' ?><?= !empty($date_to) ? '&date_to=' . $date_to : '' ?>" 
-                           class="btn btn-success" style="margin-left: 10px;">
-                            📊 Port Graph (<?= $port_count ?>)
-                        </a>
-                    <?php endif; ?>
-                    
-                    <?php if ($starboard_count > 0): ?>
-                        <a href="graph_logs.php?equipment=<?= $equipment_type ?>&side=Starboard<?= !empty($date_from) ? '&date_from=' . $date_from : '' ?><?= !empty($date_to) ? '&date_to=' . $date_to : '' ?>" 
-                           class="btn btn-success" style="margin-left: 10px;">
-                            📊 Starboard Graph (<?= $starboard_count ?>)
-                        </a>
-                    <?php endif; ?>
+                    <?php foreach ($sides as $side_name): ?>
+                        <?php if ($side_counts[$side_name] > 0): ?>
+                            <a href="graph_logs.php?equipment=<?= $equipment_type ?>&side=<?= urlencode($side_name) ?><?= !empty($date_from) ? '&date_from=' . $date_from : '' ?><?= !empty($date_to) ? '&date_to=' . $date_to : '' ?>" 
+                               class="btn btn-success" style="margin-left: 10px;">
+                                📊 <?= htmlspecialchars($side_name) ?> Graph (<?= $side_counts[$side_name] ?>)
+                            </a>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
             
@@ -227,7 +257,17 @@ if (!empty($equipment_type)) {
                             <td><?= htmlspecialchars($log['EntryID']) ?></td>
                             <td><?= htmlspecialchars($log['EntryDate']) ?></td>
                             <td>
-                                <span style="color: <?= $log['Side'] === 'Port' ? '#dc3545' : '#28a745' ?>;">
+                                <?php
+                                $side_color = '#666'; // Default gray
+                                if ($log['Side'] === 'Port') {
+                                    $side_color = '#dc3545'; // Red
+                                } elseif ($log['Side'] === 'Starboard') {
+                                    $side_color = '#28a745'; // Green
+                                } elseif ($log['Side'] === 'Center Main') {
+                                    $side_color = '#007bff'; // Blue
+                                }
+                                ?>
+                                <span style="color: <?= $side_color ?>;">
                                     <?= htmlspecialchars($log['Side']) ?>
                                 </span>
                             </td>
@@ -273,5 +313,53 @@ if (!empty($equipment_type)) {
             <p>&copy; 2025 Vessel Data Logger | <a href="index.php">Home</a></p>
         </footer>
     </div>
+    
+    <script>
+        function updateSideOptions() {
+            const equipmentType = document.getElementById('equipment').value;
+            const sideSelect = document.getElementById('side');
+            
+            if (!equipmentType) {
+                return;
+            }
+            
+            // Store current selection
+            const currentSide = sideSelect.value;
+            
+            // Fetch sides for this equipment type
+            fetch('get_equipment_sides.php?equipment_type=' + encodeURIComponent(equipmentType))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sides) {
+                        // Clear current options except the first one
+                        sideSelect.innerHTML = '<option value="">All Sides</option>';
+                        
+                        // Add new options
+                        data.sides.forEach(side => {
+                            const option = document.createElement('option');
+                            option.value = side;
+                            option.textContent = side;
+                            
+                            // Restore selection if it still exists
+                            if (side === currentSide) {
+                                option.selected = true;
+                            }
+                            
+                            sideSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sides:', error);
+                });
+        }
+        
+        // Update sides on page load if equipment type is already selected
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('equipment').value) {
+                updateSideOptions();
+            }
+        });
+    </script>
 </body>
 </html>
