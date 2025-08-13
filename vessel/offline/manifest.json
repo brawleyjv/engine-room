@@ -1,0 +1,106 @@
+{
+    "name": "Vessel Logger - Engine Room",
+    "short_name": "VesselLogger",
+    "description": "Offline-capable vessel engine room logging system",
+    "start_url": "/vessel/engineroom/dashboard.php",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2196F3",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/vessel/offline/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/vessel/offline/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "categories": ["productivity", "utilities"],
+    "screenshots": [
+        {
+            "src": "/vessel/offline/screenshots/desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "/vessel/offline/screenshots/mobile.png",
+            "sizes": "360x640",
+            "type": "image/png",
+            "form_factor": "narrow"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Add Log Entry",
+            "short_name": "Add Log",
+            "description": "Quickly add a new engine log entry",
+            "url": "/vessel/engineroom/add_log_offline.php",
+            "icons": [
+                {
+                    "src": "/vessel/offline/icons/add-icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "View Logs",
+            "short_name": "View Logs",
+            "description": "View recent log entries",
+            "url": "/vessel/engineroom/view_logs.php",
+            "icons": [
+                {
+                    "src": "/vessel/offline/icons/view-icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "Engine room dashboard",
+            "url": "/vessel/engineroom/dashboard.php",
+            "icons": [
+                {
+                    "src": "/vessel/offline/icons/dashboard-icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "prefer_related_applications": false
+}

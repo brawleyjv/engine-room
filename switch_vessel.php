@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'config.php';
-require_once 'vessel_functions.php';
+require_once __DIR__ . '/config_saas.php';
+require_once __DIR__ . '/vessel_functions.php';
 
 header('Content-Type: application/json');
 

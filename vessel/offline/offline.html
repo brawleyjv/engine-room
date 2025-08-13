@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vessel Logger - Offline</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .offline-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .offline-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            margin: 0 0 30px 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .features {
+            text-align: left;
+            margin: 20px 0;
+        }
+        
+        .features h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .retry-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .retry-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #f44336;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .connection-status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tips {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📵</div>
+        <h1>You're Offline</h1>
+        <p class="subtitle">No internet connection detected</p>
+        
+        <div class="message">
+            <div class="connection-status">
+                <span class="status-indicator"></span>
+                Connection Status: <span id="connectionStatus">Offline</span>
+            </div>
+            
+            Don't worry! Vessel Logger works offline too. You can continue logging engine data, and everything will sync automatically when your connection is restored.
+        </div>
+        
+        <div class="features">
+            <h3>Available Offline Features:</h3>
+            <ul>
+                <li>Add new engine log entries</li>
+                <li>View recent log data</li>
+                <li>Access vessel dashboard</li>
+                <li>Data automatically saves locally</li>
+                <li>Auto-sync when connection returns</li>
+            </ul>
+        </div>
+        
+        <div>
+            <a href="/vessel/engineroom/add_log_offline.php" class="retry-button">
+                Add Log Entry
+            </a>
+            <a href="/vessel/engineroom/dashboard.php" class="retry-button">
+                Dashboard
+            </a>
+        </div>
+        
+        <button onclick="checkConnection()" class="retry-button">
+            Check Connection
+        </button>
+        
+        <div class="tips">
+            <strong>Tips for Offline Use:</strong><br>
+            • Your data is saved locally and secure<br>
+            • Changes will sync automatically when online<br>
+            • Look for the green "Online" indicator when connected
+        </div>
+    </div>
+
+    <script>
+        function checkConnection() {
+            const statusElement = document.getElementById('connectionStatus');
+            const indicator = document.querySelector('.status-indicator');
+            
+            // Show checking status
+            statusElement.textContent = 'Checking...';
+            indicator.style.background = '#ff9800';
+            
+            // Try to fetch a small resource to test connection
+            fetch('/vessel/offline/ping.php', {
+                method: 'GET',
+                cache: 'no-cache'
+            })
+            .then(response => {
+                if (response.ok) {
+                    statusElement.textContent = 'Online';
+                    indicator.style.background = '#4CAF50';
+                    indicator.style.animation = 'none';
+                    
+                    // Redirect to main application
+                    setTimeout(() => {
+                        window.location.href = '/vessel/engineroom/dashboard.php';
+                    }, 1000);
+                } else {
+                    throw new Error('Connection failed');
+                }
+            })
+            .catch(() => {
+                statusElement.textContent = 'Offline';
+                indicator.style.background = '#f44336';
+                indicator.style.animation = 'pulse 2s infinite';
+            });
+        }
+        
+        // Auto-check connection every 30 seconds
+        setInterval(checkConnection, 30000);
+        
+        // Check immediately on load
+        setTimeout(checkConnection, 2000);
+        
+        // Listen for online/offline events
+        window.addEventListener('online', function() {
+            document.getElementById('connectionStatus').textContent = 'Online';
+            document.querySelector('.status-indicator').style.background = '#4CAF50';
+            setTimeout(() => {
+                window.location.href = '/vessel/engineroom/dashboard.php';
+            }, 1000);
+        });
+        
+        window.addEventListener('offline', function() {
+            document.getElementById('connectionStatus').textContent = 'Offline';
+            document.querySelector('.status-indicator').style.background = '#f44336';
+        });
+    </script>
+</body>
+</html>

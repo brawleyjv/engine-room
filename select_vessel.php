@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth_functions.php';
-require_once 'vessel_functions.php';
+require_once __DIR__ . '/config_saas.php';
+require_once __DIR__ . '/auth_functions_enhanced.php';
+require_once __DIR__ . '/vessel_functions.php';
 
 // Require login first
 require_login();
