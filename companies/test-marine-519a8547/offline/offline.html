@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Vessel Logger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .offline-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 2rem;
+        }
+        
+        .offline-icon {
+            font-size: 4rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .btn-retry {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .offline-features {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-item i {
+            color: #28a745;
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+        
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .connection-status.checking {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .connection-status.online {
+            background: #28a745;
+        }
+        
+        @media (max-width: 768px) {
+            .offline-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .offline-icon {
+                font-size: 3rem;
+            }
+            
+            .connection-status {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Connection Status Indicator -->
+    <div id="connection-status" class="connection-status">
+        <i class="fas fa-wifi-slash"></i> Offline
+    </div>
+
+    <!-- Main Offline Content -->
+    <div class="offline-container">
+        <div class="offline-icon">
+            <i class="fas fa-ship"></i>
+        </div>
+        
+        <h1 class="h2 mb-3">You're Offline</h1>
+        <p class="text-muted mb-4">
+            This page isn't available offline, but don't worry - your vessel data is still accessible!
+        </p>
+        
+        <!-- Retry Button -->
+        <button class="btn btn-primary btn-retry" onclick="retryConnection()">
+            <i class="fas fa-sync-alt me-2"></i>Try Again
+        </button>
+        
+        <!-- Available Offline Features -->
+        <div class="offline-features">
+            <h5 class="mb-3">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Available Offline
+            </h5>
+            
+            <div class="feature-item">
+                <i class="fas fa-plus"></i>
+                <span>Add new log entries</span>
+            </div>
+            
+            <div class="feature-item">
+                <i class="fas fa-eye"></i>
+                <span>View cached vessel data</span>
+            </div>
+            
+            <div class="feature-item">
+                <i class="fas fa-edit"></i>
+                <span>Edit existing records</span>
+            </div>
+            
+            <div class="feature-item">
+                <i class="fas fa-save"></i>
+                <span>All changes saved locally</span>
+            </div>
+            
+            <div class="feature-item">
+                <i class="fas fa-sync"></i>
+                <span>Auto-sync when reconnected</span>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-outline-primary" onclick="goToDashboard()">
+                <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+            </button>
+            
+            <button class="btn btn-outline-secondary" onclick="goToVessels()">
+                <i class="fas fa-ship me-2"></i>View Vessels
+            </button>
+        </div>
+        
+        <!-- Help Text -->
+        <div class="mt-4">
+            <small class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                Your data will sync automatically when connection is restored
+            </small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Connection monitoring
+        let isOnline = navigator.onLine;
+        const statusElement = document.getElementById('connection-status');
+        
+        function updateConnectionStatus() {
+            if (isOnline) {
+                statusElement.innerHTML = '<i class="fas fa-wifi"></i> Online';
+                statusElement.className = 'connection-status online';
+                
+                // Auto-redirect if we're back online
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                statusElement.innerHTML = '<i class="fas fa-wifi-slash"></i> Offline';
+                statusElement.className = 'connection-status';
+            }
+        }
+        
+        function retryConnection() {
+            statusElement.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Checking...';
+            statusElement.className = 'connection-status checking';
+            
+            // Test connection by trying to fetch a small resource
+            fetch('/api/offline_status.php', {
+                method: 'GET',
+                cache: 'no-cache'
+            })
+            .then(response => {
+                if (response.ok) {
+                    isOnline = true;
+                    updateConnectionStatus();
+                } else {
+                    throw new Error('Connection failed');
+                }
+            })
+            .catch(() => {
+                isOnline = false;
+                updateConnectionStatus();
+                
+                // Show feedback
+                showNotification('Still offline. Please check your connection.', 'warning');
+            });
+        }
+        
+        function goToDashboard() {
+            // Try to navigate to dashboard
+            if (isOnline) {
+                window.location.href = '/dashboard.php';
+            } else {
+                // Try to load from cache
+                window.location.href = '/dashboard.php';
+            }
+        }
+        
+        function goToVessels() {
+            // Try to navigate to vessels page
+            if (isOnline) {
+                window.location.href = '/vessels.php';
+            } else {
+                // Try to load from cache
+                window.location.href = '/vessels.php';
+            }
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show`;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10000;
+                min-width: 300px;
+                max-width: 500px;
+            `;
+            
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // Event listeners
+        window.addEventListener('online', () => {
+            isOnline = true;
+            updateConnectionStatus();
+            showNotification('Connection restored!', 'success');
+        });
+        
+        window.addEventListener('offline', () => {
+            isOnline = false;
+            updateConnectionStatus();
+        });
+        
+        // Initial status check
+        updateConnectionStatus();
+        
+        // Periodic connection check
+        setInterval(() => {
+            if (!isOnline) {
+                retryConnection();
+            }
+        }, 30000); // Check every 30 seconds
+        
+        // Service worker registration for this page too
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered from offline page');
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+    </script>
+</body>
+</html>

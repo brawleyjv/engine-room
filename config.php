@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
-$db = 'VesselData';
-$user = 'chief';
+$db = 'vesseldata';
+$user = 'license_admin';
 $pass = 'rustyzeller';
 
 $conn = new mysqli($host, $user, $pass, $db);
