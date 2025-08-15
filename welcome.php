@@ -1,22 +1,33 @@
 <?php
 /**
  * Welcome Page
- * Shown to new users after successful registration
+ * Shown to new users after successful registration OR existing logged-in users
  */
 
 require_once __DIR__ . '/config_saas.php';
 session_start();
 
-// Ensure user is logged in
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['company_id'])) {
-    header('Location: ' . BASE_URL . '/login_enhanced.php');
-    exit;
-}
+// Check if this is a new signup (no session yet)
+$is_new_signup = isset($_GET['new']) && $_GET['new'] == '1';
 
-$user_name = $_SESSION['user_name'];
-$company_name = $_SESSION['company_name'];
-$company_domain = $_SESSION['company_domain'];
-$subscription_plan = $_SESSION['subscription_plan'];
+if ($is_new_signup) {
+    // New signup - show welcome message and login instructions
+    // Don't require session data yet
+    $user_name = $_GET['user'] ?? 'New User';
+    $company_name = $_GET['company'] ?? 'Your Company';
+    $company_domain = $_GET['domain'] ?? '';
+} else {
+    // Existing user accessing welcome page - require login
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['company_id'])) {
+        header('Location: ' . BASE_URL . '/login_enhanced.php');
+        exit;
+    }
+    
+    $user_name = $_SESSION['user_name'];
+    $company_name = $_SESSION['company_name'];
+    $company_domain = $_SESSION['company_domain'];
+    $subscription_plan = $_SESSION['subscription_plan'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -24,7 +35,7 @@ $subscription_plan = $_SESSION['subscription_plan'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Vessel Logger!</title>
+    <title>Welcome to LogicDock!</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -135,7 +146,50 @@ $subscription_plan = $_SESSION['subscription_plan'];
             </div>
             
             <div class="welcome-body">
-                <?php if ($subscription_plan === 'trial'): ?>
+                <?php if ($is_new_signup): ?>
+                    <!-- New Signup Welcome -->
+                    <div class="alert alert-success text-center mb-4">
+                        <h4><i class="fas fa-check-circle me-2"></i>Account Created Successfully!</h4>
+                        <p class="mb-0">Your LogicDock account has been set up and your database is ready.</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title text-center mb-4">
+                                        <i class="fas fa-key me-2 text-primary"></i>
+                                        Ready to Log In
+                                    </h5>
+                                    
+                                    <div class="text-center mb-4">
+                                        <p class="mb-3">Your account is ready! You can now log in with:</p>
+                                        <div class="bg-light p-3 rounded">
+                                            <strong>Company:</strong> <?php echo htmlspecialchars($company_name); ?><br>
+                                            <strong>Domain:</strong> <?php echo htmlspecialchars($company_domain); ?><br>
+                                            <strong>Your login credentials</strong> (as provided during signup)
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <a href="login_enhanced.php?company=<?php echo urlencode($company_domain); ?>" 
+                                           class="btn btn-primary btn-lg">
+                                            <i class="fas fa-sign-in-alt me-2"></i>
+                                            Log In to Your Account
+                                        </a>
+                                        <a href="index.php" class="btn btn-outline-secondary">
+                                            <i class="fas fa-home me-2"></i>
+                                            Back to Home Page
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                <?php else: ?>
+                    <!-- Existing logged-in user content -->
+                <?php if (isset($subscription_plan) && $subscription_plan === 'trial'): ?>
                     <div class="trial-info">
                         <h5><i class="fas fa-clock me-2"></i>30-Day Free Trial Active</h5>
                         <p class="mb-0">Explore all features with no restrictions. Upgrade anytime to continue after your trial.</p>
@@ -299,6 +353,8 @@ $subscription_plan = $_SESSION['subscription_plan'];
                         </a>
                     </div>
                 <?php endif; ?>
+                
+                <?php endif; // End of is_new_signup check ?>
             </div>
         </div>
     </div>

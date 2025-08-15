@@ -126,7 +126,7 @@
                     <div class="step-demo">
                         <h5><span class="status-badge status-working">✅ Working</span> Company Registration</h5>
                         <p>3-step signup process with company info, admin account, and plan selection</p>
-                        <a href="signup_test.php" class="btn-demo">
+                        <a href="signup.php" class="btn-demo">
                             <i class="fas fa-user-plus me-2"></i>Try Signup Flow
                         </a>
                     </div>
@@ -228,7 +228,7 @@
                 <p>The onboarding system is fully functional and ready for live deployment.</p>
                 
                 <div class="mt-3">
-                    <a href="signup_test.php" class="btn-demo btn-lg me-3">
+                    <a href="signup.php" class="btn-demo btn-lg me-3">
                         <i class="fas fa-rocket me-2"></i>Start New Company Signup
                     </a>
                     <a href="test_onboarding_flow.php" class="btn-demo btn-lg">

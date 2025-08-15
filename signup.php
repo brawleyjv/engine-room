@@ -1,16 +1,40 @@
 <?php
 /**
- * Company Onboarding System
- * Multi-step registration process for new companies
- * Handles trial signup, database creation, and initial setup
+ * Multi-Step Company Onboarding System
+ * Complete SaaS onboarding flow for new companies
  */
 
-session_start();
+// Prevent automatic initialization from config_saas.php
+define('SKIP_AUTO_INIT', true);
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/config_saas.php';
 
 $step = isset($_GET['step']) ? (int)$_GET['step'] : 1;
 $errors = [];
 $success_message = '';
+
+// Validate step progression - prevent users from skipping steps
+if ($step > 1 && (!isset($_SESSION['onboarding_data']) || !is_array($_SESSION['onboarding_data']))) {
+    // If trying to access step 2+ without step 1 data, redirect to step 1
+    header('Location: signup.php?step=1');
+    exit;
+}
+
+if ($step > 2 && !isset($_SESSION['onboarding_data']['company_name'])) {
+    // If trying to access step 3+ without step 1 completion, redirect to step 1
+    header('Location: signup.php?step=1');
+    exit;
+}
+
+if ($step > 3 && !isset($_SESSION['onboarding_data']['admin_email'])) {
+    // If trying to access step 4+ without step 2 completion, redirect to step 2
+    header('Location: signup.php?step=2');
+    exit;
+}
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,6 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         case 2:
             $result = handleStep2($_POST);
             if ($result['success']) {
+                // Ensure onboarding_data exists before merging
+                if (!isset($_SESSION['onboarding_data']) || !is_array($_SESSION['onboarding_data'])) {
+                    $_SESSION['onboarding_data'] = [];
+                }
                 $_SESSION['onboarding_data'] = array_merge($_SESSION['onboarding_data'], $result['data']);
                 header('Location: signup.php?step=3');
                 exit;
@@ -40,44 +68,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         case 3:
             $result = handleStep3($_POST);
             if ($result['success']) {
+                // Ensure onboarding_data exists before merging
+                if (!isset($_SESSION['onboarding_data']) || !is_array($_SESSION['onboarding_data'])) {
+                    $_SESSION['onboarding_data'] = [];
+                }
                 $_SESSION['onboarding_data'] = array_merge($_SESSION['onboarding_data'], $result['data']);
-                header('Location: signup.php?step=4');
-                exit;
-            } else {
-                $errors = $result['errors'];
-            }
-            break;
-            
-        case 4:
-            $result = completeRegistration($_SESSION['onboarding_data']);
-            if ($result['success']) {
-                // Clear onboarding data
-                unset($_SESSION['onboarding_data']);
                 
-                // Set login session
-                $_SESSION['user_id'] = $result['user_id'];
-                $_SESSION['company_id'] = $result['company_id'];
-                $_SESSION['user_name'] = $result['user_name'];
-                $_SESSION['user_email'] = $result['user_email'];
-                $_SESSION['user_role'] = 'owner';
-                $_SESSION['company_name'] = $result['company_name'];
-                $_SESSION['company_domain'] = $result['company_domain'];
-                $_SESSION['subscription_plan'] = 'trial';
-                $_SESSION['subscription_status'] = 'active';
-                
-                header('Location: welcome.php');
-                exit;
+                // Create the company and database
+                $creation_result = createCompanyDatabase($_SESSION['onboarding_data']);
+                if ($creation_result['success']) {
+                    // Store onboarding data before clearing
+                    $company_data = $_SESSION['onboarding_data'];
+                    
+                    // Clear onboarding data
+                    unset($_SESSION['onboarding_data']);
+                    
+                    // Set up user session for the new company (compatible with enhanced auth)
+                    $_SESSION['company_domain'] = $company_data['company_domain'];
+                    $_SESSION['company_name'] = $company_data['company_name'];
+                    $_SESSION['company_id'] = $creation_result['company_id'];
+                    $_SESSION['user_id'] = $creation_result['user_id'];
+                    $_SESSION['subscription_plan'] = $company_data['subscription_plan'];
+                    
+                    // Enhanced auth compatible session variables
+                    $_SESSION['username'] = $company_data['admin_email'];
+                    $_SESSION['email'] = $company_data['admin_email'];
+                    $_SESSION['role'] = 'system_admin';
+                    $_SESSION['user_location'] = 'office';
+                    $_SESSION['assigned_vessel_id'] = null;
+                    
+                    // Parse admin name into first/last name for compatibility
+                    $name_parts = explode(' ', trim($company_data['admin_name']), 2);
+                    $_SESSION['first_name'] = $name_parts[0];
+                    $_SESSION['last_name'] = isset($name_parts[1]) ? $name_parts[1] : '';
+                    
+                    // Legacy compatibility
+                    $_SESSION['user_name'] = $company_data['admin_name'];
+                    $_SESSION['user_role'] = 'admin';
+                    
+                    header('Location: welcome.php?new=1&company=' . urlencode($company_data['company_name']) . 
+                           '&domain=' . urlencode($company_data['company_domain']) . 
+                           '&user=' . urlencode($company_data['admin_name']));
+                    exit;
+                } else {
+                    $errors[] = $creation_result['message'];
+                }
             } else {
                 $errors = $result['errors'];
             }
             break;
     }
-}
-
-// Redirect to step 1 if no onboarding data exists (except for step 1)
-if ($step > 1 && !isset($_SESSION['onboarding_data'])) {
-    header('Location: signup.php?step=1');
-    exit;
 }
 
 ?>
@@ -86,446 +126,441 @@ if ($step > 1 && !isset($_SESSION['onboarding_data'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Your Free Trial - Vessel Logger</title>
+    <title>Join Vessel Logger - Professional Maritime Logging</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .onboarding-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        
+        .signup-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
-        .onboarding-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            overflow: hidden;
-            width: 100%;
-            max-width: 900px;
+        
+        .signup-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
         }
-        .step-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
+        
+        .signup-header {
             text-align: center;
+            margin-bottom: 2rem;
         }
-        .step-body {
-            padding: 40px;
+        
+        .signup-header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
-        .progress-bar-custom {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 30px;
+        
+        .signup-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
         }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
+        
         .step-indicator {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
+            justify-content: center;
+            margin-bottom: 2rem;
         }
-        .step-item {
-            flex: 1;
-            text-align: center;
-            position: relative;
-        }
-        .step-item::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 60%;
-            right: -40%;
-            height: 2px;
-            background: #e9ecef;
-            z-index: 1;
-        }
-        .step-item:last-child::after {
-            display: none;
-        }
-        .step-number {
+        
+        .step {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #e9ecef;
-            color: #6c757d;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
+            margin: 0 1rem;
             position: relative;
-            z-index: 2;
+            font-weight: bold;
         }
-        .step-item.active .step-number {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .step.active {
+            background: #3498db;
             color: white;
         }
-        .step-item.completed .step-number {
-            background: #28a745;
+        
+        .step.completed {
+            background: #27ae60;
             color: white;
         }
-        .plan-card {
-            border: 2px solid #e9ecef;
+        
+        .step.pending {
+            background: #ecf0f1;
+            color: #95a5a6;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            width: 2rem;
+            height: 2px;
+            background: #ecf0f1;
+            transform: translateY(-50%);
+        }
+        
+        .step.completed:not(:last-child)::after {
+            background: #27ae60;
+        }
+        
+        .form-control {
             border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
+            border: 2px solid #ecf0f1;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
         }
-        .plan-card:hover, .plan-card.selected {
-            border-color: #667eea;
-            background: #f8f9fa;
-            transform: translateY(-5px);
+        
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
         }
-        .plan-card.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea10, #764ba210);
-        }
-        .feature-check {
-            color: #28a745;
-            margin-right: 8px;
-        }
-        .btn-next {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 500;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
-        .btn-next:hover {
+        
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-outline-secondary {
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .features-preview {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
-    <div class="onboarding-container">
-        <div class="onboarding-card">
-            <div class="step-header">
-                <h2><i class="fas fa-ship me-2"></i>Start Your Free Trial</h2>
-                <p class="mb-0">Set up your vessel logging system in 4 easy steps</p>
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <h1><i class="fas fa-ship me-3"></i>Vessel Logger</h1>
+                <p>Professional Maritime Logging & Fleet Management</p>
             </div>
-            
-            <div class="step-body">
-                <!-- Progress Indicator -->
-                <div class="step-indicator">
-                    <div class="step-item <?php echo $step >= 1 ? ($step > 1 ? 'completed' : 'active') : ''; ?>">
-                        <div class="step-number">
-                            <?php echo $step > 1 ? '<i class="fas fa-check"></i>' : '1'; ?>
-                        </div>
-                        <small>Company Info</small>
-                    </div>
-                    <div class="step-item <?php echo $step >= 2 ? ($step > 2 ? 'completed' : 'active') : ''; ?>">
-                        <div class="step-number">
-                            <?php echo $step > 2 ? '<i class="fas fa-check"></i>' : '2'; ?>
-                        </div>
-                        <small>Admin Account</small>
-                    </div>
-                    <div class="step-item <?php echo $step >= 3 ? ($step > 3 ? 'completed' : 'active') : ''; ?>">
-                        <div class="step-number">
-                            <?php echo $step > 3 ? '<i class="fas fa-check"></i>' : '3'; ?>
-                        </div>
-                        <small>Choose Plan</small>
-                    </div>
-                    <div class="step-item <?php echo $step >= 4 ? 'active' : ''; ?>">
-                        <div class="step-number">4</div>
-                        <small>Setup Complete</small>
-                    </div>
+
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step <?php echo ($step == 1) ? 'active' : ($step > 1 ? 'completed' : 'pending'); ?>">1</div>
+                <div class="step <?php echo ($step == 2) ? 'active' : ($step > 2 ? 'completed' : 'pending'); ?>">2</div>
+                <div class="step <?php echo ($step == 3) ? 'active' : ($step > 3 ? 'completed' : 'pending'); ?>">3</div>
+            </div>
+
+            <?php if (!empty($errors)): ?>
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        <?php foreach ($errors as $error): ?>
+                            <li><?php echo htmlspecialchars($error); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
+            <?php endif; ?>
 
-                <div class="progress-bar-custom">
-                    <div class="progress-fill" style="width: <?php echo ($step / 4) * 100; ?>%"></div>
-                </div>
-
-                <?php if (!empty($errors)): ?>
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            <?php foreach ($errors as $error): ?>
-                                <li><?php echo htmlspecialchars($error); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-
-                <!-- Step 1: Company Information -->
-                <h4 class="mb-4">Company Information</h4>
-                <form method="POST">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Company Name *</label>
-                                <input type="text" class="form-control" name="company_name" 
-                                       value="<?php echo htmlspecialchars($_POST['company_name'] ?? ''); ?>" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Company Domain *</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="company_domain" 
-                                           value="<?php echo htmlspecialchars($_POST['company_domain'] ?? ''); ?>" 
-                                           placeholder="acme-marine" required pattern="[a-z0-9-]+">
-                                    <span class="input-group-text">.vessellogger.com</span>
+            <?php switch ($step): 
+                case 1: ?>
+                    <!-- Step 1: Company Information -->
+                    <h4 class="mb-4">Company Information</h4>
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" name="company_name" 
+                                           value="<?php echo htmlspecialchars($_POST['company_name'] ?? ''); ?>" required>
                                 </div>
-                                <small class="form-text text-muted">Only lowercase letters, numbers, and hyphens</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Contact Email *</label>
+                                    <input type="email" class="form-control" name="contact_email" 
+                                           value="<?php echo htmlspecialchars($_POST['contact_email'] ?? ''); ?>" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Company Type</label>
-                                <select class="form-control" name="company_type">
-                                    <option value="towboat" <?php echo ($_POST['company_type'] ?? '') === 'towboat' ? 'selected' : ''; ?>>Towboat/Barge Operations</option>
-                                    <option value="fishing" <?php echo ($_POST['company_type'] ?? '') === 'fishing' ? 'selected' : ''; ?>>Commercial Fishing</option>
-                                    <option value="workboat" <?php echo ($_POST['company_type'] ?? '') === 'workboat' ? 'selected' : ''; ?>>Workboat Services</option>
-                                    <option value="tug" <?php echo ($_POST['company_type'] ?? '') === 'tug' ? 'selected' : ''; ?>>Tugboat Services</option>
-                                    <option value="supply" <?php echo ($_POST['company_type'] ?? '') === 'supply' ? 'selected' : ''; ?>>Supply Vessel</option>
-                                    <option value="passenger" <?php echo ($_POST['company_type'] ?? '') === 'passenger' ? 'selected' : ''; ?>>Passenger Vessel</option>
-                                    <option value="other" <?php echo ($_POST['company_type'] ?? '') === 'other' ? 'selected' : ''; ?>>Other</option>
-                                </select>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Company Identifier *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="company_domain" 
+                                       value="<?php echo htmlspecialchars($_POST['company_domain'] ?? ''); ?>" 
+                                       pattern="[a-z0-9-]+" title="Only lowercase letters, numbers, and hyphens" required>
+                            </div>
+                            <small class="form-text text-muted">
+                                A unique identifier for your company (letters, numbers, and hyphens only).<br>
+                                <strong>Note:</strong> This is NOT a website domain - just an internal company ID.
+                            </small>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Company Type</label>
+                                    <select class="form-control" name="company_type">
+                                        <option value="towboat" <?php echo ($_POST['company_type'] ?? '') === 'towboat' ? 'selected' : ''; ?>>Towboat/Barge Operations</option>
+                                        <option value="fishing" <?php echo ($_POST['company_type'] ?? '') === 'fishing' ? 'selected' : ''; ?>>Commercial Fishing</option>
+                                        <option value="workboat" <?php echo ($_POST['company_type'] ?? '') === 'workboat' ? 'selected' : ''; ?>>Workboat Services</option>
+                                        <option value="tug" <?php echo ($_POST['company_type'] ?? '') === 'tug' ? 'selected' : ''; ?>>Tugboat Services</option>
+                                        <option value="supply" <?php echo ($_POST['company_type'] ?? '') === 'supply' ? 'selected' : ''; ?>>Supply Vessel</option>
+                                        <option value="passenger" <?php echo ($_POST['company_type'] ?? '') === 'passenger' ? 'selected' : ''; ?>>Passenger Vessel</option>
+                                        <option value="other" <?php echo ($_POST['company_type'] ?? '') === 'other' ? 'selected' : ''; ?>>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Fleet Size (Estimate)</label>
+                                    <select class="form-control" name="fleet_size">
+                                        <option value="1" <?php echo ($_POST['fleet_size'] ?? '') === '1' ? 'selected' : ''; ?>>1 vessel</option>
+                                        <option value="2-5" <?php echo ($_POST['fleet_size'] ?? '') === '2-5' ? 'selected' : ''; ?>>2-5 vessels</option>
+                                        <option value="6-10" <?php echo ($_POST['fleet_size'] ?? '') === '6-10' ? 'selected' : ''; ?>>6-10 vessels</option>
+                                        <option value="11-25" <?php echo ($_POST['fleet_size'] ?? '') === '11-25' ? 'selected' : ''; ?>>11-25 vessels</option>
+                                        <option value="25+" <?php echo ($_POST['fleet_size'] ?? '') === '25+' ? 'selected' : ''; ?>>25+ vessels</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Fleet Size (Estimate)</label>
-                                <select class="form-control" name="fleet_size">
-                                    <option value="1" <?php echo ($_POST['fleet_size'] ?? '') === '1' ? 'selected' : ''; ?>>1 vessel</option>
-                                    <option value="2-5" <?php echo ($_POST['fleet_size'] ?? '') === '2-5' ? 'selected' : ''; ?>>2-5 vessels</option>
-                                    <option value="6-10" <?php echo ($_POST['fleet_size'] ?? '') === '6-10' ? 'selected' : ''; ?>>6-10 vessels</option>
-                                    <option value="11-25" <?php echo ($_POST['fleet_size'] ?? '') === '11-25' ? 'selected' : ''; ?>>11-25 vessels</option>
-                                    <option value="25+" <?php echo ($_POST['fleet_size'] ?? '') === '25+' ? 'selected' : ''; ?>>25+ vessels</option>
-                                </select>
-                            </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Contact Phone</label>
+                            <input type="tel" class="form-control" name="contact_phone" 
+                                   value="<?php echo htmlspecialchars($_POST['contact_phone'] ?? ''); ?>">
                         </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Contact Phone</label>
-                        <input type="tel" class="form-control" name="contact_phone" 
-                               value="<?php echo htmlspecialchars($_POST['contact_phone'] ?? ''); ?>">
-                    </div>
-                    
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary btn-next">
-                            Continue <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
-                    </div>
-                </form>
-                <?php break; 
+                        
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary btn-next">
+                                Continue <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <?php break; 
                 
                 case 2: ?>
-                
-                <!-- Step 2: Admin Account -->
-                <h4 class="mb-4">Create Your Admin Account</h4>
-                <form method="POST">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Full Name *</label>
-                                <input type="text" class="form-control" name="admin_name" 
-                                       value="<?php echo htmlspecialchars($_POST['admin_name'] ?? ''); ?>" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Email Address *</label>
-                                <input type="email" class="form-control" name="admin_email" 
-                                       value="<?php echo htmlspecialchars($_POST['admin_email'] ?? ''); ?>" required>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Password *</label>
-                                <input type="password" class="form-control" name="password" 
-                                       minlength="8" required>
-                                <small class="form-text text-muted">Minimum 8 characters</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Confirm Password *</label>
-                                <input type="password" class="form-control" name="password_confirm" 
-                                       minlength="8" required>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Job Title</label>
-                        <input type="text" class="form-control" name="job_title" 
-                               value="<?php echo htmlspecialchars($_POST['job_title'] ?? ''); ?>" 
-                               placeholder="Captain, Port Engineer, Fleet Manager, etc.">
-                    </div>
-                    
-                    <div class="text-end">
-                        <a href="signup.php?step=1" class="btn btn-outline-secondary me-2">Back</a>
-                        <button type="submit" class="btn btn-primary btn-next">
-                            Continue <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
-                    </div>
-                </form>
-                <?php break; case 3: ?>
-                
-                <!-- Step 3: Choose Plan -->
-                <h4 class="mb-4">Choose Your Plan</h4>
-                <form method="POST" id="planForm">
-                    <div class="row">
-                        <!-- Trial Plan -->
-                        <div class="col-lg-4">
-                            <div class="plan-card" data-plan="trial">
-                                <h5 class="text-primary">Free Trial</h5>
-                                <div class="h2 mb-3">$0 <small class="text-muted">/ 30 days</small></div>
-                                <ul class="list-unstyled text-start">
-                                    <li><i class="fas fa-check feature-check"></i>1 Vessel</li>
-                                    <li><i class="fas fa-check feature-check"></i>3 Users</li>
-                                    <li><i class="fas fa-check feature-check"></i>Basic Logging</li>
-                                    <li><i class="fas fa-check feature-check"></i>Offline Sync</li>
-                                    <li><i class="fas fa-check feature-check"></i>Email Support</li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-primary w-100 select-plan">
-                                    Start Free Trial
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Basic Plan -->
-                        <div class="col-lg-4">
-                            <div class="plan-card" data-plan="basic">
-                                <h5 class="text-success">Basic Plan</h5>
-                                <div class="h2 mb-3">$49.99 <small class="text-muted">/ month</small></div>
-                                <ul class="list-unstyled text-start">
-                                    <li><i class="fas fa-check feature-check"></i>2 Vessels</li>
-                                    <li><i class="fas fa-check feature-check"></i>10 Users</li>
-                                    <li><i class="fas fa-check feature-check"></i>All Basic Features</li>
-                                    <li><i class="fas fa-check feature-check"></i>Crew Management</li>
-                                    <li><i class="fas fa-check feature-check"></i>Basic Reports</li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-success w-100 select-plan">
-                                    Choose Basic
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Professional Plan -->
-                        <div class="col-lg-4">
-                            <div class="plan-card" data-plan="professional">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="text-warning">Professional</h5>
-                                    <span class="badge bg-warning text-dark">Most Popular</span>
+                    <!-- Step 2: Admin Account -->
+                    <h4 class="mb-4">Create Your Admin Account</h4>
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" name="admin_name" 
+                                           value="<?php echo htmlspecialchars($_POST['admin_name'] ?? ''); ?>" required>
                                 </div>
-                                <div class="h2 mb-3">$149.99 <small class="text-muted">/ month</small></div>
-                                <ul class="list-unstyled text-start">
-                                    <li><i class="fas fa-check feature-check"></i>10 Vessels</li>
-                                    <li><i class="fas fa-check feature-check"></i>50 Users</li>
-                                    <li><i class="fas fa-check feature-check"></i>All Basic Features</li>
-                                    <li><i class="fas fa-check feature-check"></i>Advanced Reports</li>
-                                    <li><i class="fas fa-check feature-check"></i>API Access</li>
-                                    <li><i class="fas fa-check feature-check"></i>Maintenance Tracking</li>
-                                </ul>
-                                <button type="button" class="btn btn-warning w-100 select-plan text-dark">
-                                    Choose Professional
-                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" name="admin_email" 
+                                           value="<?php echo htmlspecialchars($_POST['admin_email'] ?? ''); ?>" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <input type="hidden" name="selected_plan" id="selectedPlan" value="trial">
-                    
-                    <div class="alert alert-info mt-4">
-                        <i class="fas fa-info-circle me-2"></i>
-                        <strong>Start with a free trial!</strong> You can upgrade or downgrade your plan at any time.
-                        All plans include our 30-day money-back guarantee.
-                    </div>
-                    
-                    <div class="text-end">
-                        <a href="signup.php?step=2" class="btn btn-outline-secondary me-2">Back</a>
-                        <button type="submit" class="btn btn-primary btn-next">
-                            Continue <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
-                    </div>
-                </form>
-                <?php break; case 4: ?>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Password *</label>
+                                    <input type="password" class="form-control" name="admin_password" required>
+                                    <small class="form-text text-muted">Minimum 8 characters</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm Password *</label>
+                                    <input type="password" class="form-control" name="admin_password_confirm" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" class="form-control" name="admin_title" 
+                                   value="<?php echo htmlspecialchars($_POST['admin_title'] ?? ''); ?>" 
+                                   placeholder="e.g., Port Captain, Operations Manager, Fleet Director">
+                        </div>
+                        
+                        <div class="text-end">
+                            <a href="signup.php?step=1" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                Continue <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <?php break; 
                 
-                <!-- Step 4: Final Setup -->
-                <h4 class="mb-4">Complete Your Setup</h4>
+                case 3: ?>
+                    <!-- Step 3: Plan Selection -->
+                    <h4 class="mb-4">Choose Your Plan</h4>
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">30-Day Free Trial</h5>
+                                        <h3 class="text-primary">Free</h3>
+                                        <p class="card-text">Perfect for evaluation</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>Basic logging features</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>1 vessel only</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Up to 5 users</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Email support</li>
+                                        </ul>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="subscription_plan" 
+                                                   value="trial" id="trial" checked>
+                                            <label class="form-check-label" for="trial">
+                                                <strong>Start Free Trial</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Basic Package</h5>
+                                        <h3 class="text-primary">$49/month</h3>
+                                        <p class="card-text">Core logging features</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>Basic Wheelhouse (position & activities)</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Basic Crew (name, TWIC, position, dates)</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Basic Engine Room (RPM, temps, pressures)</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Unlimited vessels</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Unlimited users</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Priority support</li>
+                                        </ul>
+                                        <small class="text-muted">+ Add-on modules $24.95/month each</small>
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="radio" name="subscription_plan" 
+                                                   value="professional" id="professional">
+                                            <label class="form-check-label" for="professional">
+                                                <strong>Start Basic Package</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="agree_terms" id="agree_terms" required>
+                                <label class="form-check-label" for="agree_terms">
+                                    I agree to the <a href="#" target="_blank">Terms of Service</a> and 
+                                    <a href="#" target="_blank">Privacy Policy</a> *
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="text-end">
+                            <a href="signup.php?step=2" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-rocket me-2"></i>Create My Account
+                            </button>
+                        </div>
+                    </form>
+                    <?php break; 
+            endswitch; ?>
+            
+            <!-- Features Preview -->
+            <div class="features-preview">
+                <h6 class="mb-3"><i class="fas fa-star text-warning me-2"></i>What You Get</h6>
                 <div class="row">
                     <div class="col-md-6">
-                        <h6>Company Information</h6>
-                        <ul class="list-unstyled">
-                            <li><strong>Name:</strong> <?php echo htmlspecialchars($_SESSION['onboarding_data']['company_name']); ?></li>
-                            <li><strong>Domain:</strong> <?php echo htmlspecialchars($_SESSION['onboarding_data']['company_domain']); ?></li>
-                            <li><strong>Type:</strong> <?php echo htmlspecialchars($_SESSION['onboarding_data']['company_type']); ?></li>
-                        </ul>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div>
+                                <strong>Engine Room Logging</strong><br>
+                                <small class="text-muted">RPM, temperatures, pressures, fuel</small>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <strong>Performance Analytics</strong><br>
+                                <small class="text-muted">Trends, reports, maintenance alerts</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <h6>Admin Account</h6>
-                        <ul class="list-unstyled">
-                            <li><strong>Name:</strong> <?php echo htmlspecialchars($_SESSION['onboarding_data']['admin_name']); ?></li>
-                            <li><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['onboarding_data']['admin_email']); ?></li>
-                            <li><strong>Plan:</strong> <?php echo ucfirst($_SESSION['onboarding_data']['selected_plan']); ?></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="alert alert-success">
-                    <h6><i class="fas fa-rocket me-2"></i>Ready to Launch!</h6>
-                    <p class="mb-0">
-                        We'll create your dedicated database, set up your admin account, and configure your vessel logging system.
-                        This process takes just a few seconds.
-                    </p>
-                </div>
-                
-                <form method="POST">
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="agreeTerms" name="agree_terms" required>
-                            <label class="form-check-label" for="agreeTerms">
-                                I agree to the <a href="terms.php" target="_blank">Terms of Service</a> and 
-                                <a href="privacy.php" target="_blank">Privacy Policy</a>
-                            </label>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <strong>Offline Access</strong><br>
+                                <small class="text-muted">Works without internet, syncs later</small>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <strong>Team Management</strong><br>
+                                <small class="text-muted">User roles, permissions, audit logs</small>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="agreeEmails" name="agree_emails">
-                            <label class="form-check-label" for="agreeEmails">
-                                Send me product updates and maritime industry news (optional)
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="text-end">
-                        <a href="signup.php?step=3" class="btn btn-outline-secondary me-2">Back</a>
-                        <button type="submit" class="btn btn-success btn-next" id="completeBtn">
-                            <i class="fas fa-check me-2"></i>Complete Setup
-                        </button>
-                    </div>
-                </form>
-                <?php break; endswitch; ?>
-
-                <!-- Login Link -->
-                <div class="text-center mt-4 pt-4 border-top">
-                    <p class="text-muted">Already have an account? 
-                        <a href="login_enhanced.php" class="text-decoration-none">Sign in here</a>
-                    </p>
                 </div>
             </div>
         </div>
@@ -533,56 +568,48 @@ if ($step > 1 && !isset($_SESSION['onboarding_data'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Plan selection
-        document.addEventListener('DOMContentLoaded', function() {
-            const planCards = document.querySelectorAll('.plan-card');
-            const selectedPlanInput = document.getElementById('selectedPlan');
-            
-            planCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    // Remove selected class from all cards
-                    planCards.forEach(c => c.classList.remove('selected'));
-                    
-                    // Add selected class to clicked card
-                    this.classList.add('selected');
-                    
-                    // Update hidden input
-                    selectedPlanInput.value = this.dataset.plan;
-                });
-            });
-            
-            // Select trial by default
-            if (selectedPlanInput) {
-                const trialCard = document.querySelector('[data-plan="trial"]');
-                if (trialCard) {
-                    trialCard.classList.add('selected');
-                }
-            }
+        // Auto-format company domain
+        document.querySelector('input[name="company_domain"]')?.addEventListener('input', function(e) {
+            this.value = this.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
         });
-
-        // Complete setup with loading state
-        const completeBtn = document.getElementById('completeBtn');
-        if (completeBtn) {
-            completeBtn.addEventListener('click', function() {
-                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Your Account...';
-                this.disabled = true;
+        
+        // Password strength indicator
+        document.querySelector('input[name="admin_password"]')?.addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strength = password.length >= 8 ? 'Good' : 'Too short';
+            // Could add more sophisticated password checking here
+        });
+        
+        // Form validation before submit
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const step = <?php echo $step; ?>;
+                
+                if (step === 2) {
+                    const password = document.querySelector('input[name="admin_password"]').value;
+                    const confirm = document.querySelector('input[name="admin_password_confirm"]').value;
+                    
+                    if (password !== confirm) {
+                        e.preventDefault();
+                        alert('Passwords do not match');
+                        return;
+                    }
+                    
+                    if (password.length < 8) {
+                        e.preventDefault();
+                        alert('Password must be at least 8 characters');
+                        return;
+                    }
+                }
             });
-        }
-
-        // Company domain validation
-        const domainInput = document.querySelector('input[name="company_domain"]');
-        if (domainInput) {
-            domainInput.addEventListener('input', function() {
-                this.value = this.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
-            });
-        }
+        });
     </script>
 </body>
 </html>
 
 <?php
 /**
- * Step Handler Functions
+ * Step Processing Functions
  */
 
 function handleStep1($data) {
@@ -590,20 +617,22 @@ function handleStep1($data) {
     
     // Validate required fields
     if (empty($data['company_name'])) {
-        $errors[] = 'Company name is required.';
+        $errors[] = 'Company name is required';
     }
     
-    if (empty($data['company_domain'])) {
-        $errors[] = 'Company domain is required.';
-    } else {
-        // Validate domain format
-        if (!preg_match('/^[a-z0-9-]+$/', $data['company_domain'])) {
-            $errors[] = 'Company domain can only contain lowercase letters, numbers, and hyphens.';
-        }
-        
-        // Check if domain is available
-        if (isDomainTaken($data['company_domain'])) {
-            $errors[] = 'This company domain is already taken. Please choose another one.';
+    if (empty($data['contact_email']) || !filter_var($data['contact_email'], FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid contact email is required';
+    }
+    
+    if (empty($data['company_domain']) || !preg_match('/^[a-z0-9-]+$/', $data['company_domain'])) {
+        $errors[] = 'Company identifier must contain only lowercase letters, numbers, and hyphens';
+    }
+    
+    // Check if company identifier is already taken
+    if (!empty($data['company_domain'])) {
+        $existing = checkDomainAvailability($data['company_domain']);
+        if (!$existing) {
+            $errors[] = 'This company identifier is already taken. Please choose another.';
         }
     }
     
@@ -614,11 +643,12 @@ function handleStep1($data) {
     return [
         'success' => true,
         'data' => [
-            'company_name' => trim($data['company_name']),
-            'company_domain' => trim(strtolower($data['company_domain'])),
+            'company_name' => $data['company_name'],
+            'contact_email' => $data['contact_email'],
+            'company_domain' => $data['company_domain'],
             'company_type' => $data['company_type'] ?? 'other',
             'fleet_size' => $data['fleet_size'] ?? '1',
-            'contact_phone' => trim($data['contact_phone'] ?? '')
+            'contact_phone' => $data['contact_phone'] ?? ''
         ]
     ];
 }
@@ -628,23 +658,19 @@ function handleStep2($data) {
     
     // Validate required fields
     if (empty($data['admin_name'])) {
-        $errors[] = 'Full name is required.';
+        $errors[] = 'Full name is required';
     }
     
-    if (empty($data['admin_email'])) {
-        $errors[] = 'Email address is required.';
-    } elseif (!filter_var($data['admin_email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Please enter a valid email address.';
+    if (empty($data['admin_email']) || !filter_var($data['admin_email'], FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Valid email address is required';
     }
     
-    if (empty($data['password'])) {
-        $errors[] = 'Password is required.';
-    } elseif (strlen($data['password']) < 8) {
-        $errors[] = 'Password must be at least 8 characters long.';
+    if (empty($data['admin_password']) || strlen($data['admin_password']) < 8) {
+        $errors[] = 'Password must be at least 8 characters';
     }
     
-    if ($data['password'] !== $data['password_confirm']) {
-        $errors[] = 'Passwords do not match.';
+    if ($data['admin_password'] !== $data['admin_password_confirm']) {
+        $errors[] = 'Passwords do not match';
     }
     
     if (!empty($errors)) {
@@ -654,206 +680,122 @@ function handleStep2($data) {
     return [
         'success' => true,
         'data' => [
-            'admin_name' => trim($data['admin_name']),
-            'admin_email' => trim(strtolower($data['admin_email'])),
-            'password' => $data['password'],
-            'job_title' => trim($data['job_title'] ?? '')
+            'admin_name' => $data['admin_name'],
+            'admin_email' => $data['admin_email'],
+            'admin_password' => $data['admin_password'],
+            'admin_title' => $data['admin_title'] ?? ''
         ]
     ];
 }
 
 function handleStep3($data) {
-    $valid_plans = ['trial', 'basic', 'professional', 'enterprise'];
-    $selected_plan = $data['selected_plan'] ?? 'trial';
+    $errors = [];
     
-    if (!in_array($selected_plan, $valid_plans)) {
-        return ['success' => false, 'errors' => ['Invalid plan selected.']];
+    if (empty($data['subscription_plan'])) {
+        $errors[] = 'Please select a subscription plan';
+    }
+    
+    if (empty($data['agree_terms'])) {
+        $errors[] = 'You must agree to the Terms of Service and Privacy Policy';
+    }
+    
+    if (!empty($errors)) {
+        return ['success' => false, 'errors' => $errors];
     }
     
     return [
         'success' => true,
-        'data' => ['selected_plan' => $selected_plan]
+        'data' => [
+            'subscription_plan' => $data['subscription_plan']
+        ]
     ];
 }
 
-function completeRegistration($data) {
+function checkDomainAvailability($domain) {
+    global $license_db_config;
+    
     try {
-        $saas_config = getSaaSConfig();
-        
-        // Connect to license database
-        $license_pdo = new PDO(
-            "mysql:host={$saas_config['license_host']};dbname={$saas_config['license_database']}", 
-            $saas_config['license_username'], 
-            $saas_config['license_password'],
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        $license_conn = new mysqli(
+            $license_db_config['host'],
+            $license_db_config['username'],
+            $license_db_config['password'],
+            $license_db_config['database']
         );
         
-        $license_pdo->beginTransaction();
-        
-        // Generate database credentials
-        $db_name = $data['company_domain'] . '_vessels';
-        $db_username = $data['company_domain'] . '_user';
-        $db_password = generatePassword(16);
-        
-        // Get plan details
-        $stmt = $license_pdo->prepare("SELECT * FROM subscription_plans WHERE plan_code = ?");
-        $stmt->execute([$data['selected_plan']]);
-        $plan = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        // Create company record
-        $stmt = $license_pdo->prepare("
-            INSERT INTO companies (
-                company_name, company_domain, contact_email, contact_phone,
-                database_host, database_name, database_username, database_password,
-                subscription_plan, subscription_status, trial_start_date, trial_end_date,
-                max_vessels, max_users, max_storage_mb, enabled_features,
-                monthly_price, annual_price, company_type, fleet_size_estimate,
-                setup_completed, onboarding_step
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-        
-        $trial_end = $data['selected_plan'] === 'trial' ? date('Y-m-d', strtotime('+30 days')) : null;
-        
-        $stmt->execute([
-            $data['company_name'],
-            $data['company_domain'],
-            $data['admin_email'],
-            $data['contact_phone'],
-            'localhost',
-            $db_name,
-            $db_username,
-            base64_encode($db_password),
-            $data['selected_plan'],
-            'active',
-            date('Y-m-d'),
-            $trial_end,
-            $plan['max_vessels'],
-            $plan['max_users'],
-            $plan['max_storage_mb'],
-            $plan['included_features'],
-            $plan['monthly_price'],
-            $plan['annual_price'],
-            $data['company_type'],
-            (int)$data['fleet_size'],
-            true,
-            'completed'
-        ]);
-        
-        $company_id = $license_pdo->lastInsertId();
-        
-        // Create company database
-        $result = createCompanyDatabase($db_name, $db_username, $db_password, $data);
-        
-        if (!$result['success']) {
-            throw new Exception($result['message']);
+        if ($license_conn->connect_error) {
+            error_log("License DB connection failed: " . $license_conn->connect_error);
+            throw new Exception("License database connection failed: " . $license_conn->connect_error);
         }
         
-        $user_id = $result['user_id'];
+        $stmt = $license_conn->prepare("SELECT id FROM companies WHERE company_domain = ?");
+        if (!$stmt) {
+            error_log("SQL prepare failed: " . $license_conn->error);
+            throw new Exception("Database query failed");
+        }
         
-        // Add primary contact
-        $stmt = $license_pdo->prepare("
-            INSERT INTO company_contacts (company_id, contact_name, contact_email, contact_role, is_primary)
-            VALUES (?, ?, ?, 'owner', 1)
-        ");
-        $stmt->execute([$company_id, $data['admin_name'], $data['admin_email']]);
+        $stmt->bind_param("s", $domain);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        // Log the registration event
-        $stmt = $license_pdo->prepare("
-            INSERT INTO license_events (company_id, event_type, new_value, triggered_by)
-            VALUES (?, 'trial_started', ?, 'system')
-        ");
-        $stmt->execute([$company_id, $data['selected_plan']]);
+        $is_available = $result->num_rows === 0;
+        error_log("Domain check for '$domain': " . ($is_available ? "AVAILABLE" : "TAKEN") . " (found {$result->num_rows} matches)");
         
-        $license_pdo->commit();
+        $stmt->close();
+        $license_conn->close();
         
-        return [
-            'success' => true,
-            'company_id' => $company_id,
-            'user_id' => $user_id,
-            'user_name' => $data['admin_name'],
-            'user_email' => $data['admin_email'],
+        return $is_available; // Available if no rows found
+        
+    } catch (Exception $e) {
+        error_log("Domain check error for '$domain': " . $e->getMessage());
+        return false; // Assume not available on error
+    }
+}
+
+function createCompanyDatabase($data) {
+    // Include the company installer
+    require_once __DIR__ . '/company_installer.php';
+    
+    try {
+        $installer = new CompanyInstaller();
+        
+        // Prepare company data for installation
+        $company_data = [
             'company_name' => $data['company_name'],
-            'company_domain' => $data['company_domain']
+            'company_domain' => $data['company_domain'],
+            'admin_username' => 'admin',
+            'admin_password' => $data['admin_password'],
+            'admin_email' => $data['admin_email'],
+            'admin_name' => $data['admin_name'],
+            'contact_email' => $data['contact_email'],
+            'contact_phone' => $data['contact_phone'] ?? '',
+            'company_type' => $data['company_type'] ?? 'other',
+            'fleet_size' => $data['fleet_size'] ?? '1',
+            'subscription_plan' => $data['subscription_plan'] ?? 'trial'
         ];
         
-    } catch (Exception $e) {
-        if (isset($license_pdo)) {
-            $license_pdo->rollBack();
-        }
-        error_log("Registration error: " . $e->getMessage());
-        return ['success' => false, 'errors' => ['Registration failed. Please try again or contact support.']];
-    }
-}
-
-function isDomainTaken($domain) {
-    try {
-        $saas_config = getSaaSConfig();
-        $license_pdo = new PDO(
-            "mysql:host={$saas_config['license_host']};dbname={$saas_config['license_database']}", 
-            $saas_config['license_username'], 
-            $saas_config['license_password'],
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-        );
+        // Install the company
+        $result = $installer->installCompany($company_data);
         
-        $stmt = $license_pdo->prepare("SELECT id FROM companies WHERE company_domain = ?");
-        $stmt->execute([$domain]);
-        return $stmt->fetch() !== false;
-        
-    } catch (Exception $e) {
-        return true; // Assume taken if we can't check
-    }
-}
-
-function createCompanyDatabase($db_name, $db_username, $db_password, $company_data) {
-    try {
-        $mysql_root_pdo = new PDO("mysql:host=localhost", "root", "", [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-        
-        // Create database
-        $mysql_root_pdo->exec("CREATE DATABASE `$db_name`");
-        
-        // Create user and grant privileges
-        $mysql_root_pdo->exec("CREATE USER '$db_username'@'localhost' IDENTIFIED BY '$db_password'");
-        $mysql_root_pdo->exec("GRANT ALL PRIVILEGES ON `$db_name`.* TO '$db_username'@'localhost'");
-        $mysql_root_pdo->exec("FLUSH PRIVILEGES");
-        
-        // Connect to new database and create tables
-        $company_pdo = new PDO("mysql:host=localhost;dbname=$db_name", $db_username, $db_password, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-        
-        // Create basic tables structure
-        $sql = file_get_contents('vessel_logger_structure.sql');
-        if ($sql) {
-            $company_pdo->exec($sql);
+        if ($result['success']) {
+            return [
+                'success' => true,
+                'company_id' => $company_data['company_id'] ?? 1,
+                'user_id' => 1,
+                'company_url' => $result['company_url'],
+                'message' => 'Company installation completed successfully'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => $result['error']
+            ];
         }
         
-        // Create admin user
-        $stmt = $company_pdo->prepare("
-            INSERT INTO users (name, email, password, role, is_active, created_at)
-            VALUES (?, ?, ?, 'owner', 1, NOW())
-        ");
-        $stmt->execute([
-            $company_data['admin_name'],
-            $company_data['admin_email'],
-            password_hash($company_data['password'], PASSWORD_DEFAULT)
-        ]);
-        
-        $user_id = $company_pdo->lastInsertId();
-        
-        // Create support user
-        $stmt = $company_pdo->prepare("
-            INSERT INTO users (name, email, password, role, is_active, created_at)
-            VALUES ('LogicDock Support', 'support@logicdock.com', ?, 'support', 1, NOW())
-        ");
-        $stmt->execute([password_hash(generatePassword(12), PASSWORD_DEFAULT)]);
-        
-        return ['success' => true, 'user_id' => $user_id];
-        
     } catch (Exception $e) {
-        error_log("Database creation error: " . $e->getMessage());
-        return ['success' => false, 'message' => 'Failed to create company database: ' . $e->getMessage()];
+        return [
+            'success' => false,
+            'message' => 'Installation failed: ' . $e->getMessage()
+        ];
     }
 }
 

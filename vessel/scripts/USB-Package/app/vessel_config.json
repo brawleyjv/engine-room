@@ -1,0 +1,15 @@
+{
+    "vessel_name": "MV Ocean Explorer",
+    "hin": "ABC123456789",
+    "office_server_url": "https:\/\/demo.enginerm.com",
+    "registration_verified": true,
+    "registered_at": "2025-08-15 03:59:59",
+    "vessel_id": "VES001",
+    "subscription_expires": "2026-08-15",
+    "features_enabled": [
+        "logging",
+        "sync",
+        "reports",
+        "maintenance"
+    ]
+}

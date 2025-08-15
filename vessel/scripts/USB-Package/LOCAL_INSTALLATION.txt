@@ -1,0 +1,66 @@
+VESSEL LOGGER - LOCAL INSTALLATION GUIDE
+========================================
+
+QUICK START FOR LOCAL TESTING:
+------------------------------
+
+1. AUTOMATIC START (Recommended):
+   - Double-click: AUTOSTART_VESSEL_LOGGER.bat
+   - Browser will open automatically to http://localhost:8080
+
+2. MANUAL START:
+   - Double-click: START_VESSEL_LOGGER.bat
+   - Open browser to: http://localhost:8080
+
+3. DIRECT ACCESS:
+   - Setup Page: http://localhost:8080/setup_simple.php
+   - Dashboard: http://localhost:8080/dashboard_simple.php
+
+WHAT YOU'LL SEE:
+----------------
+
+Setup Page Features:
+✓ System status indicators
+✓ Vessel configuration form
+✓ Company and user setup
+✓ Sync server configuration (optional)
+
+Dashboard Features:
+✓ Real-time system status
+✓ Engine metrics display
+✓ Data summary and statistics
+✓ Quick action buttons
+✓ Recent log entries
+✓ Live time updates
+
+TESTING THE SYSTEM:
+-------------------
+
+1. Start the system (use AUTOSTART_VESSEL_LOGGER.bat)
+2. Go through setup wizard
+3. Access dashboard
+4. Try the demo features:
+   - Add Log Entry (shows form concept)
+   - Start Sync (shows sync concept)
+   - Export Data (shows export concept)
+   - View Reports (shows reporting concept)
+
+STOPPING THE SYSTEM:
+--------------------
+- Double-click: STOP_VESSEL_LOGGER.bat
+- Or use: CHECK_STATUS.bat to check if running
+
+TROUBLESHOOTING:
+----------------
+- If port 8080 is busy: Stop other web servers first
+- If autostart fails: Run START_VESSEL_LOGGER.bat manually
+- If browser doesn't open: Go to http://localhost:8080 manually
+
+PRODUCTION DEPLOYMENT:
+----------------------
+- Copy entire USB-Package folder to USB drive
+- USB drive becomes plug-and-play vessel logger
+- Works on any Windows computer
+- No installation required on target vessel computers
+
+The system is designed to be completely portable and self-contained!

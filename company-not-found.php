@@ -53,7 +53,7 @@
             <a href="index.php" class="btn btn-primary me-2">
                 <i class="fas fa-home me-2"></i>Go Home
             </a>
-            <a href="signup_test.php" class="btn btn-outline-secondary">
+            <a href="signup.php" class="btn btn-outline-secondary">
                 <i class="fas fa-plus me-2"></i>Sign Up
             </a>
         </div>

@@ -10,12 +10,28 @@ define('APP_URL_PATH', str_replace($_SERVER['DOCUMENT_ROOT'], '', __DIR__));
 define('BASE_URL', 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . APP_URL_PATH);
 
 // Master license/tenant database configuration
+// Default development configuration
 $license_db_config = [
     'host' => 'localhost',
     'database' => 'vessel_license_master',
     'username' => 'license_admin',
     'password' => 'master_license_key_2024'
 ];
+
+// Production configuration override
+if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'logicdock.org') {
+    $license_db_config = [
+        'host' => 'localhost',
+        'database' => 'vessel_license_master',
+        'username' => 'license_admin',
+        'password' => 'Zhq4VNrT'
+    ];
+}
+
+// Alternative: Include production config file if it exists
+if (file_exists(__DIR__ . '/config_production.php')) {
+    include_once __DIR__ . '/config_production.php';
+}
 
 /**
  * Get company database configuration from license system
@@ -120,7 +136,8 @@ function determineCompanyContext() {
     $install_mappings = [
         'localhost' => 'demo_company',
         'vessel.company-a.com' => 'company_a',
-        'vessel.company-b.com' => 'company_b'
+        'vessel.company-b.com' => 'company_b',
+        'logicdock.org' => 'logicdock'
     ];
     
     return $install_mappings[$host] ?? null;
@@ -235,9 +252,4 @@ function getCurrentCompany() {
     ];
 }
 
-// Initialize company database connection automatically
-if (!defined('SKIP_AUTO_INIT')) {
-    session_start();
-    $conn = initializeCompanyDatabase();
-}
 ?>

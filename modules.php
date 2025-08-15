@@ -172,7 +172,7 @@ $addon_modules = getAddOnModules();
                         <a class="nav-link" href="login_enhanced.php">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white px-3 ms-2" href="signup_test.php">
+                        <a class="nav-link btn btn-primary text-white px-3 ms-2" href="signup.php">
                             Start Free Trial
                         </a>
                     </li>
@@ -311,7 +311,7 @@ $addon_modules = getAddOnModules();
                 <p class="lead mb-4">
                     Start with a 30-day free trial, then choose the Basic Package and add modules as your needs grow.
                 </p>
-                <a href="signup_test.php" class="btn btn-primary btn-lg me-3">
+                <a href="signup.php" class="btn btn-primary btn-lg me-3">
                     <i class="fas fa-rocket me-2"></i>Start Free Trial
                 </a>
                 <a href="login_enhanced.php" class="btn btn-outline-primary btn-lg">
@@ -333,7 +333,7 @@ $addon_modules = getAddOnModules();
                     <a href="index.php" class="text-light me-3">Home</a>
                     <a href="modules.php" class="text-light me-3">Modules</a>
                     <a href="login_enhanced.php" class="text-light me-3">Login</a>
-                    <a href="signup_test.php" class="btn btn-primary btn-sm">Start Trial</a>
+                    <a href="signup.php" class="btn btn-primary btn-sm">Start Trial</a>
                 </div>
             </div>
         </div>

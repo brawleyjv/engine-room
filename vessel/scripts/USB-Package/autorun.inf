@@ -1,0 +1,5 @@
+[autorun]
+open=AUTOSTART_VESSEL_LOGGER.bat
+icon=vessel-logger.ico
+label=Vessel Logger
+action=Start Vessel Logger

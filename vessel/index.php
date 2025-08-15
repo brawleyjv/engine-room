@@ -1,38 +1,40 @@
 <?php
-// Redirect to the engine room dashboard
-header('Location: engineroom/dashboard.php');
-exit;
-?>
+/**
+ * Vessel Logger - Main Entry Point
+ * Handles initial setup, authentication, and routing
+ */
 
-// Check if user has vessel access
-$user = get_logged_in_user();
-if (!in_array($user['role'], ['crew', 'captain', 'engineer', 'admin'])) {
-    header('Location: ../office/');
+// Define application constant
+define('VESSEL_LOGGER', true);
+
+// Include core configuration
+require_once __DIR__ . '/app/config/config.php';
+
+// Set security headers
+setSecurityHeaders();
+
+// Initialize default admin user if needed
+$default_password = initializeDefaultUser();
+
+// Check if this is the initial setup
+$vessel_config = getVesselConfig('setup_completed', false);
+
+// If not set up, redirect to setup
+if (!$vessel_config && !strpos($_SERVER['REQUEST_URI'], 'setup.php')) {
+    header('Location: setup.php');
     exit;
 }
 
-$license = new LicenseManager($conn, CUSTOMER_ID);
-$license_status = $license->getLicenseStatus();
-
-// Get current vessel
-$vessel_id = $_SESSION['current_vessel_id'] ?? null;
-$vessel = null;
-if ($vessel_id) {
-    $vessel_query = "SELECT * FROM vessels WHERE VesselID = ? AND customer_id = ?";
-    $stmt = $conn->prepare($vessel_query);
-    $stmt->bind_param('is', $vessel_id, CUSTOMER_ID);
-    $stmt->execute();
-    $vessel = $stmt->get_result()->fetch_assoc();
+// If setup is complete but no user is logged in, redirect to login
+if ($vessel_config && !isLoggedIn() && !strpos($_SERVER['REQUEST_URI'], 'login.php')) {
+    header('Location: login.php');
+    exit;
 }
 
-// Get recent logs for this vessel
-$recent_logs = [];
-if ($vessel) {
-    $logs_query = "SELECT * FROM engine_logs WHERE VesselID = ? ORDER BY LogDate DESC, LogTime DESC LIMIT 10";
-    $stmt = $conn->prepare($logs_query);
-    $stmt->bind_param('i', $vessel_id);
-    $stmt->execute();
-    $recent_logs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+// If logged in, redirect to dashboard
+if (isLoggedIn() && ($_SERVER['REQUEST_URI'] === '/' || basename($_SERVER['REQUEST_URI']) === 'index.php')) {
+    header('Location: dashboard.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -40,188 +42,188 @@ if ($vessel) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vessel Dashboard - <?php echo $vessel ? htmlspecialchars($vessel['VesselName']) : 'Select Vessel'; ?></title>
-    <link rel="stylesheet" href="../style.css">
+    <title>Vessel Logger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .metric-card {
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .welcome-container {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 3rem;
             text-align: center;
+            max-width: 600px;
+            margin: 2rem;
         }
-        .metric-value {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 10px 0;
+        
+        .vessel-icon {
+            font-size: 4rem;
+            color: #3498db;
+            margin-bottom: 1.5rem;
         }
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
+        
+        .btn-action {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
         }
-        .status-online { background: #28a745; }
-        .status-warning { background: #ffc107; }
-        .status-offline { background: #dc3545; }
+        
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .vessel-icon {
+                font-size: 3rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <?php show_license_banner(); ?>
-    
-    <div class="container">
-        <header style="background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h1>⚓ Vessel Dashboard</h1>
-                    <?php if ($vessel): ?>
-                        <p><?php echo htmlspecialchars($vessel['VesselName']); ?> - Engine Room Control</p>
-                    <?php else: ?>
-                        <p>No vessel selected</p>
-                    <?php endif; ?>
-                </div>
-                <div style="text-align: right;">
-                    <p>Welcome, <?php echo htmlspecialchars($user['full_name']); ?></p>
-                    <p><small><?php echo ucfirst($user['role']); ?></small></p>
-                    <div>
-                        <a href="../select_vessel.php" style="color: white; text-decoration: underline; margin-right: 10px;">Switch Vessel</a>
-                        <a href="../logout.php" style="color: white; text-decoration: underline;">Logout</a>
-                    </div>
-                </div>
+    <div class="welcome-container">
+        <div class="vessel-icon">
+            <i class="fas fa-ship"></i>
+        </div>
+        
+        <h1 class="h2 mb-3">Vessel Logger</h1>
+        <p class="text-muted mb-4">
+            Professional vessel management and engine logging system
+        </p>
+        
+        <?php if (!$vessel_config): ?>
+            <!-- Setup Required -->
+            <div class="alert alert-warning">
+                <h5><i class="fas fa-exclamation-triangle me-2"></i>Setup Required</h5>
+                <p>This vessel logger needs to be configured before use.</p>
             </div>
-        </header>
-
-        <?php if (!$vessel): ?>
-            <div style="background: #fff3cd; color: #856404; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
-                <h3>No Vessel Selected</h3>
-                <p>Please select a vessel to access the dashboard.</p>
-                <a href="../select_vessel.php" style="background: #007cba; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
-                    Select Vessel
-                </a>
-            </div>
-        <?php else: ?>
             
-            <!-- Engine Status Overview -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                <?php
-                // Get latest engine data
-                $engines = ['main', 'auxiliary', 'emergency'];
-                foreach ($engines as $engine_type):
-                    $engine_query = "SELECT * FROM engine_logs WHERE VesselID = ? AND EngineType = ? ORDER BY LogDate DESC, LogTime DESC LIMIT 1";
-                    $stmt = $conn->prepare($engine_query);
-                    $stmt->bind_param('is', $vessel_id, $engine_type);
-                    $stmt->execute();
-                    $latest_data = $stmt->get_result()->fetch_assoc();
-                ?>
-                    <div class="metric-card">
-                        <h4><?php echo ucfirst($engine_type); ?> Engine</h4>
-                        <?php if ($latest_data): ?>
-                            <div class="metric-value" style="color: #28a745;">
-                                <span class="status-indicator status-online"></span>
-                                Running
-                            </div>
-                            <p><strong>RPM:</strong> <?php echo number_format($latest_data['RPM'] ?? 0); ?></p>
-                            <p><strong>Temp:</strong> <?php echo number_format($latest_data['CoolantTemp'] ?? 0, 1); ?>°C</p>
-                            <small>Updated: <?php echo date('H:i', strtotime($latest_data['LogTime'])); ?></small>
-                        <?php else: ?>
-                            <div class="metric-value" style="color: #dc3545;">
-                                <span class="status-indicator status-offline"></span>
-                                No Data
-                            </div>
-                            <p>No recent logs</p>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-                
-                <!-- Generator Status -->
-                <div class="metric-card">
-                    <h4>Generators</h4>
-                    <?php
-                    $gen_query = "SELECT COUNT(*) as gen_count FROM generator_logs WHERE VesselID = ? AND LogDate = CURDATE()";
-                    $stmt = $conn->prepare($gen_query);
-                    $stmt->bind_param('i', $vessel_id);
-                    $stmt->execute();
-                    $gen_data = $stmt->get_result()->fetch_assoc();
-                    ?>
-                    <div class="metric-value" style="color: #007cba;">
-                        <?php echo $gen_data['gen_count']; ?>
-                    </div>
-                    <p>Logs Today</p>
-                </div>
+            <a href="setup.php" class="btn btn-primary btn-action">
+                <i class="fas fa-cog me-2"></i>Start Setup
+            </a>
+            
+            <?php if ($default_password): ?>
+            <div class="alert alert-info mt-3">
+                <strong>Default Admin Password Created:</strong><br>
+                Check the file: <code>data/default_admin_password.txt</code>
             </div>
-
-            <!-- Quick Actions -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                <a href="../add_log.php" style="background: #28a745; color: white; padding: 30px; text-decoration: none; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <h3>📝 Add Log Entry</h3>
-                    <p>Record engine room data</p>
-                </a>
-                
-                <a href="../view_logs.php?vessel_id=<?php echo $vessel_id; ?>" style="background: #007cba; color: white; padding: 30px; text-decoration: none; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <h3>📊 View Logs</h3>
-                    <p>Browse historical data</p>
-                </a>
-                
-                <a href="../graph_logs.php?vessel_id=<?php echo $vessel_id; ?>" style="background: #6f42c1; color: white; padding: 30px; text-decoration: none; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <h3>📈 Charts</h3>
-                    <p>Visual analytics</p>
-                </a>
-                
-                <a href="../maintenance.php" style="background: #fd7e14; color: white; padding: 30px; text-decoration: none; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <h3>🔧 Maintenance</h3>
-                    <p>Schedule & track</p>
-                </a>
+            <?php endif; ?>
+            
+        <?php else: ?>
+            <!-- Setup Complete -->
+            <div class="alert alert-success">
+                <h5><i class="fas fa-check-circle me-2"></i>System Ready</h5>
+                <p>Vessel logger is configured and ready for use.</p>
             </div>
-
-            <!-- Recent Activity -->
-            <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                <h2>Recent Activity</h2>
-                <?php if (empty($recent_logs)): ?>
-                    <p style="color: #666; font-style: italic;">No recent logs found. <a href="../add_log.php">Add your first log entry</a>.</p>
-                <?php else: ?>
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: #f8f9fa;">
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Date/Time</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Engine</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">RPM</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Temp</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Pressure</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Engineer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($recent_logs as $log): ?>
-                                <tr style="border-bottom: 1px solid #dee2e6;">
-                                    <td style="padding: 12px;">
-                                        <?php echo date('M j', strtotime($log['LogDate'])) . ' ' . date('H:i', strtotime($log['LogTime'])); ?>
-                                    </td>
-                                    <td style="padding: 12px;"><?php echo ucfirst($log['EngineType']); ?></td>
-                                    <td style="padding: 12px;"><?php echo number_format($log['RPM'] ?? 0); ?></td>
-                                    <td style="padding: 12px;"><?php echo number_format($log['CoolantTemp'] ?? 0, 1); ?>°C</td>
-                                    <td style="padding: 12px;"><?php echo number_format($log['OilPressure'] ?? 0, 1); ?> bar</td>
-                                    <td style="padding: 12px;"><?php echo htmlspecialchars($log['Engineer'] ?? 'Unknown'); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    
-                    <div style="margin-top: 20px; text-align: center;">
-                        <a href="../view_logs.php?vessel_id=<?php echo $vessel_id; ?>" style="color: #007cba;">
-                            View All Logs →
-                        </a>
-                    </div>
-                <?php endif; ?>
+            
+            <a href="login.php" class="btn btn-primary btn-action">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+            
+            <a href="dashboard.php" class="btn btn-outline-primary btn-action">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+        <?php endif; ?>
+        
+        <!-- System Status -->
+        <div class="status-card">
+            <h6 class="mb-3">
+                <i class="fas fa-info-circle me-2"></i>System Status
+            </h6>
+            
+            <div class="status-item">
+                <span>Version:</span>
+                <span class="fw-bold"><?= VESSEL_APP_VERSION ?></span>
             </div>
+            
+            <div class="status-item">
+                <span>Setup Status:</span>
+                <span class="<?= $vessel_config ? 'text-success' : 'text-warning' ?>">
+                    <i class="fas fa-<?= $vessel_config ? 'check' : 'exclamation-triangle' ?> me-1"></i>
+                    <?= $vessel_config ? 'Complete' : 'Required' ?>
+                </span>
+            </div>
+            
+            <div class="status-item">
+                <span>Database:</span>
+                <span class="<?= file_exists(VESSEL_DB_FILE) ? 'text-success' : 'text-danger' ?>">
+                    <i class="fas fa-<?= file_exists(VESSEL_DB_FILE) ? 'check' : 'times' ?> me-1"></i>
+                    <?= file_exists(VESSEL_DB_FILE) ? 'Connected' : 'Not Found' ?>
+                </span>
+            </div>
+            
+            <div class="status-item">
+                <span>Internet:</span>
+                <span class="<?= isOnline() ? 'text-success' : 'text-warning' ?>">
+                    <i class="fas fa-<?= isOnline() ? 'wifi' : 'wifi-slash' ?> me-1"></i>
+                    <?= isOnline() ? 'Connected' : 'Offline' ?>
+                </span>
+            </div>
+            
+            <?php if ($vessel_config): ?>
+            <div class="status-item">
+                <span>Vessel:</span>
+                <span class="fw-bold"><?= htmlspecialchars(getVesselConfig('vessel_name', 'Not Set')) ?></span>
+            </div>
+            
+            <div class="status-item">
+                <span>Company:</span>
+                <span class="fw-bold"><?= htmlspecialchars(getVesselConfig('company_name', 'Not Set')) ?></span>
+            </div>
+            <?php endif; ?>
+        </div>
+        
+        <!-- Quick Actions -->
+        <?php if ($vessel_config): ?>
+        <div class="mt-3">
+            <small class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                <?= isOnline() ? 'Online - Data will sync automatically' : 'Offline - Data saved locally' ?>
+            </small>
+        </div>
         <?php endif; ?>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Auto-refresh page every 5 minutes to keep data current
-        setTimeout(function() {
-            location.reload();
-        }, 300000);
+        // Auto-refresh online status every 30 seconds
+        setInterval(function() {
+            if (window.location.pathname.endsWith('index.php') || window.location.pathname === '/') {
+                window.location.reload();
+            }
+        }, 30000);
     </script>
 </body>
 </html>

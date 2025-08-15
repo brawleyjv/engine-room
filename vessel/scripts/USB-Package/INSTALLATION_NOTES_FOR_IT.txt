@@ -1,0 +1,43 @@
+VESSEL LOGGER - IT INSTALLATION NOTES
+=====================================
+
+This package contains the Vessel Logger application but requires
+additional components to be fully functional:
+
+REQUIRED COMPONENTS NOT INCLUDED:
+
+1. APACHE WEB SERVER
+   - Download: Apache HTTP Server 2.4.x Windows binaries
+   - Extract to: xampp-portable\apache\
+   - Required files:
+     * bin\httpd.exe
+     * conf\httpd.conf (will be overwritten by vessel config)
+     * modules\*.so (all standard modules)
+
+2. PHP RUNTIME  
+   - Download: PHP 8.2.x Windows binaries (Thread Safe)
+   - Extract to: xampp-portable\php\
+   - Required extensions: sqlite3, pdo_sqlite, openssl, curl, mbstring
+   - Use provided php.ini configuration
+
+3. SQLITE COMMAND LINE (Optional)
+   - Download: sqlite3.exe from sqlite.org
+   - Place in: tools\sqlite3.exe
+   - Used for database maintenance and debugging
+
+DOWNLOAD SOURCES:
+- Apache: https://httpd.apache.org/download.cgi
+- PHP: https://windows.php.net/download/
+- SQLite: https://www.sqlite.org/download.html
+
+PACKAGE SIZE ESTIMATE:
+- Apache: ~15MB
+- PHP: ~35MB  
+- SQLite: ~1MB
+- Total additional: ~51MB
+
+TESTING:
+After adding components, test with: start-vessel-logger.bat
+Should open browser to http://localhost:8080/
+
+Created: Thu 08/14/2025 18:46:36.38

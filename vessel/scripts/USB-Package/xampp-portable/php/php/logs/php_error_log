@@ -1,0 +1,1766 @@
+[25-Jul-2025 19:43:14 Europe/Berlin] PHP Parse error:  Unclosed '{' on line 7 in c:\xampp\htdocs\enginerm\add_log.php on line 359
+[25-Jul-2025 19:43:40 Europe/Berlin] PHP Parse error:  Unmatched '}' in c:\xampp\htdocs\enginerm\add_log.php on line 75
+[25-Jul-2025 19:43:59 Europe/Berlin] PHP Parse error:  Unclosed '{' on line 7 in c:\xampp\htdocs\enginerm\add_log.php on line 359
+[25-Jul-2025 19:45:16 Europe/Berlin] PHP Parse error:  Unclosed '{' on line 7 in c:\xampp\htdocs\enginerm\add_log.php on line 361
+[25-Jul-2025 20:12:35 Europe/Berlin] Generators submission - Side value: 'Starboard', Entry date: '2025-07-24', Recorded by: 'Jack Brawley'
+[25-Jul-2025 20:22:26 Europe/Berlin] POST data received: Array
+(
+    [equipment_type] => generators
+    [side] => Starboard
+    [entry_date] => 2025-07-24
+    [recorded_by] => Jack Brawley
+    [me_rpm] => 
+    [me_main_hrs] => 
+    [me_oil_pressure] => 
+    [me_oil_temp] => 
+    [me_fuel_press] => 
+    [me_water_temp] => 
+    [gen_hrs] => 14712
+    [gen_oil_press] => 59
+    [gen_fuel_press] => 65
+    [gen_water_temp] => 168
+    [gear_hrs] => 
+    [gear_oil_press] => 
+    [gear_temp] => 
+    [notes] => 
+)
+
+[25-Jul-2025 20:22:26 Europe/Berlin] Equipment: 'generators', Side: 'Starboard', Date: '2025-07-24', Recorded by: 'Jack Brawley'
+[25-Jul-2025 20:22:26 Europe/Berlin] Generators submission - Side value: 'Starboard', Entry date: '2025-07-24', Recorded by: 'Jack Brawley'
+[25-Jul-2025 20:22:26 Europe/Berlin] About to execute SQL: INSERT INTO generators (EntryDate, Side, GenHrs, OilPress, FuelPress, WaterTemp, RecordedBy, Notes) VALUES ('2025-07-24', 'Starboard', 14712, 59, 65, 168, 'Jack Brawley', '')
+[25-Jul-2025 21:08:22 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\edit_log.php:93
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\edit_log.php(93): mysqli_stmt->bind_param('ssiiiissi', 'Port', '2025-07-24', '2555', '340', '108', 'Jack Brawley', '', '2')
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\edit_log.php on line 93
+[25-Jul-2025 22:49:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ID' in 'mainengines' in C:\xampp\htdocs\enginerm\setup_multivessel.php:37
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\setup_multivessel.php(37): mysqli->query('ALTER TABLE mai...')
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\setup_multivessel.php on line 37
+[25-Jul-2025 22:53:35 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'VesselID' in 'where clause' in C:\xampp\htdocs\enginerm\manage_vessels.php:82
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(82): mysqli->prepare('SELECT COUNT(*)...')
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 82
+[25-Jul-2025 22:54:39 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ID' in 'mainengines' in C:\xampp\htdocs\enginerm\setup_multivessel.php:37
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\setup_multivessel.php(37): mysqli->query('ALTER TABLE mai...')
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\setup_multivessel.php on line 37
+[25-Jul-2025 22:57:50 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'Rusty Zeller' for key 'VesselName' in C:\xampp\htdocs\enginerm\manage_vessels.php:82
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(82): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 82
+[25-Jul-2025 23:57:07 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\edit_log.php:93
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\edit_log.php(93): mysqli_stmt->bind_param('ssiiiissi', 'Port', '2025-07-23', '19711', '360', '136', 'Barley Johns', '', '19')
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\edit_log.php on line 93
+[26-Jul-2025 00:38:28 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "class" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 17
+[26-Jul-2025 00:59:54 Europe/Berlin] PHP Warning:  Undefined array key "GenMin" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 00:59:54 Europe/Berlin] PHP Warning:  Undefined array key "GenMax" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:00:52 Europe/Berlin] PHP Warning:  Undefined array key "GenMin" in C:\xampp\htdocs\enginerm\edit_vessel_scales.php on line 161
+[26-Jul-2025 01:00:52 Europe/Berlin] PHP Warning:  Undefined array key "GenMax" in C:\xampp\htdocs\enginerm\edit_vessel_scales.php on line 165
+[26-Jul-2025 01:03:06 Europe/Berlin] PHP Warning:  Undefined array key "GenMin" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:03:06 Europe/Berlin] PHP Warning:  Undefined array key "GenMax" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:05:21 Europe/Berlin] PHP Warning:  Undefined array key "GenMin" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:05:21 Europe/Berlin] PHP Warning:  Undefined array key "GenMax" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:05:38 Europe/Berlin] PHP Warning:  Undefined array key "GenMin" in C:\xampp\htdocs\enginerm\edit_vessel_scales.php on line 161
+[26-Jul-2025 01:05:38 Europe/Berlin] PHP Warning:  Undefined array key "GenMax" in C:\xampp\htdocs\enginerm\edit_vessel_scales.php on line 165
+[26-Jul-2025 01:07:01 Europe/Berlin] PHP Warning:  Undefined array key "GenMin" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:07:01 Europe/Berlin] PHP Warning:  Undefined array key "GenMax" in C:\xampp\htdocs\enginerm\manage_vessels.php on line 454
+[26-Jul-2025 01:16:15 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "=", expecting end of file in Command line code on line 1
+[26-Jul-2025 01:16:58 Europe/Berlin] PHP Fatal error:  Cannot redeclare get_current_user() in C:\xampp\htdocs\enginerm\auth_functions.php on line 31
+[26-Jul-2025 01:19:21 Europe/Berlin] PHP Fatal error:  Cannot redeclare get_current_user() in C:\xampp\htdocs\enginerm\auth_functions.php on line 31
+[26-Jul-2025 01:29:26 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Can't create table `vesseldata`.`mainengines` (errno: 150 "Foreign key constraint is incorrectly formed") in C:\xampp\htdocs\enginerm\setup_user_system.php:78
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\setup_user_system.php(78): mysqli->query('ALTER TABLE mai...')
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\setup_user_system.php on line 78
+[26-Jul-2025 02:00:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function get_current_vessel() in C:\xampp\htdocs\enginerm\select_vessel.php:51
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\enginerm\select_vessel.php on line 51
+[26-Jul-2025 15:31:14 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:31:14 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:31:14 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:31:14 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:31:14 Europe/Berlin] Index.php: Session username: jvbrawley
+[26-Jul-2025 15:31:14 Europe/Berlin] Index.php: Redirecting to main.php
+[26-Jul-2025 15:31:15 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:31:15 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:31:15 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:31:15 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:31:15 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:31:19 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:31:19 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:31:19 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:31:19 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:31:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:31:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:31:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:31:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:43:43 Europe/Berlin] PHP Warning:  Undefined array key "HTTP_HOST" in C:\xampp\htdocs\omc\config.php on line 29
+[26-Jul-2025 15:43:43 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:43:43 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:43:43 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:43:43 Europe/Berlin] BASE_URL: https://www.app.ozarkmadecrafts.com/
+[26-Jul-2025 15:44:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:44:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:44:47 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:44:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:44:51 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:44:54 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:54 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:54 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:54 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:44:56 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:56 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:56 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:56 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:44:56 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:44:57 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:57 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:57 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:57 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:44:59 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:44:59 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:44:59 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:44:59 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:45:00 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:45:00 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:45:00 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:45:00 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:45:00 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:45:02 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:45:02 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:45:02 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:45:02 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:45:04 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:45:04 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:45:04 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:45:04 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:45:04 Europe/Berlin] Database connection error: SQLSTATE[HY000] [1045] Access denied for user 'root2'@'localhost' (using password: NO)
+[26-Jul-2025 15:45:04 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root2'@'localhost' (using password: NO) in C:\xampp\htdocs\omc\Models\Database.php:33
+Stack trace:
+#0 C:\xampp\htdocs\omc\Models\Database.php(39): MyApp\Models\Database->connect()
+#1 C:\xampp\htdocs\omc\Models\VendorModel.php(14): MyApp\Models\Database->getConnection()
+#2 C:\xampp\htdocs\omc\Controllers\VendorController.php(15): MyApp\Models\VendorModel->__construct(Object(MyApp\Models\Database))
+#3 C:\xampp\htdocs\omc\Views\vendors\list_vendors.php(15): MyApp\Controllers\VendorController->__construct(Object(MyApp\Models\Database))
+#4 {main}
+  thrown in C:\xampp\htdocs\omc\Models\Database.php on line 33
+[26-Jul-2025 15:48:23 Europe/Berlin] PHP Warning:  Undefined array key "HTTP_HOST" in C:\xampp\htdocs\omc\config.php on line 29
+[26-Jul-2025 15:48:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:23 Europe/Berlin] BASE_URL: https://www.app.ozarkmadecrafts.com/
+[26-Jul-2025 15:48:39 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:39 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:39 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:39 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:43 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:43 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:43 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:43 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:43 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:48:44 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:44 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:44 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:44 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:45 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:48:46 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:46 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:46 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:46 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:49 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:48:50 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:50 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:50 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:50 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:52 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:52 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:52 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:52 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:52 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:48:53 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:53 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:53 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:53 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:57 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:48:57 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:48:57 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:48:57 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:48:57 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:54:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:54:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:54:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:54:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:55:41 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:55:41 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:55:41 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:55:41 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:07 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:07 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:07 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:07 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:07 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:59:40 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:40 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:40 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:40 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:42 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:42 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:42 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:42 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 15:59:43 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:43 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:43 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:43 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:46 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:46 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:46 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:46 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 15:59:52 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 15:59:52 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 15:59:52 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 15:59:52 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:00:01 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:00:01 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:00:01 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:00:01 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:02:30 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:02:30 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:02:30 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:02:30 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:02:32 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:02:32 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:02:32 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:02:32 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:02:44 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:02:44 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:02:44 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:02:44 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:02:46 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\customers\search_customer.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\customers\search_customer.php on line 10
+[26-Jul-2025 16:02:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:02:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:02:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:02:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:05:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:05:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:05:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:05:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:05:24 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:05:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:05:25 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:05:25 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:05:25 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:05:26 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:05:26 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:05:26 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:05:26 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:07:46 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:07:46 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:07:46 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:07:46 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:07:46 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:07:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:07:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:07:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:07:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:07:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:07:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:07:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:07:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:08:00 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:08:00 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:08:00 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:08:00 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:08:11 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:08:11 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:08:11 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:08:11 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:08:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:08:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:08:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:08:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:08:20 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:08:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:08:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:08:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:08:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:08:22 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:08:22 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:08:22 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:08:22 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:10:25 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:10:25 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:10:25 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:10:25 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:10:50 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:10:50 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:10:50 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:10:50 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:10:50 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:10:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:10:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:10:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:10:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:10:54 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:10:54 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:10:54 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:10:54 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:12:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:12:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:12:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:12:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:14:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:14:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:14:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:14:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:14:31 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:14:31 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:14:31 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:14:31 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:14:31 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:14:32 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:14:32 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:14:32 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:14:32 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:14:34 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:14:34 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:14:34 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:14:34 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:16:17 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:16:17 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:16:17 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:16:17 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:16:17 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:16:18 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:16:18 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:16:18 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:16:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:16:19 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:16:19 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:16:19 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:16:19 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:16:21 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:16:21 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:16:21 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:16:21 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:16:21 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:16:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:16:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:16:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:16:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:16:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:16:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:16:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:16:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:17:22 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:17:22 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:17:22 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:17:22 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:17:22 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:17:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:17:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:17:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:17:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:17:25 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:17:25 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:17:25 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:17:25 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:17:37 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\customers\search_customer.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\customers\search_customer.php on line 10
+[26-Jul-2025 16:18:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\customers\search_customer.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\customers\search_customer.php on line 10
+[26-Jul-2025 16:28:32 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:28:32 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:28:32 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:28:32 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:28:46 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:28:46 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:28:46 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:28:46 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:19 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:19 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:19 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:19 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:19 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:19 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:19 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:19 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:22 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:22 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:22 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:22 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:42 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:42 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:42 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:42 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:29:44 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:44 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:44 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:44 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:48 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:48 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:48 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:48 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:49 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:29:50 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:50 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:50 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:50 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:29:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:29:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:29:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:29:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:31:21 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:31:21 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:31:21 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:31:21 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:32:26 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:32:26 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:32:26 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:32:26 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:32:30 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:32:30 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:32:30 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:32:30 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:32:32 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:32:32 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:32:32 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:32:32 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:34:53 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:34:54 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:34:54 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:34:54 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:35:03 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:35:03 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:35:03 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:35:03 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:35:03 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:35:04 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:35:04 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:35:04 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:35:04 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:35:06 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:35:06 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:35:06 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:35:06 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:35:11 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:35:11 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:35:11 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:35:11 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:36:18 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:36:18 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:36:18 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:36:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:36:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:36:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:36:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:36:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:38:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:38:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:38:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:38:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:38:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:38:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:38:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:38:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:38:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:38:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:38:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:38:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:38:53 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:38:53 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:38:53 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:38:53 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:38:55 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:38:55 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:38:55 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:38:55 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:30 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:30 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:30 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:30 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:30 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:39:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:35 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:35 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:35 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:35 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:44 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:44 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:44 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:44 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:44 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:39:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:49 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:39:50 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:50 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:50 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:50 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:52 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:52 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:52 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:52 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:54 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:54 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:54 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:54 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:54 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:39:55 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:55 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:55 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:55 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:57 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:57 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:57 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:57 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:39:57 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:39:58 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:39:58 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:39:58 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:39:58 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:05 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:05 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:05 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:05 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:05 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:40:09 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:09 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:09 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:09 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:11 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:11 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:11 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:11 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:16 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:16 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:16 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:16 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:16 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:40:18 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:18 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:18 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:20 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:40:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:40:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:40:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:40:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:40:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:46:37 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:46:37 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:46:37 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:46:37 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:46:42 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:46:42 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:46:42 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:46:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:46:42 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:46:43 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:46:43 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:46:43 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:46:43 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:46:44 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:46:44 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:46:44 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:46:44 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:47:00 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:47:00 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:47:00 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:47:00 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:47:00 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:47:01 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:47:01 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:47:01 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:47:01 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:47:03 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:47:03 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:47:03 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:47:03 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:26 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:26 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:26 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:26 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:26 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:49:28 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:28 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:28 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:28 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:30 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:30 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:30 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:30 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:32 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:32 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:32 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:32 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:32 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:49:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:43 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:43 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:43 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:43 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:49:43 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:49:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:49:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:49:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:49:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:53:31 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "use" in C:\xampp\htdocs\omc\Views\vendors\index.php on line 90
+[26-Jul-2025 16:55:09 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:09 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:09 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:09 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:55:18 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:18 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:18 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:55:18 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:55:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:55:22 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:22 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:22 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:22 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:55:22 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:55:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:55:25 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:25 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:25 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:25 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:55:25 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 16:55:26 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:55:26 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:55:26 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:55:26 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:59:29 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:59:29 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:59:29 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:59:29 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:59:34 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:59:34 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:59:34 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:59:34 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 16:59:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 16:59:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 16:59:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 16:59:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:00:03 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:00:03 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:00:03 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:00:03 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:00:03 Europe/Berlin] Equipment query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'dbs14052036.equipment' doesn't exist
+[26-Jul-2025 17:00:05 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:00:05 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:00:05 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:00:05 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:00:08 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:00:08 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:00:08 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:00:08 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:00:08 Europe/Berlin] Equipment query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'dbs14052036.equipment' doesn't exist
+[26-Jul-2025 17:02:13 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:02:13 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:02:13 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:02:13 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:19:13 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:19:13 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:19:13 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:19:13 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:19:13 Europe/Berlin] Error adding equipment: Equipment name and type are required
+[26-Jul-2025 17:19:14 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:19:14 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:19:14 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:19:14 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:20:14 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:20:14 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:20:14 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:20:14 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:20:15 Europe/Berlin] Error adding equipment: Equipment name and type are required
+[26-Jul-2025 17:20:15 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:20:15 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:20:15 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:20:15 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:26:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:26:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:26:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:26:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:26:20 Europe/Berlin] POST data received: Array
+(
+    [equipment_name] => OX8
+    [type] => Machinery
+    [manufacturer] => Ozark Made
+    [model] => Ox4x4
+    [serial_number] => ox4x42024
+    [purchase_date] => 2024-02-26
+    [purchase_price] => 
+    [status] => Active
+    [location] => Rogersville, Mo
+    [description] => 
+    [maintenance_notes] => 
+)
+
+[26-Jul-2025 17:26:20 Europe/Berlin] Equipment name: 'OX8', Equipment type: 'Machinery'
+[26-Jul-2025 17:26:20 Europe/Berlin] Equipment data prepared: Array
+(
+    [equipment_name] => OX8
+    [equipment_type] => Machinery
+    [manufacturer] => Ozark Made
+    [model_number] => Ox4x4
+    [serial_number] => ox4x42024
+    [purchase_date] => 2024-02-26
+    [purchase_price] => 
+    [current_value] => 
+    [warranty_expiration] => 
+    [last_maintenance_date] => 
+    [next_maintenance_date] => 
+    [maintenance_interval_days] => 365
+    [operating_hours] => 0
+    [power_consumption] => 
+    [dimensions] => 
+    [weight_kg] => 
+    [location] => Rogersville, Mo
+    [status] => Active
+    [notes] => 
+)
+
+[26-Jul-2025 17:26:20 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:26:20 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:26:20 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:26:20 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:28:01 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:28:01 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:28:01 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:28:01 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:28:01 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:28:01 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:28:01 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:28:01 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:31 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:31 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:31 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:31 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:34 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:34 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:34 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:34 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:37 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:37 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:37 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:37 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:40 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:40 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:40 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:40 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:52 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:52 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:52 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:52 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:52 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 17:29:55 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:55 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:55 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:55 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:29:58 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:29:58 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:29:58 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:29:58 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:30:05 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:30:05 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:30:05 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:30:05 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:30:05 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 17:30:07 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:30:07 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:30:07 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:30:07 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:30:11 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:30:11 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:30:11 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:30:11 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:31:57 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:31:57 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:31:57 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:31:57 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:32:35 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:32:35 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:32:35 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:32:35 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:32:35 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 17:32:37 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:32:37 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:32:37 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:32:37 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:32:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:32:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:32:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:32:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:32:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_PATH" in C:\xampp\htdocs\omc\Views\Users\list_users.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 2
+[26-Jul-2025 17:35:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_PATH" in C:\xampp\htdocs\omc\Views\Users\list_users.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 2
+[26-Jul-2025 17:35:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_PATH" in C:\xampp\htdocs\omc\Views\Users\list_users.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 2
+[26-Jul-2025 17:35:06 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:35:06 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:35:06 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:35:06 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:35:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_PATH" in C:\xampp\htdocs\omc\Views\Users\list_users.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 2
+[26-Jul-2025 17:40:05 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:40:05 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:40:05 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:40:05 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:40:05 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:54:33 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:54:33 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:54:33 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Warning:  Undefined array key "username" in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:54:33 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\Views\Users\list_users.php on line 88
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Warning:  Undefined array key "HTTP_HOST" in C:\xampp\htdocs\omc\config.php on line 29
+[26-Jul-2025 17:59:25 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 17:59:25 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 17:59:25 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 17:59:25 Europe/Berlin] BASE_URL: https://www.app.ozarkmadecrafts.com/
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 17:59:25 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\omc\debug_users_table.php on line 24
+[26-Jul-2025 18:01:01 Europe/Berlin] PHP Warning:  Undefined array key "HTTP_HOST" in C:\xampp\htdocs\omc\config.php on line 29
+[26-Jul-2025 18:01:01 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:01:01 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:01:01 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:01:01 Europe/Berlin] BASE_URL: https://www.app.ozarkmadecrafts.com/
+[26-Jul-2025 18:02:54 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:02:54 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:02:54 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:02:54 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:05:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:05:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:05:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:05:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:40:39 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:40:39 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:40:39 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:40:39 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:40:50 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:40:50 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:40:50 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:40:50 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:40:50 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 18:40:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:40:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:40:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:40:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:40:59 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:40:59 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:40:59 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:40:59 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:14 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:14 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:14 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:14 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:14 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 18:42:19 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:19 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:19 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:19 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:37 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:37 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:37 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:37 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:37 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 18:42:39 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:39 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:39 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:39 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:52 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:52 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:52 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:52 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:55 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:55 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:55 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:55 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:42:59 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:42:59 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:42:59 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:42:59 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:43:02 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 18:43:02 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 18:43:02 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 18:43:02 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 18:43:02 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:08:17 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:17 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:17 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:17 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:08:23 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:23 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:23 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:23 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:08:23 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:08:26 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:26 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:26 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:26 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:08:35 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:35 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:35 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:35 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:08:35 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:08:39 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:39 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:39 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:39 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:08:42 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:42 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:42 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:08:49 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:08:49 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:08:49 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:08:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:10:21 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:10:21 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:10:21 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:10:21 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:10:21 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:17:06 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:17:06 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:17:06 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:17:06 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:18:12 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:18:12 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:18:12 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:18:12 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:18:12 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:18:15 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:18:15 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:18:15 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:18:15 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:18:51 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:18:51 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:18:51 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:18:51 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:18:51 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:18:53 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:18:53 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:18:53 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:18:53 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:19:14 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:19:14 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:19:14 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:19:14 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:19:48 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:19:48 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:19:48 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:19:48 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:26:27 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:26:27 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:26:27 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:26:27 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:26:27 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:26:36 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:26:36 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:26:36 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:26:36 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:26:44 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:26:44 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:26:44 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:26:44 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:26:44 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:26:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:26:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:26:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:26:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:26:48 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:26:48 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:26:48 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:26:48 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:27:04 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:27:04 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:27:04 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:27:04 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:27:09 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:27:09 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:27:09 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:27:09 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:32:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:32:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:32:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:32:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:33:24 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:33:24 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:33:24 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:33:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:33:24 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:33:30 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:33:30 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:33:30 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:33:30 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:33:42 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:33:42 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:33:42 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:33:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:35:06 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:35:06 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:35:06 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:35:06 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:35:16 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:35:16 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:35:16 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:35:16 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:35:18 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:35:18 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:35:18 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:35:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:35:42 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:35:42 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:35:42 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:35:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:36:06 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:36:06 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:36:06 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:36:06 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:36:08 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:36:08 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:36:08 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:36:08 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:36:39 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:36:39 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:36:39 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:36:39 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:36:55 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:36:55 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:36:55 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:36:55 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:36:57 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:36:57 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:36:57 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:36:57 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:47:12 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:47:12 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:47:12 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:47:12 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:47:35 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:47:35 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:47:35 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:47:35 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:47:35 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:47:35 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:47:35 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:47:35 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:47:39 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:47:39 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:47:39 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:47:39 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:48:04 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:48:04 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:48:04 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:48:04 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:48:13 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:48:13 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:48:13 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:48:13 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:48:13 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:48:13 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:48:13 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:48:13 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:51:45 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:51:45 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:51:45 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:51:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:51:45 Europe/Berlin] Main.php: Session username: jvbrawley
+[26-Jul-2025 23:51:47 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:51:47 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:51:47 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:51:47 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:51:48 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\materials\add_material.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\materials\add_material.php on line 10
+[26-Jul-2025 23:56:55 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "use" in C:\xampp\htdocs\omc\test_add_material.php on line 28
+[26-Jul-2025 23:57:10 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\materials\add_material.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\materials\add_material.php on line 10
+[26-Jul-2025 23:57:30 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\materials\add_material.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\materials\add_material.php on line 10
+[26-Jul-2025 23:57:32 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:57:32 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:57:32 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:57:32 Europe/Berlin] BASE_URL: http://localhost/omc/
+[26-Jul-2025 23:57:35 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "BASE_URL" in C:\xampp\htdocs\omc\Views\materials\add_material.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\omc\Views\materials\add_material.php on line 10
+[26-Jul-2025 23:59:07 Europe/Berlin] DB_HOST: localhost
+[26-Jul-2025 23:59:07 Europe/Berlin] DB_NAME: dbs14052036
+[26-Jul-2025 23:59:07 Europe/Berlin] DB_USER: root2
+[26-Jul-2025 23:59:07 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:18 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:18 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:18 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:34 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:34 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:34 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:34 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:40 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:40 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:40 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:40 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:42 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:42 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:42 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:42 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:42 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:00:43 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:43 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:43 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:43 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:45 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:45 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:45 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:45 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:48 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:48 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:48 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:48 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:48 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:00:49 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:49 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:49 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:49 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:50 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:50 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:50 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:50 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:53 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:53 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:53 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:53 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:53 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:00:55 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:55 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:55 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:55 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:00:56 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:00:56 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:00:56 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:00:56 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:00 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:00 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:00 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:00 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:00 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:01:01 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:01 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:01 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:01 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:02 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:02 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:02 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:02 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:16 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:16 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:16 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:16 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:16 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:01:17 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:17 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:17 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:17 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:18 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:18 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:18 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:18 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:24 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:24 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:24 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:24 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:24 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:01:25 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:25 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:25 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:25 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:27 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:27 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:27 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:27 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:28 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:28 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:28 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:28 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:40 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:01:40 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:01:40 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:01:40 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:01:40 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 00:02:12 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:02:12 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:02:12 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:02:12 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:02:12 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:02:12 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:02:12 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:02:12 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:02:12 Europe/Berlin] Login.php: Session username: Not set
+[27-Jul-2025 00:02:12 Europe/Berlin] Login.php: Displaying login page.
+[27-Jul-2025 00:02:21 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:02:21 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:02:21 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:02:21 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:02:21 Europe/Berlin] Login_handler.php: Invalid login attempt for username: brawley.jv
+[27-Jul-2025 00:02:21 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:02:21 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:02:21 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:02:21 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:02:21 Europe/Berlin] Login.php: Session username: Not set
+[27-Jul-2025 00:02:21 Europe/Berlin] Login.php: Displaying login page.
+[27-Jul-2025 00:02:29 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:02:29 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:02:29 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:02:29 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:02:29 Europe/Berlin] Login_handler.php: Session username set to: Jack
+[27-Jul-2025 00:02:29 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 00:02:29 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 00:02:29 Europe/Berlin] DB_USER: root2
+[27-Jul-2025 00:02:29 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 00:02:29 Europe/Berlin] Main.php: Session username: Jack
+[27-Jul-2025 14:19:04 Europe/Berlin] Database connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for db5017536213.hosting-data.io failed: No such host is known. 
+[27-Jul-2025 14:20:47 Europe/Berlin] Database connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for db5017536213.hosting-data.io failed: No such host is known. 
+[27-Jul-2025 14:20:49 Europe/Berlin] Database connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for db5017536213.hosting-data.io failed: No such host is known. 
+[27-Jul-2025 14:20:50 Europe/Berlin] Database connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for db5017536213.hosting-data.io failed: No such host is known. 
+[27-Jul-2025 15:11:09 Europe/Berlin] Database connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for db5017536213.hosting-data.io failed: No such host is known. 
+[27-Jul-2025 15:11:22 Europe/Berlin] Database connection failed: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for db5017536213.hosting-data.io failed: No such host is known. 
+[27-Jul-2025 15:15:56 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 15:15:56 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 15:15:56 Europe/Berlin] DB_USER: dbu2170183
+[27-Jul-2025 15:15:56 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 15:15:56 Europe/Berlin] Index.php: Session username: jvbrawley
+[27-Jul-2025 15:15:56 Europe/Berlin] Index.php: Redirecting to main.php
+[27-Jul-2025 15:15:56 Europe/Berlin] DB_HOST: localhost
+[27-Jul-2025 15:15:56 Europe/Berlin] DB_NAME: dbs14052036
+[27-Jul-2025 15:15:56 Europe/Berlin] DB_USER: dbu2170183
+[27-Jul-2025 15:15:56 Europe/Berlin] BASE_URL: http://localhost/omc/
+[27-Jul-2025 15:15:56 Europe/Berlin] Main.php: Session username: jvbrawley
+[27-Jul-2025 15:40:29 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'EngineConfig' in 'field list' in C:\xampp\htdocs\enginerm\vessel_functions.php:60
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\vessel_functions.php(60): mysqli->prepare('SELECT EngineCo...')
+#1 C:\xampp\htdocs\enginerm\view_logs.php(24): get_vessel_sides(Object(mysqli), 3)
+#2 {main}
+  thrown in C:\xampp\htdocs\enginerm\vessel_functions.php on line 60
+[27-Jul-2025 15:40:35 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'EngineConfig' in 'field list' in C:\xampp\htdocs\enginerm\vessel_functions.php:60
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\vessel_functions.php(60): mysqli->prepare('SELECT EngineCo...')
+#1 C:\xampp\htdocs\enginerm\view_logs.php(24): get_vessel_sides(Object(mysqli), 3)
+#2 {main}
+  thrown in C:\xampp\htdocs\enginerm\vessel_functions.php on line 60
+[27-Jul-2025 16:18:13 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\manage_vessels.php:101
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(101): mysqli_stmt->bind_param('sssssdsiiiiiii', 'Test Vessel', 'Towboat', 'three_engine', 'imagine towing', '1900', '44', 'test vessel', 300, 900, 20, 400, 20, 400)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 101
+[27-Jul-2025 16:19:06 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\manage_vessels.php:101
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(101): mysqli_stmt->bind_param('ssssidsiiiiiii', 'Test Vessel', 'Towboat', 'three_engine', 'imagine towing', '1900', '44', 'test vessel', 300, 900, 20, 400, 20, 400)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 101
+[27-Jul-2025 16:19:13 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\manage_vessels.php:101
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(101): mysqli_stmt->bind_param('ssssidsiiiiiii', 'Test Vessel', 'Towboat', 'three_engine', 'imagine towing', '1900', '44', 'test vessel', 300, 900, 20, 400, 20, 400)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 101
+[27-Jul-2025 16:22:46 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\manage_vessels.php:101
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(101): mysqli_stmt->bind_param('ssssidsiiiiiii', 'Test Vessel', 'Towboat', 'three_engine', 'imagine towing', '1900', '44', 'test vessel', 300, 900, 20, 400, 20, 400)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 101
+[27-Jul-2025 16:22:56 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\manage_vessels.php:101
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(101): mysqli_stmt->bind_param('ssssidsiiiiiii', 'Test Vessel', 'Towboat', 'three_engine', 'imagine towing', '1900', '44', 'test vessel', 300, 900, 20, 400, 20, 400)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 101
+[27-Jul-2025 16:24:03 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\enginerm\manage_vessels.php:101
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\manage_vessels.php(101): mysqli_stmt->bind_param('ssssidsiiiiiii', 'Test Vessel', 'Towboat', 'three_engine', 'imagine towing', '1900', '44', 'test vessel', 300, 900, 20, 400, 20, 400)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 101
+[27-Jul-2025 16:37:18 Europe/Berlin] PHP Parse error:  Unmatched '}' in C:\xampp\htdocs\enginerm\vessel_functions.php on line 22
+[27-Jul-2025 16:37:20 Europe/Berlin] PHP Parse error:  Unmatched '}' in C:\xampp\htdocs\enginerm\vessel_functions.php on line 22
+[27-Jul-2025 16:38:03 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function set_active_vessel() in C:\xampp\htdocs\enginerm\manage_vessels.php:126
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\enginerm\manage_vessels.php on line 126
+[27-Jul-2025 17:12:23 Europe/Berlin] PHP Warning:  Undefined array key "Username" in C:\xampp\htdocs\enginerm\debug_view_logs_url.php on line 15
+[28-Jul-2025 03:44:28 Europe/Berlin] PHP Fatal error:  Uncaught Error: Cannot access private property SqliteWrapper::$pdo in C:\Projects\VesselDataLogger-electron\config_sqlite.php:123
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\vessel_functions.php(28): SqliteStatementWrapper->execute()
+#1 C:\Projects\VesselDataLogger-electron\vessel_functions.php(167): get_active_vessel_info(Object(SqliteWrapper))
+#2 C:\Projects\VesselDataLogger-electron\index_electron.php(51): render_vessel_selector(Object(SqliteWrapper), 'index')
+#3 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\config_sqlite.php on line 123
+[28-Jul-2025 03:45:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method SqliteResultWrapper::fetch_all() in C:\Projects\VesselDataLogger-electron\vessel_functions.php:163
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\vessel_functions.php(168): get_all_active_vessels(Object(SqliteWrapper))
+#1 C:\Projects\VesselDataLogger-electron\index_electron.php(51): render_vessel_selector(Object(SqliteWrapper), 'index')
+#2 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\vessel_functions.php on line 163
+[30-Jul-2025 19:43:33 Europe/Berlin] PHP Warning:  mysqli::__construct(): php_network_getaddresses: getaddrinfo for db5018286956.hosting-data.io failed: No such host is known.  in C:\Projects\VesselDataLogger-electron\test_connection.php on line 38
+[30-Jul-2025 19:44:40 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'IsTestAdmin' in 'field list' in C:\Projects\VesselDataLogger-electron\auth_functions.php:78
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\auth_functions.php(78): mysqli->prepare('SELECT UserID, ...')
+#1 C:\Projects\VesselDataLogger-electron\login.php(13): login_user(Object(mysqli), 'U28964171210', 'P14FB28C9')
+#2 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\auth_functions.php on line 78
+[30-Jul-2025 15:06:31 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method SqliteWrapper::exec() in C:\Projects\VesselDataLogger-electron\update_database_machine_binding.php:7
+Stack trace:
+#0 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\update_database_machine_binding.php on line 7
+[31-Jul-2025 05:04:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'IsTestAdmin' in 'field list' in C:\Projects\VesselDataLogger-electron\auth_functions.php:78
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\auth_functions.php(78): mysqli->prepare('SELECT UserID, ...')
+#1 C:\Projects\VesselDataLogger-electron\login.php(13): login_user(Object(mysqli), 'admin', 'admin123')
+#2 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\auth_functions.php on line 78
+[31-Jul-2025 05:07:39 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'Password' in 'field list' in C:\Projects\VesselDataLogger-electron\auth_functions.php:77
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\auth_functions.php(77): mysqli->prepare('SELECT UserID, ...')
+#1 C:\Projects\VesselDataLogger-electron\login.php(13): login_user(Object(mysqli), 'admin', 'admin123')
+#2 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\auth_functions.php on line 77
+[31-Jul-2025 05:08:23 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'FullName' in 'field list' in C:\Projects\VesselDataLogger-electron\auth_functions.php:77
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\auth_functions.php(77): mysqli->prepare('SELECT UserID, ...')
+#1 C:\Projects\VesselDataLogger-electron\login.php(13): login_user(Object(mysqli), 'admin', 'admin123')
+#2 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\auth_functions.php on line 77
+[30-Jul-2025 23:14:49 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in C:\Projects\VesselDataLogger-electron\vessel_functions.php:47
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\add_log.php(24): get_current_vessel(Object(SqliteWrapper))
+#1 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\vessel_functions.php on line 47
+[30-Jul-2025 23:44:26 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in C:\Projects\VesselDataLogger-electron\vessel_functions.php:79
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\add_log.php(35): get_vessel_sides(Object(SqliteWrapper), 3, 'mainengines')
+#1 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\vessel_functions.php on line 79
+[30-Jul-2025 23:49:40 America/New_York] PHP Fatal error:  Uncaught TypeError: mysqli_query(): Argument #1 ($mysql) must be of type mysqli, SqliteWrapper given in C:\Projects\VesselDataLogger-electron\select_vessel.php:67
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\select_vessel.php(67): mysqli_query(Object(SqliteWrapper), 'SELECT VesselID...')
+#1 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\select_vessel.php on line 67
+[30-Jul-2025 23:51:07 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in C:\Projects\VesselDataLogger-electron\vessel_functions.php:79
+Stack trace:
+#0 C:\Projects\VesselDataLogger-electron\add_log.php(35): get_vessel_sides(Object(SqliteWrapper), 3, 'mainengines')
+#1 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\vessel_functions.php on line 79
+[31-Jul-2025 06:04:47 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Projects\VesselDataLogger-electron\check_test_vessel.php on line 2
+[31-Jul-2025 06:07:16 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Projects\VesselDataLogger-electron\fix_test_vessel.php on line 2
+[31-Jul-2025 06:42:01 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Projects\VesselDataLogger-electron\fix_view_logs.php on line 2
+[31-Jul-2025 00:48:19 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in C:\Projects\VesselDataLogger-electron\create_test_data.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\create_test_data.php on line 31
+[31-Jul-2025 00:49:43 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in C:\Projects\VesselDataLogger-electron\create_test_data.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\create_test_data.php on line 30
+[31-Jul-2025 00:49:45 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on bool in C:\Projects\VesselDataLogger-electron\create_test_data.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\create_test_data.php on line 30
+[31-Jul-2025 06:53:02 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in C:\Projects\VesselDataLogger-electron\create_test_data_correct.php on line 2
+[31-Jul-2025 01:13:18 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined method SqliteResultWrapper::data_seek() in C:\Projects\VesselDataLogger-electron\check_graph_logs.php:65
+Stack trace:
+#0 {main}
+  thrown in C:\Projects\VesselDataLogger-electron\check_graph_logs.php on line 65
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined variable $current_user in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 254
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Trying to access array offset on value of type null in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 254
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined variable $current_user in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 261
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Trying to access array offset on value of type null in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 261
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "IsActive" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 373
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "Owner" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 400
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "YearBuilt" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 403
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "Length" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 406
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "CreatedDate" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 409
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "Notes" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 412
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "mainengines" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 420
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "generators" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 424
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "gears" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 428
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "RPMMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "RPMMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "TempMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "TempMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "GenMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "GenMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "IsActive" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 373
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "Owner" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 400
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "YearBuilt" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 403
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "Length" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 406
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "CreatedDate" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 409
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "Notes" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 412
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "mainengines" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 420
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "generators" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 424
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "gears" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 428
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "RPMMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "RPMMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "TempMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "TempMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "GenMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:13 America/New_York] PHP Warning:  Undefined array key "GenMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined variable $current_user in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 254
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Trying to access array offset on value of type null in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 254
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined variable $current_user in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 261
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Trying to access array offset on value of type null in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 261
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "IsActive" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 373
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "Owner" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 400
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "YearBuilt" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 403
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "Length" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 406
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "CreatedDate" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 409
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "Notes" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 412
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "mainengines" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 420
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "generators" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 424
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "gears" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 428
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "RPMMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "RPMMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "TempMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "TempMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "GenMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "GenMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "IsActive" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 373
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "Owner" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 400
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "YearBuilt" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 403
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "Length" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 406
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "CreatedDate" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 409
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "Notes" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 412
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "mainengines" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 420
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "generators" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 424
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "gears" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 428
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "RPMMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "RPMMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 439
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "TempMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "TempMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 440
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "GenMin" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[31-Jul-2025 01:24:39 America/New_York] PHP Warning:  Undefined array key "GenMax" in C:\Projects\VesselDataLogger-electron\manage_vessels.php on line 441
+[12-Aug-2025 21:08:51 Europe/Berlin] PHP Warning:  require_once(../config_installed.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\office\index.php on line 2
+[12-Aug-2025 21:08:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config_installed.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\enginerm\office\index.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\enginerm\office\index.php on line 2
+[12-Aug-2025 21:18:36 Europe/Berlin] PHP Warning:  require_once(../config_installed.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\office\index.php on line 2
+[12-Aug-2025 21:18:36 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config_installed.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\enginerm\office\index.php:2
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\enginerm\office\index.php on line 2
+[12-Aug-2025 22:34:56 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'chief'@'localhost' (using password: YES) in C:\xampp\htdocs\enginerm\config.php:7
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\config.php(7): mysqli->__construct('localhost', 'chief', Object(SensitiveParameterValue), 'VesselData')
+#1 C:\xampp\htdocs\enginerm\vessel\offline\setup.php(7): require_once('C:\\xampp\\htdocs...')
+#2 {main}
+  thrown in C:\xampp\htdocs\enginerm\config.php on line 7
+[13-Aug-2025 00:20:03 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "case", expecting end of file in C:\xampp\htdocs\enginerm\signup.php on line 328
+[13-Aug-2025 00:20:12 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "case", expecting end of file in C:\xampp\htdocs\enginerm\signup.php on line 328
+[13-Aug-2025 00:24:04 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\enginerm\config_saas.php on line 232
+[13-Aug-2025 00:24:21 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\enginerm\config_saas.php on line 232
+[13-Aug-2025 00:24:21 Europe/Berlin] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\enginerm\config_saas.php:232) in C:\xampp\htdocs\enginerm\config_saas.php on line 129
+[13-Aug-2025 00:25:58 Europe/Berlin] PHP Warning:  Undefined array key "REQUEST_METHOD" in C:\xampp\htdocs\enginerm\signup_test.php on line 21
+[13-Aug-2025 00:28:26 Europe/Berlin] Database creation error: Access denied for user 'license_admin'@'localhost' to database 'vessel_test_marine_689bc00ad8495'
+[13-Aug-2025 00:28:56 Europe/Berlin] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\enginerm\test_onboarding_flow.php on line 43
+[13-Aug-2025 00:28:56 Europe/Berlin] Database creation error: Access denied for user 'license_admin'@'localhost' to database 'vessel_test_marine_689bc0288027c'
+[13-Aug-2025 00:30:08 Europe/Berlin] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\enginerm\test_onboarding_flow.php on line 43
+[13-Aug-2025 00:30:08 Europe/Berlin] Database creation error: Commands out of sync; you can't run this command now
+[13-Aug-2025 00:31:05 Europe/Berlin] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\enginerm\test_onboarding_flow.php on line 43
+[13-Aug-2025 00:57:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'chief'@'localhost' (using password: YES) in C:\xampp\htdocs\enginerm\config.php:7
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\config.php(7): mysqli->__construct('localhost', 'chief', Object(SensitiveParameterValue), 'VesselData')
+#1 C:\xampp\htdocs\enginerm\vessel\offline\setup.php(7): require_once('C:\\xampp\\htdocs...')
+#2 {main}
+  thrown in C:\xampp\htdocs\enginerm\config.php on line 7
+[13-Aug-2025 03:44:32 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'chief'@'localhost' (using password: YES) in C:\xampp\htdocs\enginerm\config.php:7
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\config.php(7): mysqli->__construct('localhost', 'chief', Object(SensitiveParameterValue), 'VesselData')
+#1 C:\xampp\htdocs\enginerm\office\index.php(3): require_once('C:\\xampp\\htdocs...')
+#2 {main}
+  thrown in C:\xampp\htdocs\enginerm\config.php on line 7
+[13-Aug-2025 03:47:30 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\enginerm\config_saas.php on line 232
+[13-Aug-2025 03:47:50 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\enginerm\config_saas.php on line 232
+[13-Aug-2025 03:49:57 Europe/Berlin] PHP Warning:  Undefined array key "onboarding_data" in C:\xampp\htdocs\enginerm\signup_test.php on line 57
+[13-Aug-2025 03:49:57 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\enginerm\signup_test.php on line 57
+[13-Aug-2025 03:49:57 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\enginerm\config_saas.php on line 232
+[13-Aug-2025 03:54:50 Europe/Berlin] PHP Warning:  Undefined array key "onboarding_data" in C:\xampp\htdocs\enginerm\signup_test.php on line 48
+[13-Aug-2025 03:54:50 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: array_merge(): Argument #1 must be of type array, null given in C:\xampp\htdocs\enginerm\signup_test.php:48
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\signup_test.php(48): array_merge(NULL, Array)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\signup_test.php on line 48
+[13-Aug-2025 03:57:11 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'chief'@'localhost' (using password: YES) in C:\xampp\htdocs\enginerm\config.php:7
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\config.php(7): mysqli->__construct('localhost', 'chief', Object(SensitiveParameterValue), 'VesselData')
+#1 C:\xampp\htdocs\enginerm\manage_vessels.php(2): require_once('C:\\xampp\\htdocs...')
+#2 {main}
+  thrown in C:\xampp\htdocs\enginerm\config.php on line 7
+[13-Aug-2025 04:00:54 Europe/Berlin] Company DB connection error for omc: Access denied for user 'vessel_user'@'localhost' (using password: NO)
+[13-Aug-2025 04:01:00 Europe/Berlin] Company DB connection error for omc: Access denied for user 'vessel_user'@'localhost' (using password: NO)
+[13-Aug-2025 04:16:30 Europe/Berlin] Company DB connection error for omc: Access denied for user 'vessel_user'@'localhost' (using password: NO)
+[13-Aug-2025 04:16:39 Europe/Berlin] PHP Warning:  Undefined array key "onboarding_data" in C:\xampp\htdocs\enginerm\signup_test.php on line 48
+[13-Aug-2025 04:16:39 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: array_merge(): Argument #1 must be of type array, null given in C:\xampp\htdocs\enginerm\signup_test.php:48
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\signup_test.php(48): array_merge(NULL, Array)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\signup_test.php on line 48
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:17:18 Europe/Berlin] PHP Warning:  file_get_contents(.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\enginerm\update_require_paths.php on line 14
+[13-Aug-2025 04:26:06 Europe/Berlin] PHP Warning:  Undefined array key "onboarding_data" in C:\xampp\htdocs\enginerm\signup_test.php on line 48
+[13-Aug-2025 04:26:06 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: array_merge(): Argument #1 must be of type array, null given in C:\xampp\htdocs\enginerm\signup_test.php:48
+Stack trace:
+#0 C:\xampp\htdocs\enginerm\signup_test.php(48): array_merge(NULL, Array)
+#1 {main}
+  thrown in C:\xampp\htdocs\enginerm\signup_test.php on line 48
+[13-Aug-2025 17:29:12 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "\", expecting end of file in Command line code on line 4
+[13-Aug-2025 17:29:26 Europe/Berlin] PHP Warning:  Undefined array key "HTTP_HOST" in C:\xampp\htdocs\enginerm\config_saas.php on line 10
+[13-Aug-2025 17:29:26 Europe/Berlin] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in C:\xampp\htdocs\enginerm\config_saas.php on line 256
+[13-Aug-2025 17:29:26 Europe/Berlin] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\enginerm\config_saas.php:10) in C:\xampp\htdocs\enginerm\config_saas.php on line 153
+[14-Aug-2025 23:29:09 Europe/Berlin] PHP Parse error:  Unclosed '{' on line 754 in c:\xampp\htdocs\enginerm\signup.php on line 809

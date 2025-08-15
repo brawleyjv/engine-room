@@ -1,41 +1,19 @@
 <?php
 /**
- * Vessel Logger SaaS Landing Page
- * Professional maritime logging platform for companies
+ * LogicDock SaaS Landing Page
+ * Pure marketing page for trial subscriptions - NO user/company logic
  */
 
-// Check if this is a company-specific access
-$company_context = null;
-$company_subdomain = null;
-
-// Method 1: Check for subdomain (company.vessellogger.com)
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-if (preg_match('/^([^.]+)\.vessellogger\.com$/', $host, $matches)) {
-    $company_subdomain = $matches[1];
-    // Redirect to company login
-    header("Location: login_enhanced.php?company=" . urlencode($company_subdomain));
-    exit;
-}
-
-// Method 2: Check for company parameter
-if (isset($_GET['company'])) {
-    header("Location: login_enhanced.php?company=" . urlencode($_GET['company']));
-    exit;
-}
-
-// Check if user is already logged in to a company
-session_start();
-if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
-    header('Location: welcome.php');
-    exit;
-}
+// This is a pure marketing landing page
+// No session logic, no company determination, no user checks
+// Just show the landing page and let users start their trial
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vessel Logger - Professional Maritime Logging & Fleet Management</title>
+    <title>LogicDock - Professional Maritime Vessel Management SaaS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -384,7 +362,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
         <div class="container">
             <a class="navbar-brand" href="#" style="font-weight: 700; color: var(--primary-color);">
                 <i class="fas fa-ship me-2" style="color: var(--secondary-color);"></i>
-                Vessel Logger
+                LogicDock
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -404,12 +382,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
                         <a class="nav-link" href="#pricing">Pricing</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login_enhanced.php">
-                            <i class="fas fa-sign-in-alt me-1"></i>Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white px-3 ms-2" href="signup_test.php">
+                        <a class="nav-link btn btn-primary text-white px-3 ms-2" href="signup.php">
                             <i class="fas fa-rocket me-1"></i>Start Free Trial
                         </a>
                     </li>
@@ -429,7 +402,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
                         with the most trusted vessel logging platform in the maritime industry.
                     </p>
                     <div class="cta-buttons">
-                        <a href="signup_test.php" class="btn-cta btn-primary-cta">
+                        <a href="signup.php" class="btn-cta btn-primary-cta">
                             <i class="fas fa-rocket me-2"></i>Start 30-Day Free Trial
                         </a>
                         <a href="#features" class="btn-cta btn-secondary-cta">
@@ -633,7 +606,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
                             <li><i class="fas fa-check"></i> Up to 5 users</li>
                             <li><i class="fas fa-check"></i> Email support</li>
                         </ul>
-                        <a href="signup_test.php" class="btn btn-outline-primary btn-lg w-100">Start Free Trial</a>
+                        <a href="signup.php" class="btn btn-outline-primary btn-lg w-100">Start Free Trial</a>
                     </div>
                 </div>
                 
@@ -651,7 +624,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
                             <li><i class="fas fa-check"></i> Priority support</li>
                         </ul>
                         <small class="text-muted mb-2 d-block">Fleet discounts available for 5+ vessels</small>
-                        <a href="signup_test.php" class="btn btn-primary btn-lg w-100">Get Started</a>
+                        <a href="signup.php" class="btn btn-primary btn-lg w-100">Get Started</a>
                     </div>
                 </div>
                 
@@ -668,7 +641,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
                             <li><i class="fas fa-plus"></i> Fuel Management Module</li>
                         </ul>
                         <small class="text-muted mb-2 d-block">Fleet discounts available for 5+ vessels</small>
-                        <a href="signup_test.php" class="btn btn-secondary btn-lg w-100">Start with Basic</a>
+                        <a href="signup.php" class="btn btn-secondary btn-lg w-100">Start with Basic</a>
                     </div>
                 </div>
             </div>
@@ -701,7 +674,7 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <h4 class="footer-title">
-                        <i class="fas fa-ship me-2"></i>Vessel Logger
+                        <i class="fas fa-ship me-2"></i>LogicDock
                     </h4>
                     <p class="mb-3">Professional maritime logging and fleet management platform trusted by maritime professionals worldwide.</p>
                     <div>
@@ -757,12 +730,11 @@ if (isset($_SESSION['company_domain']) && isset($_SESSION['user_id'])) {
             
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; 2025 Vessel Logger. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2025 LogicDock. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <p class="mb-0">
-                        <a href="login_enhanced.php" class="text-light me-3">Login</a>
-                        <a href="signup_test.php" class="btn btn-primary btn-sm">Start Free Trial</a>
+                        <a href="signup.php" class="btn btn-primary btn-sm">Start Free Trial</a>
                     </p>
                 </div>
             </div>
