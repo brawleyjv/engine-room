@@ -179,3 +179,16 @@ input[type="text"], input[type="password"] {
         padding: 20px;
     }
 }
+
+/* Weather Widget Styles */
+.weather-location {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+    font-style: italic;
+    text-align: center;
+}
+
+.weather-card:hover .weather-location {
+    color: #888;
+}
