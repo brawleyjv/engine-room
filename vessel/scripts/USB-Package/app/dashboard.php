@@ -27,6 +27,7 @@ $system_status = [
 $recent_logs = getRecentLogs(10);
 $pending_sync = getPendingSyncCount();
 $daily_stats = getDailyStats();
+$engine_stats = getEngineStats();
 
 // Handle AJAX requests
 if (isset($_GET['action']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -504,6 +505,55 @@ if (isset($_GET['action']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="stat-label">Pending Sync</div>
             </div>
         </div>
+        
+        <?php if (!empty($engine_stats)): ?>
+        <div style="margin-bottom: 30px;">
+            <h3 style="margin-bottom: 20px; color: #2c3e50;">Engine Status (Last 24 Hours)</h3>
+            <div class="dashboard-grid">
+                <?php foreach ($engine_stats as $engine): ?>
+                    <div class="stat-card">
+                        <div style="font-weight: 600; margin-bottom: 15px; color: #2c3e50;">
+                            <?php echo htmlspecialchars($engine['display_name']); ?>
+                        </div>
+                        
+                        <?php if ($engine['log_count'] > 0): ?>
+                            <div style="display: grid; gap: 8px; text-align: left;">
+                                <?php if ($engine['avg_temp']): ?>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: #7f8c8d;">Temperature:</span>
+                                        <span style="font-weight: 600; color: #e67e22;"><?php echo $engine['avg_temp']; ?>°F</span>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($engine['avg_oil_pressure']): ?>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: #7f8c8d;">Oil Pressure:</span>
+                                        <span style="font-weight: 600; color: #27ae60;"><?php echo $engine['avg_oil_pressure']; ?> PSI</span>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($engine['avg_coolant_pressure']): ?>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: #7f8c8d;">Coolant Pressure:</span>
+                                        <span style="font-weight: 600; color: #3498db;"><?php echo $engine['avg_coolant_pressure']; ?> PSI</span>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px; padding-top: 5px; border-top: 1px solid #ecf0f1;">
+                                    <span style="color: #7f8c8d; font-size: 12px;">Logs:</span>
+                                    <span style="font-weight: 600; color: #7f8c8d; font-size: 12px;"><?php echo $engine['log_count']; ?></span>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div style="text-align: center; color: #95a5a6; font-style: italic;">
+                                No recent data
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
         
         <div class="action-buttons">
             <a href="/add_log.php" class="action-btn primary">

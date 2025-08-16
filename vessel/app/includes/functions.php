@@ -386,4 +386,180 @@ function safeJsonDecode($json, $assoc = true) {
     }
     return $data;
 }
+
+/**
+ * Get daily statistics for dashboard
+ */
+function getDailyStats() {
+    $db = getDatabase();
+    
+    try {
+        $stmt = $db->prepare("
+            SELECT 
+                COUNT(CASE WHEN DATE(created_at) = DATE('now') THEN 1 END) as logs_today,
+                COUNT(*) as total_logs
+            FROM engine_logs
+        ");
+        $stmt->execute();
+        $basic_stats = $stmt->fetch();
+        
+        return [
+            'logs_today' => (int)$basic_stats['logs_today'],
+            'total_logs' => (int)$basic_stats['total_logs']
+        ];
+    } catch (PDOException $e) {
+        logMessage('Error getting daily stats: ' . $e->getMessage(), 'ERROR');
+        return [
+            'logs_today' => 0,
+            'total_logs' => 0
+        ];
+    }
+}
+
+/**
+ * Get recent engine logs for dashboard
+ */
+function getRecentLogs($limit = 10) {
+    $db = getDatabase();
+    
+    try {
+        $stmt = $db->prepare("
+            SELECT 
+                el.*,
+                e.name as engine_name,
+                e.position as engine_position,
+                v.name as vessel_name
+            FROM engine_logs el
+            LEFT JOIN engines e ON el.engine_id = e.id
+            LEFT JOIN vessels v ON el.vessel_id = v.id
+            ORDER BY el.log_datetime DESC, el.created_at DESC
+            LIMIT ?
+        ");
+        $stmt->execute([$limit]);
+        $logs = $stmt->fetchAll();
+        
+        // Format logs for display
+        foreach ($logs as &$log) {
+            $log['summary'] = sprintf(
+                "%s - %.1f°F, %d PSI Oil, %d RPM",
+                $log['engine_name'] ?: 'Engine ' . $log['engine_id'],
+                $log['temperature'] ?: 0,
+                $log['oil_pressure'] ?: 0,
+                $log['rpm'] ?: 0
+            );
+            $log['equipment_type'] = $log['engine_position'] ?: 'Main Engine';
+            $log['engine_number'] = $log['engine_name'] ?: 'Engine ' . $log['engine_id'];
+        }
+        
+        return $logs;
+    } catch (PDOException $e) {
+        logMessage('Error getting recent logs: ' . $e->getMessage(), 'ERROR');
+        return [];
+    }
+}
+
+/**
+ * Get engine-specific statistics for dashboard
+ */
+function getEngineStats() {
+    $db = getDatabase();
+    
+    try {
+        // Get individual engine statistics from recent logs (last 24 hours)
+        $stmt = $db->prepare("
+            SELECT 
+                e.id,
+                e.name,
+                e.position,
+                COUNT(el.id) as log_count,
+                AVG(CASE WHEN el.temperature > 0 THEN el.temperature END) as avg_temp,
+                AVG(CASE WHEN el.oil_pressure > 0 THEN el.oil_pressure END) as avg_oil_pressure,
+                AVG(CASE WHEN el.coolant_pressure > 0 THEN el.coolant_pressure END) as avg_coolant_pressure,
+                MAX(el.log_datetime) as last_log
+            FROM engines e
+            LEFT JOIN engine_logs el ON e.id = el.engine_id 
+                AND el.log_datetime >= datetime('now', '-24 hours')
+            GROUP BY e.id, e.name, e.position
+            ORDER BY e.position, e.name
+        ");
+        $stmt->execute();
+        $engines = $stmt->fetchAll();
+        
+        // Format engine data
+        foreach ($engines as &$engine) {
+            $engine['display_name'] = $engine['name'] ?: 
+                ($engine['position'] ? $engine['position'] . ' Engine' : 'Engine ' . $engine['id']);
+            $engine['avg_temp'] = $engine['avg_temp'] ? round($engine['avg_temp'], 1) : null;
+            $engine['avg_oil_pressure'] = $engine['avg_oil_pressure'] ? round($engine['avg_oil_pressure'], 1) : null;
+            $engine['avg_coolant_pressure'] = $engine['avg_coolant_pressure'] ? round($engine['avg_coolant_pressure'], 1) : null;
+        }
+        
+        return $engines;
+    } catch (PDOException $e) {
+        logMessage('Error getting engine stats: ' . $e->getMessage(), 'ERROR');
+        return [];
+    }
+}
+
+/**
+ * Get pending sync count
+ */
+function getPendingSyncCount() {
+    $db = getDatabase();
+    
+    try {
+        $stmt = $db->prepare("
+            SELECT COUNT(*) FROM engine_logs WHERE synced = 0
+        ");
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    } catch (PDOException $e) {
+        logMessage('Error getting pending sync count: ' . $e->getMessage(), 'ERROR');
+        return 0;
+    }
+}
+
+/**
+ * Check database health
+ */
+function checkDatabaseHealth() {
+    try {
+        $db = getDatabase();
+        // Simple query to test database connection
+        $stmt = $db->prepare("SELECT 1");
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        logMessage('Database health check failed: ' . $e->getMessage(), 'ERROR');
+        return false;
+    }
+}
+
+/**
+ * Get storage information
+ */
+function getStorageInfo() {
+    $db_file = VESSEL_DB_FILE;
+    $total_space = disk_total_space('.');
+    $free_space = disk_free_space('.');
+    $db_size = file_exists($db_file) ? filesize($db_file) : 0;
+    
+    return [
+        'total_space' => $total_space,
+        'free_space' => $free_space,
+        'free_percent' => $total_space > 0 ? ($free_space / $total_space) * 100 : 0,
+        'database_size' => $db_size
+    ];
+}
+
+/**
+ * Get sync status
+ */
+function getSyncStatus() {
+    return [
+        'last_sync' => getSetting('last_sync_time'),
+        'sync_enabled' => getSetting('sync_enabled', '1') === '1',
+        'sync_interval' => (int)getSetting('sync_interval', VESSEL_SYNC_INTERVAL)
+    ];
+}
 ?>
