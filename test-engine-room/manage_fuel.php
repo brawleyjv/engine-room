@@ -5,6 +5,7 @@
  */
 
 require_once 'test_db.php';
+require_once 'log_helper.php';
 
 $message = '';
 $error = '';
@@ -44,6 +45,10 @@ if ($_POST) {
             $stmt = $pdo->prepare("UPDATE fluid_inventory SET amount = amount - ?, last_updated = datetime('now') WHERE fluid_type = 'fuel'");
             $stmt->execute([$amount]);
             
+            // Create logbook entry
+            $log_action = "Used {$amount} gallons for {$equipment_type}" . ($notes ? " - {$notes}" : "");
+            createFluidLogEntry($pdo, 'fuel', $log_action, $amount, 'Marine Engineer');
+            
             $pdo->commit();
             $message = "Fuel usage recorded: " . number_format($amount, 1) . " gallons";
         }
@@ -68,6 +73,10 @@ if ($_POST) {
             // Update inventory
             $stmt = $pdo->prepare("UPDATE fluid_inventory SET amount = amount + ?, last_updated = datetime('now') WHERE fluid_type = 'fuel'");
             $stmt->execute([$amount]);
+            
+            // Create logbook entry
+            $log_action = "Received {$amount} gallons from {$supplier}" . ($notes ? " - {$notes}" : "");
+            createFluidLogEntry($pdo, 'fuel', $log_action, $amount, 'Marine Engineer');
             
             $pdo->commit();
             $message = "Fuel receipt recorded: " . number_format($amount, 1) . " gallons";

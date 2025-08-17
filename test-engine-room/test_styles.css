@@ -67,6 +67,23 @@ body {
     margin: 10px 0;
 }
 
+/* Fluid inventory specific styling */
+.stats-card:nth-child(1) {
+    background: #e74c3c; /* Red for fuel */
+}
+
+.stats-card:nth-child(2) { 
+    background: #f39c12; /* Orange for lube oil */
+}
+
+.stats-card:nth-child(3) {
+    background: #27ae60; /* Green for gear oil */
+}
+
+.stats-card:nth-child(4) {
+    background: #9b59b6; /* Purple for hydraulic oil */
+}
+
 .form-section {
     background: #f8f9fa;
     padding: 20px;

@@ -6,6 +6,7 @@
 
 require_once 'test_db.php';
 require_once 'settings_helper.php';
+require_once 'log_helper.php';
 
 $message = '';
 $error = '';
@@ -61,12 +62,36 @@ if ($_POST) {
                 $_POST['notes']
             ]);
             
-            // Update engine hours if provided
-            if ($_POST['engine_hours_total']) {
-                $new_total = floatval($_POST['engine_hours_total']);
+            // Update engine hours if provided (hours ran today)
+            if ($_POST['hours_ran_today']) {
+                $hours_ran = floatval($_POST['hours_ran_today']);
+                
+                // Get current total hours
+                $stmt = $pdo->prepare("SELECT total_hours FROM engine_hours WHERE engine_type = ?");
+                $stmt->execute([$engine_type]);
+                $current_hours = $stmt->fetchColumn() ?: 0;
+                
+                // Calculate new total
+                $new_total = $current_hours + $hours_ran;
+                
+                // Update engine hours
                 $pdo->prepare("UPDATE engine_hours SET total_hours = ?, last_updated = datetime('now') 
                              WHERE engine_type = ?")->execute([$new_total, $engine_type]);
+                             
+                // Update service tracking for all engine service items
+                // This ensures hours-since-service calculations are correct after hours update
+                $stmt = $pdo->prepare("
+                    UPDATE service_tracking 
+                    SET updated_at = datetime('now')
+                    WHERE equipment_type = 'engine' AND equipment_id = ?
+                ");
+                $stmt->execute([$engine_type]);
+                
+                $message .= " Engine hours updated: +$hours_ran hours (new total: $new_total).";
             }
+            
+            // Create log entry
+            createEngineLogEntry($pdo, $engine_type, $_POST, $_POST['created_by'] ?? 'Marine Engineer');
             
             $message = "$engine_name engine reading recorded successfully!";
         }
@@ -232,12 +257,21 @@ try {
                 <h4 style="color: #2c3e50;">Engine Hours</h4>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Total Engine Hours:</label>
-                        <input type="number" name="engine_hours_total" step="0.1" placeholder="<?php echo $engine_info['total_hours'] ?? '15847.5'; ?>">
+                        <label>Current Total Hours:</label>
+                        <input type="number" value="<?php echo $engine_info['total_hours'] ?? '0'; ?>" readonly 
+                               style="background-color: #f8f9fa; color: #6c757d;" 
+                               title="Total hours cannot be edited directly. Use 'Hours Ran Today' to add hours.">
+                        <small style="color: #6c757d; display: block; margin-top: 5px;">
+                            📝 Total hours update automatically when you add "Hours Ran Today"
+                        </small>
                     </div>
                     <div class="form-group">
                         <label>Hours Ran Today:</label>
-                        <input type="number" name="hours_ran_today" step="0.1" placeholder="8.5">
+                        <input type="number" name="hours_ran_today" step="0.1" min="0" max="24" placeholder="8.5" 
+                               title="Enter hours the engine ran today. This will be added to total hours.">
+                        <small style="color: #28a745; display: block; margin-top: 5px;">
+                            ✅ This will be added to total engine hours
+                        </small>
                     </div>
                 </div>
                 

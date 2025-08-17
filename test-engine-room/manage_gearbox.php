@@ -62,6 +62,16 @@ if ($_POST) {
                 $new_total = floatval($_POST['total_hours']);
                 $pdo->prepare("UPDATE gearbox_hours SET total_hours = ?, last_updated = datetime('now') 
                              WHERE gearbox_type = ?")->execute([$new_total, $gearbox_type]);
+                
+                // Update service tracking - when gearbox hours change, update the next service hours calculations
+                $pdo->prepare("UPDATE service_tracking 
+                              SET next_service_hours = last_service_hours + (
+                                  SELECT interval_hours FROM service_settings 
+                                  WHERE equipment_type = 'gearbox' 
+                                    AND equipment_id = ? 
+                                    AND service_item_code = service_tracking.service_item_code
+                              )
+                              WHERE equipment_type = 'gearbox' AND equipment_id = ?")->execute([$gearbox_type, $gearbox_type]);
             }
             
             $message = "$gearbox_name gearbox reading recorded successfully!";
